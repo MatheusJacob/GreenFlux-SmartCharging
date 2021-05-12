@@ -20,7 +20,7 @@ POST    /api/groups/:groupId/chargeStations
 PATCH   /api/groups/:groupId/chargeStations/:chargeStationId
 DELETE  /api/groups/:groupId/chargeStations/:chargeStationId
 
-GET     /api/groups/:groupId/chargeStations:chargeStationId/connectors
-POST    /api/groups/:groupId/chargeStations/connectors
+GET     /api/groups/:groupId/chargeStations/:chargeStationId/connectors
+POST    /api/groups/:groupId/chargeStations/:chargeStationId/connectors
 PATCH   /api/groups/:groupId/chargeStations/:chargeStationId/connectors/:connectorId
-DELETE  /api/groups/:groupId/chargeStations/:chargeStationId/:connectorId
+DELETE  /api/groups/:groupId/chargeStations/:chargeStationId/connectors/:connectorId
