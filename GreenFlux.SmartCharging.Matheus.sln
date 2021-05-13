@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C7D1E504-B818-4FE6-9D85-E75421DE3963}"
+	ProjectSection(SolutionItems) = preProject
+		..\.gitignore = ..\.gitignore
+		..\LICENSE = ..\LICENSE
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{79E7BB3E-4DD6-4F8B-AAF1-E7913E4D9E0A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{452D71BD-3210-48D2-B4F1-BAC77AE03B26}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenFlux.SmartCharging.Matheus.API", "src\GreenFlux.SmartCharging.Matheus.API\GreenFlux.SmartCharging.Matheus.API.csproj", "{25A3C6A3-B4F1-4C97-ABCC-101FF1CC9B35}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenFlux.SmartCharging.Matheus.Tests.Integration", "tests\GreenFlux.SmartCharging.Matheus.Tests.Integration\GreenFlux.SmartCharging.Matheus.Tests.Integration.csproj", "{6FF2823D-CD7D-4E11-930E-88F2C191A386}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenFlux.SmartCharging.Matheus.Tests.Unit", "tests\GreenFlux.SmartCharging.Matheus.Tests.Unit\GreenFlux.SmartCharging.Matheus.Tests.Unit.csproj", "{8DA3D0E6-A94B-452F-815E-047329FC1813}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{25A3C6A3-B4F1-4C97-ABCC-101FF1CC9B35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25A3C6A3-B4F1-4C97-ABCC-101FF1CC9B35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25A3C6A3-B4F1-4C97-ABCC-101FF1CC9B35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25A3C6A3-B4F1-4C97-ABCC-101FF1CC9B35}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FF2823D-CD7D-4E11-930E-88F2C191A386}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FF2823D-CD7D-4E11-930E-88F2C191A386}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FF2823D-CD7D-4E11-930E-88F2C191A386}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FF2823D-CD7D-4E11-930E-88F2C191A386}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DA3D0E6-A94B-452F-815E-047329FC1813}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DA3D0E6-A94B-452F-815E-047329FC1813}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DA3D0E6-A94B-452F-815E-047329FC1813}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DA3D0E6-A94B-452F-815E-047329FC1813}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{25A3C6A3-B4F1-4C97-ABCC-101FF1CC9B35} = {452D71BD-3210-48D2-B4F1-BAC77AE03B26}
+		{6FF2823D-CD7D-4E11-930E-88F2C191A386} = {79E7BB3E-4DD6-4F8B-AAF1-E7913E4D9E0A}
+		{8DA3D0E6-A94B-452F-815E-047329FC1813} = {79E7BB3E-4DD6-4F8B-AAF1-E7913E4D9E0A}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {88587047-D1D8-43E6-8B58-240AEF713C2D}
+	EndGlobalSection
+EndGlobal
