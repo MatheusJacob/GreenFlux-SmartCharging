@@ -18,7 +18,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenFlux.SmartCharging.Mat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenFlux.SmartCharging.Matheus.Tests.Integration", "tests\GreenFlux.SmartCharging.Matheus.Tests.Integration\GreenFlux.SmartCharging.Matheus.Tests.Integration.csproj", "{6FF2823D-CD7D-4E11-930E-88F2C191A386}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenFlux.SmartCharging.Matheus.Tests.Unit", "tests\GreenFlux.SmartCharging.Matheus.Tests.Unit\GreenFlux.SmartCharging.Matheus.Tests.Unit.csproj", "{470D73EC-4D1F-489F-AAD9-DEC94763ADF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenFlux.SmartCharging.Matheus.Tests.Unit", "tests\GreenFlux.SmartCharging.Matheus.Tests.Unit\GreenFlux.SmartCharging.Matheus.Tests.Unit.csproj", "{470D73EC-4D1F-489F-AAD9-DEC94763ADF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenFlux.SmartCharging.Matheus.Domain", "src\GreenFlux.SmartCharging.Matheus.Domain\GreenFlux.SmartCharging.Matheus.Domain.csproj", "{E90ACB07-F136-4A6E-B7B9-3DDA67D007FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +40,10 @@ Global
 		{470D73EC-4D1F-489F-AAD9-DEC94763ADF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{470D73EC-4D1F-489F-AAD9-DEC94763ADF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{470D73EC-4D1F-489F-AAD9-DEC94763ADF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E90ACB07-F136-4A6E-B7B9-3DDA67D007FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E90ACB07-F136-4A6E-B7B9-3DDA67D007FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E90ACB07-F136-4A6E-B7B9-3DDA67D007FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E90ACB07-F136-4A6E-B7B9-3DDA67D007FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +52,7 @@ Global
 		{25A3C6A3-B4F1-4C97-ABCC-101FF1CC9B35} = {452D71BD-3210-48D2-B4F1-BAC77AE03B26}
 		{6FF2823D-CD7D-4E11-930E-88F2C191A386} = {79E7BB3E-4DD6-4F8B-AAF1-E7913E4D9E0A}
 		{470D73EC-4D1F-489F-AAD9-DEC94763ADF8} = {79E7BB3E-4DD6-4F8B-AAF1-E7913E4D9E0A}
+		{E90ACB07-F136-4A6E-B7B9-3DDA67D007FF} = {452D71BD-3210-48D2-B4F1-BAC77AE03B26}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {88587047-D1D8-43E6-8B58-240AEF713C2D}
