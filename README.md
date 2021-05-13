@@ -33,3 +33,16 @@ GET     /api/groups/:groupId/chargeStations/:chargeStationId/connectors
 POST    /api/groups/:groupId/chargeStations/:chargeStationId/connectors
 PATCH   /api/groups/:groupId/chargeStations/:chargeStationId/connectors/:connectorId
 DELETE  /api/groups/:groupId/chargeStations/:chargeStationId/connectors/:connectorId
+
+-Initial Project structure :
+/API
+--/Controllers/
+/Domain
+--/Interfaces/
+--/Entities/
+--/Services/
+/Persistence
+--/Repository/
+/Tests
+--/Integration/
+--/Unit/
