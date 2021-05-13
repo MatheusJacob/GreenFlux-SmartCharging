@@ -7,7 +7,16 @@ Initial thoughts :
 -Thought a little bit about using Redis but decided this is going to be a stretch goal, with Redis I would be able to control
 slightly better Race conditions using WATCH, and the whole project would be ready to scale horizontally.KISS for now
 -Started doing some research about Ampere and which data type precision is necessary for storing Current, came to a conclusion 
-that float should be enought, if more precision is needed we can use double
+that float should be enough, if more precision is needed we can use double
+-Also was thinking about which data structure works best for this, came to a conclusion that n-ary tree would be a good fit, 
+because then I wouldn't need to recalculate the whole tree on every add operation,just the branch was affected, and as the tree would
+be sorted would be quite easy to get the lowest connectors and remove them to accomodate a new one, but again this implementation 
+would be more needed if I knew exactly the amount of charging stations that usually has in a group, if the number isn't that big, 
+this implementation wouldn't have that much benefits....also this would have a downside of recalculating the parent node, which could
+lead to some locks on the database.
+-Decided that I'm going to follow again a KISS approach, and I'm going to create the implementation using n-ary tree after the project 
+is finished
+
 
 -Initial API structure :
 GET     /api/groups
