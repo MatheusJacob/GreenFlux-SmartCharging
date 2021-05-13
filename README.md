@@ -16,7 +16,7 @@ this implementation wouldn't have that much benefits....also this would have a d
 lead to some locks on the database.
 -Decided that I'm going to follow again a KISS approach, and I'm going to create the implementation using n-ary tree after the project 
 is finished
-
+-I'm not a big fan of TDD, but as the scope is very well defined I think tdd would be a perfect fit here
 
 -Initial API structure :
 GET     /api/groups
