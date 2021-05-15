@@ -1,7 +1,11 @@
+using FluentValidation.AspNetCore;
+using GreenFlux.SmartCharging.Matheus.API.Filters;
+using GreenFlux.SmartCharging.Matheus.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,7 +31,13 @@ namespace GreenFlux.SmartCharging.Matheus.API
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddDbContext<ApplicationDbContext>(opts => opts.UseInMemoryDatabase(databaseName: "SmartChargingMatheus"));
             services.AddControllers();
+            services.AddAutoMapper(typeof(Startup));
+            services.AddMvc(opt =>
+            {
+                opt.Filters.Add(typeof(ValidatorActionFilter));
+            }).AddFluentValidation(fvc => fvc.RegisterValidatorsFromAssemblyContaining<Startup>());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "GreenFlux.SmartCharging.Matheus.API", Version = "v1" });
