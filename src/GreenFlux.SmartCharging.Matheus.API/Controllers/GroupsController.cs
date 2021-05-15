@@ -50,7 +50,32 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
             await _context.Group.AddAsync(group);
             await _context.SaveChangesAsync();
             var created = _mapper.Map<GroupResource>((Group)group);
-            return Created("", created);
+            return CreatedAtAction(nameof(Get), new { id = created.Id }, created);
+        }
+
+        // PATCH api/<GroupsController>/5
+        [HttpPatch("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Group))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Patch(Guid id, [FromBody] SaveGroupResource value)
+        {
+            Group patchGroup = _mapper.Map<Group>(value);
+
+            Group group = await _context.Group.FindAsync(id);
+            if (group == null)
+                return StatusCode(404);
+
+            if (patchGroup.Capacity.HasValue)
+                group.Capacity = patchGroup.Capacity;
+
+            if (!string.IsNullOrEmpty(patchGroup.Name))
+                group.Name = patchGroup.Name;
+
+            await _context.SaveChangesAsync();
+            GroupResource updatedGroup = _mapper.Map<GroupResource>(group);
+            return Ok(updatedGroup);
         }
 
         // DELETE api/<GroupsController>/5
