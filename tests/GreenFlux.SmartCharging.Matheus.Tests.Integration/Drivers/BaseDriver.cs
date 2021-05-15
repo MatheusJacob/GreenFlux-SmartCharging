@@ -28,39 +28,10 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration
             return new StringContent(json, Encoding.UTF8, "application/json");
         }
 
-        public StringContent ConvertToJsonData<T>(T data, HashSet<string> ignoreProperties)
-        {
-            var json = JsonConvert.SerializeObject(data, new JsonSerializerSettings()
-            {
-                ContractResolver = new DynamicContractResolver(ignoreProperties)
-            });
-            return new StringContent(json, Encoding.UTF8, "application/json");
-        }
-
         public T ConvertToObject<T>(string json)
         {
             var result = JsonConvert.DeserializeObject<T>(json);
             return result;
-        }
-
-        class DynamicContractResolver : DefaultContractResolver
-        {
-            private readonly HashSet<string> _ignoreProperties;
-
-            public DynamicContractResolver(HashSet<string> ignoreProperties)
-            {
-                _ignoreProperties = ignoreProperties;
-            }
-
-            protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
-            {
-                IList<JsonProperty> properties = base.CreateProperties(type, memberSerialization);
-
-                properties =
-                    properties.Where(p => !_ignoreProperties.Contains(p.PropertyName)).ToList();
-
-                return properties;
-            }
         }
     }
   
