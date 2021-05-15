@@ -17,15 +17,25 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
             GroupApiUrl = ApiUrl + "groups/";
         }
 
+        public async Task ShouldDeleteSuccessfully(HttpResponseMessage response, Guid deletedGroupId)
+        {     
+            response.StatusCode.Should().Be(204);
+            var getGroupResponse = await this.GetGroup(deletedGroupId);
+            getGroupResponse.StatusCode.Should().Be(404);
+        }
+
+        public async Task ShouldNotDeleteAnything(HttpResponseMessage response, Guid deletedGroupId)
+        {
+            response.StatusCode.Should().Be(404);
+            var getGroupResponse = await this.GetGroup(deletedGroupId);
+            getGroupResponse.StatusCode.Should().Be(404);
+        }
+
         public async Task ShouldCreateAGroupSuccessfully(HttpResponseMessage response)
         {
-            var content = await response.Content.ReadAsStringAsync();
-
-            GroupResource groupResourceResponse = new GroupResource();
-            Action parseAction = () => groupResourceResponse = ConvertToObject<GroupResource>(content);
-            
-            parseAction.Should().NotThrow();
             response.StatusCode.Should().Be(201);
+
+            GroupResource groupResourceResponse = await this.ParseGroupFromResponse(response);            
             groupResourceResponse.Id.Should().NotBeEmpty();
             groupResourceResponse.Name.Should().NotBeEmpty();
             groupResourceResponse.Capacity.Should().BePositive();
@@ -34,7 +44,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
         public async Task ShouldNotCreateAGroupSuccessfully(HttpResponseMessage response)
         {
             response.StatusCode.Should().Be(400);
-            var test = ConvertToObject<dynamic>(await response.Content.ReadAsStringAsync());
+            //var test = ConvertToObject<dynamic>(await response.Content.ReadAsStringAsync());
 
             ////Todo validate if the error message is the same as the missing argument
         }
@@ -50,7 +60,31 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
             return await Client.PostAsync(GroupApiUrl, ConvertToJsonData<SaveGroupResource>(saveGroupResource));
         }
 
-     
+        public async Task<HttpResponseMessage> GetGroup(Guid id)
+        {
+            var response = await Client.GetAsync($"{GroupApiUrl}{id.ToString()}");
+
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> DeleteGroup(Guid id)
+        {            
+            var response = await Client.DeleteAsync($"{GroupApiUrl}{id.ToString()}");
+
+            return response;
+        }
+
+        public async Task<GroupResource> ParseGroupFromResponse(HttpResponseMessage response)
+        {
+            var content = await response.Content.ReadAsStringAsync();
+
+            Func<GroupResource> groupConverted = () => ConvertToObject<GroupResource>(content);
+
+            groupConverted.Should().NotThrow();
+
+            return groupConverted();           
+        }
+
 
     }
 }

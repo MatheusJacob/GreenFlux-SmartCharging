@@ -1,4 +1,5 @@
-﻿Feature: Create Group
+﻿@Group
+Feature: Create Group
 	Create a Group through the API
 
 Scenario: Successfully create a Group
