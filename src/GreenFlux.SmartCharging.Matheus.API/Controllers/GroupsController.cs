@@ -4,6 +4,7 @@ using GreenFlux.SmartCharging.Matheus.Data;
 using GreenFlux.SmartCharging.Matheus.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,9 +27,11 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
 
         // GET: api/<GroupsController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ICollection<Group>))]
+        public async Task<ActionResult<ICollection<GroupResource>>> GetAsync()
         {
-            return new string[] { "value1", "value2" };
+            ICollection<Group> groups = await _context.Group.AsNoTracking().ToListAsync();
+            return Ok(_mapper.Map<ICollection<GroupResource>>(groups));
         }
 
         // GET api/<GroupsController>/5
@@ -37,7 +40,10 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(Guid id)
         {
-            var group = await _context.Group.FindAsync(id);
+            Group group = await _context.Group.FindAsync(id);
+            if (group == null)
+                return StatusCode(404);
+
             return Ok(_mapper.Map<GroupResource>(group));
         }
 
@@ -49,15 +55,25 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
             Group group = _mapper.Map<Group>(value);
 
             await _context.Group.AddAsync(group);
-
+            await _context.SaveChangesAsync();
             var created = _mapper.Map<GroupResource>((Group)group);
             return Created("", created);
         }
 
         // DELETE api/<GroupsController>/5
         [HttpDelete("{id}")]
-        public void Delete(Guid id)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete(Guid id)
         {
+            Group group = await _context.Group.FindAsync(id);
+            if (group == null)
+                return StatusCode(404);
+
+            _context.Group.Remove(group);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }

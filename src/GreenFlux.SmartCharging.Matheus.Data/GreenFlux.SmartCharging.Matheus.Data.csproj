@@ -10,10 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\GreenFlux.SmartCharging.Matheus.Domain\GreenFlux.SmartCharging.Matheus.Domain.csproj" />
   </ItemGroup>
 

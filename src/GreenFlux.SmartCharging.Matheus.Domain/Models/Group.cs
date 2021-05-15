@@ -16,5 +16,14 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
         public float? Capacity { get; set; }
 
         public readonly HashSet<ChargeStation> ChargeStations;
+
+        public Group()
+        {
+
+        }
+        public Group(Guid id)
+        {
+            this.Id = id;
+        }
     }
 }
