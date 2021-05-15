@@ -1,9 +1,18 @@
-﻿Feature: Create
-	Simple calculator for adding two numbers
+﻿Feature: Create Group
+	Create a Group through the API
 
-@mytag
-Scenario: Add two numbers
-	Given the first number is 50
-	And the second number is 70
-	When the two numbers are added
-	Then the result should be 120
+Scenario: Successfully create a Group
+	Given a group name Group1
+	And a capacity of 5
+	When the group is created
+	Then the group should be created successfully
+
+Scenario: Missing Capacity to create a group
+	Given a group name Group1
+	When the group is created
+	Then the group should not be created
+
+Scenario: Missing group name to create a group
+	Given a capacity of 5
+	When the group is created
+	Then the group should not be created
