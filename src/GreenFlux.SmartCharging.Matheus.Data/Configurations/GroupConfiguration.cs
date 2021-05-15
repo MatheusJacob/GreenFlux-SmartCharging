@@ -13,10 +13,7 @@ namespace GreenFlux.SmartCharging.Matheus.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Group> builder)
         {
-            builder.ToTable("Group");
-
-            builder.Property(g => g.Id)
-                .ValueGeneratedNever();
+            builder.ToTable("Group");            
 
             builder.HasKey(g => g.Id);
 
@@ -24,9 +21,9 @@ namespace GreenFlux.SmartCharging.Matheus.Data.Configurations
                 .IsRequired();
 
             builder.Property(g => g.Capacity)
-                    .IsRequired();
+                .IsRequired();
 
-            builder.HasMany(g => g.ChargeStations.Values)
+            builder.HasMany(g => g.ChargeStations)
                 .WithOne();                         
         }
     }

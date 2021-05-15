@@ -19,11 +19,16 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
 
         public async Task ShouldCreateAGroupSuccessfully(HttpResponseMessage response)
         {
-            GroupResource res = ConvertToObject<GroupResource>(await response.Content.ReadAsStringAsync());
+            var content = await response.Content.ReadAsStringAsync();
+
+            GroupResource groupResourceResponse = new GroupResource();
+            Action parseAction = () => groupResourceResponse = ConvertToObject<GroupResource>(content);
+            
+            parseAction.Should().NotThrow();
             response.StatusCode.Should().Be(201);
-            res.Id.Should().NotBeEmpty();
-            res.Name.Should().NotBeEmpty();
-            res.Capacity.Should().BePositive();
+            groupResourceResponse.Id.Should().NotBeEmpty();
+            groupResourceResponse.Name.Should().NotBeEmpty();
+            groupResourceResponse.Capacity.Should().BePositive();
         }
 
         public async Task ShouldNotCreateAGroupSuccessfully(HttpResponseMessage response)
