@@ -37,22 +37,59 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             _group.Capacity = capacity;       
         }
 
+        [Given("an existing Group with name (.*) and Capacity (.*)")]
+        public async Task GivenAnExistingGroup(string name, float capacity)
+        {
+            _scenarioContext["createdGroupResponse"] = await _groupDriver.CreateGroup(name, capacity);
+        }
+
         [When("the group is created")]
         public async Task WhenTheGroupIsCreated()
         {
-            _scenarioContext["response"] = await _groupDriver.CreateGroup(_group.Name, _group.Capacity); ;
+            _scenarioContext["createdGroupResponse"] = await _groupDriver.CreateGroup(_group.Name, _group.Capacity);
+        }
+
+        [When("the group is deleted")]
+        public async Task WhenTheGroupIsDeleted()
+        {
+            GroupResource groupResource = await _groupDriver.ParseGroupFromResponse((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+
+            groupResource.Id.Should().NotBeEmpty();
+            _scenarioContext["deletedGroupId"] = groupResource.Id;
+            _scenarioContext["deletedGroupResponse"] = await _groupDriver.DeleteGroup(groupResource.Id);
+        }
+
+        [When("the wrong group is deleted")]
+        public async Task WhenTheWrongGroupIsDeleted()
+        {
+            Guid wrongGroupId = new Guid();
+            _scenarioContext["deletedGroupId"] = wrongGroupId;
+            _scenarioContext["deletedGroupResponse"] = await _groupDriver.DeleteGroup(wrongGroupId);
+        }
+
+        [Then("the group should not exist anymore")]
+        public async Task ThenTheGroupShouldNotExistAnymore()
+        {
+            await _groupDriver.ShouldDeleteSuccessfully((HttpResponseMessage)_scenarioContext["deletedGroupResponse"],
+                (Guid)_scenarioContext["deletedGroupId"]);
+        }
+
+        [Then("no group was deleted")]
+        public async Task ThenNoGroupShouldBeDeleted()
+        {
+            ((HttpResponseMessage)_scenarioContext["deletedGroupResponse"]).StatusCode.Should().Be(404);
         }
 
         [Then("the group should be created successfully")]
         public async Task ThenTheGroupShouldBeCreatedSuccessfully()
         {
-            await _groupDriver.ShouldCreateAGroupSuccessfully((HttpResponseMessage)_scenarioContext["response"]);            
+            await _groupDriver.ShouldCreateAGroupSuccessfully((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);            
         }
 
         [Then("the group should not be created")]
         public async Task ThenTheGroupShouldNotBeCreated()
         {
-            await _groupDriver.ShouldNotCreateAGroupSuccessfully((HttpResponseMessage)_scenarioContext["response"]);
+            await _groupDriver.ShouldNotCreateAGroupSuccessfully((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
         }
     }
 }
