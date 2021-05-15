@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.6" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     <PackageReference Include="SpecFlow.Plus.LivingDocPlugin" Version="3.7.141" />
 
@@ -26,8 +27,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Drivers\" />
     <Folder Include="Hooks\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\GreenFlux.SmartCharging.Matheus.API\GreenFlux.SmartCharging.Matheus.API.csproj" />
+    <ProjectReference Include="..\..\src\GreenFlux.SmartCharging.Matheus.Domain\GreenFlux.SmartCharging.Matheus.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
