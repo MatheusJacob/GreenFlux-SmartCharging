@@ -44,11 +44,27 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
         public async Task ShouldNotCreateAGroupSuccessfully(HttpResponseMessage response)
         {
             response.StatusCode.Should().Be(400);
-            //var test = ConvertToObject<dynamic>(await response.Content.ReadAsStringAsync());
+            var test = ConvertToObject<dynamic>(await response.Content.ReadAsStringAsync());
 
             ////Todo validate if the error message is the same as the missing argument
         }
 
+         public async Task ShouldUpdateAGroupSuccessfully(HttpResponseMessage response, GroupResource expectedGroupValues)
+        {
+            response.StatusCode.Should().Be(200);
+
+            GroupResource groupResourceResponse = await this.ParseGroupFromResponse(response);
+            groupResourceResponse.Name.Should().Be(expectedGroupValues.Name);
+            groupResourceResponse.Capacity.Should().Be(expectedGroupValues.Capacity);
+        }
+
+        public async Task ShouldNotUpdateAGroupSuccessfully(HttpResponseMessage response)
+        {
+            response.StatusCode.Should().Be(400);
+            var test = ConvertToObject<dynamic>(await response.Content.ReadAsStringAsync());
+
+            ////Todo validate if the error message is the same as the missing argument
+        }
         public async Task<HttpResponseMessage> CreateGroup(string name, float? capacity)
         {
             SaveGroupResource saveGroupResource = new SaveGroupResource()
@@ -58,6 +74,17 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
             };
 
             return await Client.PostAsync(GroupApiUrl, ConvertToJsonData<SaveGroupResource>(saveGroupResource));
+        }
+
+        public async Task<HttpResponseMessage> UpdateGroup(Guid id, string name, float? capacity)
+        {
+            SaveGroupResource saveGroupResource = new SaveGroupResource()
+            {
+                Name = name,
+                Capacity = capacity
+            };
+
+            return await Client.PatchAsync($"{GroupApiUrl}{id.ToString()}", ConvertToJsonData<SaveGroupResource>(saveGroupResource));
         }
 
         public async Task<HttpResponseMessage> GetGroup(Guid id)

@@ -49,6 +49,14 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             _scenarioContext["createdGroupResponse"] = await _groupDriver.CreateGroup(_group.Name, _group.Capacity);
         }
 
+        [When("the group is updated")]
+        public async Task WhenTheGroupIsUpdated()
+        {
+            GroupResource groupResource = await _groupDriver.ParseGroupFromResponse(((HttpResponseMessage)_scenarioContext["createdGroupResponse"]));
+            
+            _scenarioContext["updatedGroupResponse"] = await _groupDriver.UpdateGroup(groupResource.Id, _group.Name, _group.Capacity);
+        }
+
         [When("the group is deleted")]
         public async Task WhenTheGroupIsDeleted()
         {
@@ -86,10 +94,24 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             await _groupDriver.ShouldCreateAGroupSuccessfully((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);            
         }
 
+        [Then("the group should be updated successfully")]
+        public async Task ThenTheGroupShouldBeUpdatedSuccessfully()
+        {
+            await _groupDriver.ShouldUpdateAGroupSuccessfully((HttpResponseMessage)_scenarioContext["updatedGroupResponse"], _group);
+        }
+
+        [Then("should not be able to update the group")]
+        public async Task ThenShouldNotBeAbleToUpdateTheGroup()
+        {
+            await _groupDriver.ShouldCreateAGroupSuccessfully((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+        }
+
         [Then("the group should not be created")]
         public async Task ThenTheGroupShouldNotBeCreated()
         {
             await _groupDriver.ShouldNotCreateAGroupSuccessfully((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
         }
+
+
     }
 }
