@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace GreenFlux.SmartCharging.Matheus.Domain.Models
 {
@@ -7,9 +8,12 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
     {
         public readonly Guid Id;
 
+        [Required]
         public string Name { get; set; }
 
-        public float Capacity { get; set; }
+        [Required]
+        [Range(float.Epsilon, float.PositiveInfinity)]
+        public float? Capacity { get; set; }
 
         public readonly Dictionary<Guid, ChargeStation> ChargeStations;
     }
