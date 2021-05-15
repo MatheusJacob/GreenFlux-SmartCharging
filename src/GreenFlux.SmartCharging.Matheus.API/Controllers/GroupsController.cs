@@ -24,20 +24,11 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
             _context = context;
             _mapper = mapper;
         }
-
-        // GET: api/<GroupsController>
-        [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ICollection<Group>))]
-        public async Task<ActionResult<ICollection<GroupResource>>> GetAsync()
-        {
-            ICollection<Group> groups = await _context.Group.AsNoTracking().ToListAsync();
-            return Ok(_mapper.Map<ICollection<GroupResource>>(groups));
-        }
-
         // GET api/<GroupsController>/5
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Group))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(Guid id)
         {
             Group group = await _context.Group.FindAsync(id);
@@ -50,6 +41,8 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
         // POST api/<GroupsController>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Group))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] SaveGroupResource value)
         {    
             Group group = _mapper.Map<Group>(value);
@@ -64,6 +57,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(Guid id)
         {
             Group group = await _context.Group.FindAsync(id);
