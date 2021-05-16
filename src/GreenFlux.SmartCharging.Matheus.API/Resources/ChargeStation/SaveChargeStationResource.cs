@@ -8,6 +8,8 @@ namespace GreenFlux.SmartCharging.Matheus.API.Resources
 {
     public class SaveChargeStationResource
     {                
-        public string Name { get; set; }        
+        public string Name { get; set; }      
+        
+        public IEnumerable<SaveConnectorResource> Connectors { get; set; }
     }
 }
