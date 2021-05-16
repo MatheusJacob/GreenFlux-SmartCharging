@@ -57,6 +57,12 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             _scenarioContext["updatedGroupResponse"] = await _groupDriver.UpdateGroup(groupResource.Id, _group.Name, _group.Capacity);
         }
 
+        [When("the wrong group is updated")]
+        public async Task WhenTheWrongGroupIsUpdated()
+        {            
+            _scenarioContext["updatedGroupResponse"] = await _groupDriver.UpdateGroup(new Guid(), _group.Name, _group.Capacity);
+        }
+
         [When("the group is deleted")]
         public async Task WhenTheGroupIsDeleted()
         {
@@ -103,7 +109,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         [Then("should not be able to update the group")]
         public async Task ThenShouldNotBeAbleToUpdateTheGroup()
         {
-            await _groupDriver.ShouldCreateAGroupSuccessfully((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+            await _groupDriver.ShouldNotUpdateAGroupSuccessfully((HttpResponseMessage)_scenarioContext["updatedGroupResponse"]);
         }
 
         [Then("the group should not be created")]

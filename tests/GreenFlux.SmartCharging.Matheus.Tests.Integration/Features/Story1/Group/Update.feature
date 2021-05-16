@@ -17,8 +17,8 @@ Scenario: Updating only a single property
 
 Scenario: Trying to update group that doesn't exist
 	Given a capacity of 5
-	When the group is created
-	Then the group should not be created
+	When the wrong group is updated
+	Then should not be able to update the group
 
 Scenario: Trying to update wrong property
 	Given a capacity of 0

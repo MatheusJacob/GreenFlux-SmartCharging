@@ -24,13 +24,6 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
             getGroupResponse.StatusCode.Should().Be(404);
         }
 
-        public async Task ShouldNotDeleteAnything(HttpResponseMessage response, Guid deletedGroupId)
-        {
-            response.StatusCode.Should().Be(404);
-            var getGroupResponse = await this.GetGroup(deletedGroupId);
-            getGroupResponse.StatusCode.Should().Be(404);
-        }
-
         public async Task ShouldCreateAGroupSuccessfully(HttpResponseMessage response)
         {
             response.StatusCode.Should().Be(201);
@@ -54,14 +47,18 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
             response.StatusCode.Should().Be(200);
 
             GroupResource groupResourceResponse = await this.ParseGroupFromResponse(response);
-            groupResourceResponse.Name.Should().Be(expectedGroupValues.Name);
-            groupResourceResponse.Capacity.Should().Be(expectedGroupValues.Capacity);
+            if(string.IsNullOrEmpty(expectedGroupValues.Name))
+                groupResourceResponse.Name.Should().Be(expectedGroupValues.Name);
+
+            if (expectedGroupValues.Capacity.HasValue)
+                groupResourceResponse.Capacity.Should().Be(expectedGroupValues.Capacity);
         }
 
         public async Task ShouldNotUpdateAGroupSuccessfully(HttpResponseMessage response)
         {
-            response.StatusCode.Should().Be(400);
             var test = ConvertToObject<dynamic>(await response.Content.ReadAsStringAsync());
+
+            response.StatusCode.Should().Match<int>(m => m == 404 || m == 400);
 
             ////Todo validate if the error message is the same as the missing argument
         }
@@ -78,13 +75,13 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
 
         public async Task<HttpResponseMessage> UpdateGroup(Guid id, string name, float? capacity)
         {
-            SaveGroupResource saveGroupResource = new SaveGroupResource()
+            PatchGroupResource saveGroupResource = new PatchGroupResource()
             {
                 Name = name,
                 Capacity = capacity
             };
 
-            return await Client.PatchAsync($"{GroupApiUrl}{id.ToString()}", ConvertToJsonData<SaveGroupResource>(saveGroupResource));
+            return await Client.PatchAsync($"{GroupApiUrl}{id.ToString()}", ConvertToJsonData<PatchGroupResource>(saveGroupResource));
         }
 
         public async Task<HttpResponseMessage> GetGroup(Guid id)
