@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace GreenFlux.SmartCharging.Matheus.API.Resources
 {
-    public class SaveGroupResource
+    public class PatchConnectorResource : SaveConnectorResource
     {                
-        public string Name { get; set; }
-        
-        public float? Capacity { get; set; }
     }
 }
