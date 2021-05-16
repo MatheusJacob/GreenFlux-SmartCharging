@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace GreenFlux.SmartCharging.Matheus.API.Controllers
 {
-    [Route("api/Groups")]
+    [Route(Routes.GroupsRoute)]
     [ApiController]
     public class GroupController : ControllerBase
     {
@@ -44,7 +44,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] SaveGroupResource value)
-        {    
+        {
             Group group = _mapper.Map<Group>(value);
 
             await _context.Group.AddAsync(group);
