@@ -13,5 +13,9 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
         public string Name { get; set; }
 
         public float MaxCurrentAmp { get; set; }
+
+        public ChargeStation ChargeStation { get; set; }
+
+        public Guid ChargeStationId { get; set; }
     }
 }

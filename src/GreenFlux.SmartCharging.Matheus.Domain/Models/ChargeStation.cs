@@ -19,5 +19,9 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
         public String Name { get; set; }
 
         public readonly HashSet<Connector> Connectors;
+
+        public Group Group { get; set; }
+
+        public Guid GroupId { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace GreenFlux.SmartCharging.Matheus.Data.Configurations
         {
             builder.ToTable("Conector");
 
-            builder.HasKey(g => g.Id);
+            builder.HasKey(c => new { c.Id, c.ChargeStationId });
 
             builder.Property(g => g.Id)
                 .ValueGeneratedNever();
