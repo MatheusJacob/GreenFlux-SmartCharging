@@ -12,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace GreenFlux.SmartCharging.Matheus.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Groups")]
     [ApiController]
-    public class GroupsController : ControllerBase
+    public class GroupController : ControllerBase
     {
-
+        //TODO: remove application db dependency
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
-        public GroupsController(ApplicationDbContext context, IMapper mapper)
+        public GroupController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
