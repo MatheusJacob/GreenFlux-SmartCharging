@@ -26,7 +26,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
         }
         // GET api/<GroupsController>/5
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Group))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GroupResource))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(Guid id)
@@ -40,7 +40,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
 
         // POST api/<GroupsController>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Group))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(GroupResource))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] SaveGroupResource value)
@@ -49,17 +49,17 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
 
             await _context.Group.AddAsync(group);
             await _context.SaveChangesAsync();
-            var created = _mapper.Map<GroupResource>((Group)group);
+            var created = _mapper.Map<GroupResource>(group);
             return CreatedAtAction(nameof(Get), new { id = created.Id }, created);
         }
 
         // PATCH api/<GroupsController>/5
         [HttpPatch("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Group))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GroupResource))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Patch(Guid id, [FromBody] SaveGroupResource value)
+        public async Task<IActionResult> Patch(Guid id, [FromBody] PatchGroupResource value)
         {
             Group patchGroup = _mapper.Map<Group>(value);
 

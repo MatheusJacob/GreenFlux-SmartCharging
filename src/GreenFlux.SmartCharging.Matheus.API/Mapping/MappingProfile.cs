@@ -18,6 +18,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Mapping
             CreateMap<Group, SaveGroupResource>();
             CreateMap<SaveGroupResource, Group>();
 
+            CreateMap<PatchGroupResource, Group>();
         }
     }
 }

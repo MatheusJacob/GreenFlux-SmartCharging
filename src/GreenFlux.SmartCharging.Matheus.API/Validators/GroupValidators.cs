@@ -17,4 +17,13 @@ namespace GreenFlux.SmartCharging.Matheus.API.Validators
             RuleFor(g => g.Capacity).LessThan(float.MaxValue).WithMessage($"'Capacity' field must be less than {float.MaxValue.ToString()}");
         }
     }
+
+    public class PatchGroupValidator : AbstractValidator<PatchGroupResource>
+    {
+        public PatchGroupValidator()
+        {            
+            RuleFor(g => g.Capacity).GreaterThan(0).WithMessage("'Capacity' field must be greater than 0").When(g => g.Capacity.HasValue);
+            RuleFor(g => g.Capacity).LessThan(float.MaxValue).WithMessage($"'Capacity' field must be less than {float.MaxValue.ToString()}").When(g => g.Capacity.HasValue);
+        }
+    }
 }
