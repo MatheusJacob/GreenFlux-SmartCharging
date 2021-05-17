@@ -8,22 +8,45 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
     {
         public readonly Guid Id;
 
-        [Required]
         public string Name { get; set; }
 
-        [Required]
         [Range(float.Epsilon, float.PositiveInfinity)]
-        public float? Capacity { get; set; }
+        public float Capacity { get; set; }
 
         public readonly HashSet<ChargeStation> ChargeStations;
 
         public Group()
         {
-
+            ChargeStations = new HashSet<ChargeStation>();
         }
-        public Group(Guid id)
+        public Group(Guid id, string name, float capacity)
         {
-            this.Id = id;
+            Id = id;
+            Name = name;
+            Capacity = capacity;
+            ChargeStations = new HashSet<ChargeStation>();
+        }
+
+        public void AppendChargeStation(ChargeStation chargeStation)
+        {
+            //Todo exception handle + return the options to delete
+            if ((CalculateGroupSumCurrentAmp() + chargeStation.TotalMaxCurrentAmp) > this.Capacity)
+                throw new Exception("Capacity overload");
+
+            this.ChargeStations.Add(chargeStation);
+        }
+
+        public float CalculateGroupSumCurrentAmp()
+        {
+            float totalCurrentAmp = 0f;
+            foreach (ChargeStation chargeStation in ChargeStations)
+            {
+                foreach (Connector connector in chargeStation.Connectors)
+                {
+                    totalCurrentAmp += connector.MaxCurrentAmp;
+                }
+            }
+            return totalCurrentAmp;
         }
     }
 }
