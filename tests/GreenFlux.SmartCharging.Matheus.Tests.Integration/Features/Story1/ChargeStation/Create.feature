@@ -14,6 +14,7 @@ Scenario: Successfully create a Charge Station
 	|4 |
 	|5 |
 	When the Charge Station is created
+	Then the Charge Station should be created successfully
 
 Scenario: Missing Name to create a Charge Station	
 	When the Charge Station is created

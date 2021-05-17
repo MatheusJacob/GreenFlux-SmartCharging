@@ -62,7 +62,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
             await _context.SaveChangesAsync();
 
             ChargeStationResource chargeStationResponse = _mapper.Map<ChargeStationResource>(chargeStation);
-            return CreatedAtAction(nameof(GetChargeStation), new { id = chargeStation.Id }, chargeStationResponse);
+            return CreatedAtAction(nameof(GetChargeStation), new { id = chargeStation.Id, groupId = chargeStation.GroupId }, chargeStationResponse);
         }
 
         // DELETE: api/groups/GroupId/ChargeStations/5
