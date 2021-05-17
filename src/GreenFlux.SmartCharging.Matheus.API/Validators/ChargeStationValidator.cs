@@ -14,8 +14,8 @@ namespace GreenFlux.SmartCharging.Matheus.API.Validators
         {
             RuleFor(c => c.Name).NotEmpty().WithMessage("'Name' field is required");
             RuleFor(c => c.Connectors).NotNull().WithMessage("A charge station needs at least " + ChargeStation.MinConnectors.ToString() + " connector");
-            RuleFor(c => c.Connectors.Count).LessThan(ChargeStation.MaxConnectors).WithMessage("A charge station can't have more than " + ChargeStation.MaxConnectors.ToString() + " connectors");
-            RuleFor(c => c.Connectors.Count).GreaterThan(ChargeStation.MinConnectors).WithMessage("A charge station needs at least " + ChargeStation.MinConnectors.ToString() + " connector");
+            RuleFor(c => c.Connectors.Count).LessThanOrEqualTo(ChargeStation.MaxConnectors).WithMessage("A charge station can't have more than " + ChargeStation.MaxConnectors.ToString() + " connectors");
+            RuleFor(c => c.Connectors.Count).GreaterThanOrEqualTo(ChargeStation.MinConnectors).WithMessage("A charge station needs at least " + ChargeStation.MinConnectors.ToString() + " connector");
         }
     }
 

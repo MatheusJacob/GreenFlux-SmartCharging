@@ -27,15 +27,33 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
 
         // GET: api/groups/GroupId/ChargeStations
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ICollection<ChargeStationResource>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<ChargeStation>>> GetAll(Guid groupId)
         {
-            return await _context.ChargeStation.ToListAsync();
+            Group group = await _context.Group.FirstOrDefaultAsync(g => g.Id == groupId);
+            if (group == null)
+                return NotFound("Group not found");
+
+            ICollection<ChargeStation> chargeStations = await _context.ChargeStation.Where(c => c.GroupId == groupId).ToListAsync();
+
+            return Ok(_mapper.Map<List<ChargeStationResource>>(chargeStations));
         }
 
         // GET: api/groups/GroupId/ChargeStations/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ChargeStation>> GetChargeStation(Guid groupId, Guid id)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ChargeStationResource))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<ChargeStationResource>> GetChargeStation(Guid groupId, Guid id)
         {
+            Group group = await _context.Group.FirstOrDefaultAsync(g => g.Id == groupId);
+            if (group == null)
+                return NotFound("Group not found");
+
             var chargeStation = await _context.ChargeStation.FindAsync(id);
 
             if (chargeStation == null)
@@ -43,11 +61,14 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
                 return NotFound();
             }
 
-            return chargeStation;
+            return _mapper.Map<ChargeStationResource>(chargeStation);            
         }
 
         // POST: api/groups/GroupId/ChargeStations
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ChargeStationResource))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<ChargeStationResource>> PostChargeStation(Guid groupId, SaveChargeStationResource saveChargeStation)
         {
             Group group = await _context.Group.Include(g => g.ChargeStations).ThenInclude(c => c.Connectors).FirstOrDefaultAsync(g => g.Id == groupId);
