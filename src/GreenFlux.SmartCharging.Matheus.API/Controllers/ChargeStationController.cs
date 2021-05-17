@@ -31,7 +31,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<ChargeStation>>> GetAll(Guid groupId)
+        public async Task<ActionResult<ICollection<ChargeStationResource>>> GetAll(Guid groupId)
         {
             Group group = await _context.Group.FirstOrDefaultAsync(g => g.Id == groupId);
             if (group == null)
