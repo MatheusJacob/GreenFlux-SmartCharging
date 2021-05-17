@@ -51,7 +51,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         public async Task WhenTheChargeStationIsCreated()
         {
             _scenarioContext["createdGroupResponse"].Should().NotBeNull();
-            var groupResponse = await _groupDriver.ParseGroupFromResponse((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+            GroupResource groupResponse = await _groupDriver.ParseFromResponse<GroupResource>((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
 
             _scenarioContext["createdChargeStation"] = await _chargeStationDriver.CreateChargeStation(groupResponse.Id, _createChargeStation.Name, _createChargeStation.Connectors);
         }
@@ -67,8 +67,8 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         {
             _scenarioContext["createdGroupResponse"].Should().NotBeNull();
             _scenarioContext["createdChargeStation"].Should().NotBeNull();
-            var groupResponse = await _groupDriver.ParseGroupFromResponse((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
-            var chargeStation = await _chargeStationDriver.ParseChargeStationFromResponse((HttpResponseMessage)_scenarioContext["createdChargeStation"]);
+            GroupResource groupResponse = await _groupDriver.ParseFromResponse< GroupResource>((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+            ChargeStationResource chargeStation = await _chargeStationDriver.ParseFromResponse<ChargeStationResource>((HttpResponseMessage)_scenarioContext["createdChargeStation"]);
 
             _scenarioContext["updatedChargeStation"] = await _chargeStationDriver.UpdateChargeStation(groupResponse.Id,chargeStation.Id, _createChargeStation.Name);
         }
@@ -78,8 +78,8 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         {
             _scenarioContext["createdGroupResponse"].Should().NotBeNull();
             _scenarioContext["createdChargeStation"].Should().NotBeNull();
-            var groupResponse = await _groupDriver.ParseGroupFromResponse((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
-            var chargeStation = await _chargeStationDriver.ParseChargeStationFromResponse((HttpResponseMessage)_scenarioContext["createdChargeStation"]);
+            GroupResource groupResponse = await _groupDriver.ParseFromResponse<GroupResource>((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+            ChargeStationResource chargeStation = await _chargeStationDriver.ParseFromResponse<ChargeStationResource>((HttpResponseMessage)_scenarioContext["createdChargeStation"]);
 
             _scenarioContext["updatedChargeStation"] = await _chargeStationDriver.UpdateChargeStation(groupResponse.Id, new Guid(), _createChargeStation.Name);
         }
@@ -87,8 +87,8 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         [When("the charge station is deleted")]
         public async Task WhenTheChargeStationIsDeleted()
         {
-            GroupResource groupResource = await _groupDriver.ParseGroupFromResponse((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
-            ChargeStationResource chargeStationResource = await _chargeStationDriver.ParseChargeStationFromResponse((HttpResponseMessage)_scenarioContext["createdChargeStation"]);
+            GroupResource groupResource = await _groupDriver.ParseFromResponse<GroupResource>((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+            ChargeStationResource chargeStationResource = await _chargeStationDriver.ParseFromResponse<ChargeStationResource>((HttpResponseMessage)_scenarioContext["createdChargeStation"]);
 
             chargeStationResource.Id.Should().NotBeEmpty();
             chargeStationResource.Name.Should().NotBeEmpty();
@@ -100,7 +100,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         [When("the wrong Charge Station is deleted")]
         public async Task WhenTheWrongChargeStationIsDeleted()
         {
-            GroupResource groupResource = await _groupDriver.ParseGroupFromResponse((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+            GroupResource groupResource = await _groupDriver.ParseFromResponse<GroupResource>((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
 
             Guid wrongChargeStationId = new Guid();
             _scenarioContext["deletedChargeStationId"] = wrongChargeStationId;
@@ -110,7 +110,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         [Then("the Charge Station should not exist anymore")]
         public async Task ThenTheChargeStationShouldNotExistAnymore()
         {
-            GroupResource group = await _groupDriver.ParseGroupFromResponse((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+            GroupResource group = await _groupDriver.ParseFromResponse<GroupResource>((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
 
             await _chargeStationDriver.ShouldDeleteSuccessfully((HttpResponseMessage)_scenarioContext["deletedChargeStationResponse"],
                 group.Id,

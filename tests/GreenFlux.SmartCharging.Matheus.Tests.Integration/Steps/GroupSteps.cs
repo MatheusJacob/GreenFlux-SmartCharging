@@ -58,7 +58,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         [When("the group is updated")]
         public async Task WhenTheGroupIsUpdated()
         {
-            GroupResource groupResource = await _groupDriver.ParseGroupFromResponse(((HttpResponseMessage)_scenarioContext["createdGroupResponse"]));
+            GroupResource groupResource = await _groupDriver.ParseFromResponse<GroupResource>(((HttpResponseMessage)_scenarioContext["createdGroupResponse"]));
             
             _scenarioContext["updatedGroupResponse"] = await _groupDriver.UpdateGroup(groupResource.Id, _group.Name, _group.Capacity);
         }
@@ -72,7 +72,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         [When("the group is deleted")]
         public async Task WhenTheGroupIsDeleted()
         {
-            GroupResource groupResource = await _groupDriver.ParseGroupFromResponse((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+            GroupResource groupResource = await _groupDriver.ParseFromResponse<GroupResource>((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
 
             groupResource.Id.Should().NotBeEmpty();
             _scenarioContext["deletedGroupId"] = groupResource.Id;

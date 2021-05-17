@@ -64,7 +64,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
         {
             response.StatusCode.Should().Be(200);
 
-            ChargeStationResource chargeStationResponse = await this.ParseChargeStationFromResponse(response);
+            ChargeStationResource chargeStationResponse = await this.ParseFromResponse<ChargeStationResource>(response);
             if (!string.IsNullOrEmpty(expectedName))
                 chargeStationResponse.Name.Should().Be(expectedName);
         }
@@ -77,7 +77,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
         {
             response.StatusCode.Should().Be(201);
 
-            ChargeStationResource chargeStationResponse = await this.ParseChargeStationFromResponse(response);
+            ChargeStationResource chargeStationResponse = await this.ParseFromResponse<ChargeStationResource>(response);
             chargeStationResponse.Id.Should().NotBeEmpty();
             chargeStationResponse.Name.Should().NotBeEmpty();
         }
@@ -85,17 +85,6 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
         public void ShouldNotCreateChargeStationSuccessfully(HttpResponseMessage response)
         {
             response.StatusCode.Should().Match<int>(c => c == 404 || c == 400 || c == 500);
-        }
-
-        public async Task<ChargeStationResource> ParseChargeStationFromResponse(HttpResponseMessage response)
-        {            
-            var content = await response.Content.ReadAsStringAsync();
-
-            Func<ChargeStationResource> chargeStationConverted = () => ConvertToObject<ChargeStationResource>(content);
-
-            chargeStationConverted.Should().NotThrow();
-
-            return chargeStationConverted();            
         }
     }
 }

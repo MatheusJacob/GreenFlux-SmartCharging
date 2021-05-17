@@ -33,7 +33,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
         {
             response.StatusCode.Should().Be(201);
 
-            GroupResource groupResourceResponse = await this.ParseGroupFromResponse(response);            
+            GroupResource groupResourceResponse = await this.ParseFromResponse<GroupResource>(response);            
             groupResourceResponse.Id.Should().NotBeEmpty();
             groupResourceResponse.Name.Should().NotBeEmpty();
             groupResourceResponse.Capacity.Should().BePositive();
@@ -51,7 +51,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
         {
             response.StatusCode.Should().Be(200);
 
-            GroupResource groupResourceResponse = await this.ParseGroupFromResponse(response);
+            GroupResource groupResourceResponse = await this.ParseFromResponse<GroupResource>(response);
             if(!string.IsNullOrEmpty(expectedGroupValues.Name))
                 groupResourceResponse.Name.Should().Be(expectedGroupValues.Name);
 
@@ -117,18 +117,5 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
 
             return response;
         }
-
-        public async Task<GroupResource> ParseGroupFromResponse(HttpResponseMessage response)
-        {
-            var content = await response.Content.ReadAsStringAsync();
-
-            Func<GroupResource> groupConverted = () => ConvertToObject<GroupResource>(content);
-
-            groupConverted.Should().NotThrow();
-
-            return groupConverted();           
-        }
-
-
     }
 }
