@@ -37,6 +37,12 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             _group.Capacity = capacity;       
         }
 
+        [When("updating a Group with an unknown property")]
+        public async Task WhenUpdatingAGroupWithAnUnknowProperty()
+        {
+            _scenarioContext["createdGroupResponse"] = await _groupDriver.CreateGroupWithUnknowProperty(_group.Name, _group.Capacity, "extra");
+        }
+
         [Given("an existing Group with name (.*) and Capacity (.*)")]
         public async Task GivenAnExistingGroup(string name, float capacity)
         {

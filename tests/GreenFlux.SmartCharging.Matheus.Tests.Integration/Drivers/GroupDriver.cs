@@ -78,6 +78,21 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
             return await Client.PostAsync(GroupApiUrl, ConvertToJsonData<SaveGroupResource>(saveGroupResource));
         }
 
+        public async Task<HttpResponseMessage> CreateGroupWithUnknowProperty(string name, float? capacity, string extraProperty)
+        {
+            SaveGroupResource saveGroupResource = new SaveGroupResource()
+            {
+                Name = name,
+                Capacity = capacity
+            };
+
+            var serializedGroupPayload = ConvertToJsonData<dynamic>(saveGroupResource);
+            Dictionary<string,string> group = ConvertToObject<Dictionary<string, string>>(await serializedGroupPayload.ReadAsStringAsync());
+            group.Add(extraProperty, "wrong value");
+            var test = ConvertToJsonData<IDictionary<string, string>>(group);
+            return await Client.PostAsync(GroupApiUrl, ConvertToJsonData<IDictionary<string,string>>(group));
+        }
+
         public async Task<HttpResponseMessage> UpdateGroup(Guid id, string name, float? capacity)
         {
             PatchGroupResource saveGroupResource = new PatchGroupResource()
