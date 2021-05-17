@@ -52,7 +52,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
             response.StatusCode.Should().Be(200);
 
             GroupResource groupResourceResponse = await this.ParseGroupFromResponse(response);
-            if(string.IsNullOrEmpty(expectedGroupValues.Name))
+            if(!string.IsNullOrEmpty(expectedGroupValues.Name))
                 groupResourceResponse.Name.Should().Be(expectedGroupValues.Name);
 
             if (expectedGroupValues.Capacity.HasValue)
