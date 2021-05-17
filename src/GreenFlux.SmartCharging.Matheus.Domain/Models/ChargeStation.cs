@@ -32,6 +32,21 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
             Connectors = new HashSet<Connector>(new ConnectorComparer());
         }
 
+        public ChargeStation(Guid id)
+        {
+            _availableSlots = new HashSet<int>(Enumerable.Range(ChargeStation.MinConnectors, ChargeStation.MaxConnectors));
+            Connectors = new HashSet<Connector>(new ConnectorComparer());
+            Id = id;
+        }
+
+        public ChargeStation(Guid id, string name, ICollection<Connector> connectors)
+        {
+            Id = id;
+            Name = name;
+            _availableSlots = new HashSet<int>(Enumerable.Range(ChargeStation.MinConnectors, ChargeStation.MaxConnectors));
+            Connectors = new HashSet<Connector>(new ConnectorComparer());
+            this.AppendConnectors(connectors);
+        }
         public ChargeStation(string name, ICollection<Connector> connectors)
         {
             Name = name;
@@ -40,16 +55,6 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
             this.AppendConnectors(connectors);
         }
 
-        public float GetSumMaxCurrentAmp()
-        {
-            float sumMaxCurrentAmp = 0;
-            foreach (var connector in this.Connectors)
-            {
-                sumMaxCurrentAmp += connector.MaxCurrentAmp;
-            }
-
-            return sumMaxCurrentAmp;
-        }
         public void AppendConnectors(ICollection<Connector> connectors)
         {
             foreach (var connector in connectors)
@@ -64,15 +69,47 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
             if (_availableSlots.Count == 0)
                 throw new Exception("No available slots");
 
+            ////improve efficiency with a segmented n-ary tree
+            if (this.Group != null && (this.Group.CalculateGroupSumCurrentAmp() + connector.MaxCurrentAmp) > this.Group.Capacity)
+                throw new Exception("Capacity Overflow");
+
             if (!connector.Id.HasValue)
             {
                 connector.Id = _availableSlots.First();
             }
 
             _availableSlots.Remove(connector.Id.Value);
-            //connector.ChargeStationId = this.Id;
+            this.UpdateTotalMaxCurrentAmp(connector.MaxCurrentAmp);
             this.TotalMaxCurrentAmp += connector.MaxCurrentAmp;
             this.Connectors.Add(connector);
+        }
+
+        //For some reason constructor isn't getting the Id
+        public void SyncConnectorIds()
+        {
+            foreach (Connector connector in this.Connectors)
+            {
+                if(connector.Id.HasValue)
+                    _availableSlots.Remove(connector.Id.Value);
+            }
+        }
+
+        public void UpdateTotalMaxCurrentAmp(float maxCurrentAmp)
+        {
+            this.TotalMaxCurrentAmp += maxCurrentAmp;
+        }
+    }
+
+    public class ChargeStationComparer : IEqualityComparer<ChargeStation>
+    {
+        public bool Equals(ChargeStation a, ChargeStation b)
+        {
+            return a.Id.Equals(b.Id);
+        }
+
+        public int GetHashCode(ChargeStation obj)
+        {
+            return obj.Id.GetHashCode();
         }
     }
 }

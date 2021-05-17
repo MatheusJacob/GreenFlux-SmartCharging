@@ -10,21 +10,20 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
 
         public string Name { get; set; }
 
-        [Range(float.Epsilon, float.PositiveInfinity)]
         public float Capacity { get; set; }
 
         public readonly HashSet<ChargeStation> ChargeStations;
 
         public Group()
         {
-            ChargeStations = new HashSet<ChargeStation>();
+            ChargeStations = new HashSet<ChargeStation>(new ChargeStationComparer());
         }
         public Group(Guid id, string name, float capacity)
         {
             Id = id;
             Name = name;
             Capacity = capacity;
-            ChargeStations = new HashSet<ChargeStation>();
+            ChargeStations = new HashSet<ChargeStation>(new ChargeStationComparer());
         }
 
         public void AppendChargeStation(ChargeStation chargeStation)

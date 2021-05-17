@@ -10,11 +10,16 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
     {
         public int? Id { get; set; }
 
-        public float MaxCurrentAmp { get; set; }
+        public float MaxCurrentAmp { get; private set; }
 
         public ChargeStation ChargeStation { get; set; }
 
         public Guid ChargeStationId { get; set; }
+
+        public Connector(int id)
+        {
+            Id = id;
+        }
 
         private Connector(float maxCurrentAmp)
         {
@@ -26,6 +31,22 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
             Id = id;
             MaxCurrentAmp = maxCurrentAmp;
         }
+
+        public void ChangeMaxCurrentAmp(float maxCurrentAmp)
+        {
+            float differenceInCurrent = maxCurrentAmp - this.MaxCurrentAmp;
+            bool needsToRecalculate = maxCurrentAmp > this.MaxCurrentAmp;
+
+            this.MaxCurrentAmp = maxCurrentAmp;
+
+            if (needsToRecalculate)
+            {
+                if(ChargeStation.Group.CalculateGroupSumCurrentAmp() > ChargeStation.Group.Capacity)
+                    throw new Exception("Capacity overflow");
+            }
+
+            ChargeStation.UpdateTotalMaxCurrentAmp(differenceInCurrent);
+        }        
     }
  
     public class ConnectorComparer : IEqualityComparer<Connector>
