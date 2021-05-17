@@ -24,6 +24,11 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
             getGroupResponse.StatusCode.Should().Be(404);
         }
 
+        public async Task ShouldNotFindTheGroup(HttpResponseMessage response)
+        {
+            response.StatusCode.Should().Be(404);
+        }
+
         public async Task ShouldCreateAGroupSuccessfully(HttpResponseMessage response)
         {
             response.StatusCode.Should().Be(201);

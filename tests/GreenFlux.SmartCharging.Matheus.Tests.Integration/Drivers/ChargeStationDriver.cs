@@ -1,4 +1,5 @@
-﻿using GreenFlux.SmartCharging.Matheus.API.Controllers;
+﻿using FluentAssertions;
+using GreenFlux.SmartCharging.Matheus.API.Controllers;
 using GreenFlux.SmartCharging.Matheus.API.Resources;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
         {            
         }
 
-        public async Task<HttpResponseMessage> CreateChargeStation(Guid groupId, string name, IEnumerable<SaveConnectorResource> connectors)
+        public async Task<HttpResponseMessage> CreateChargeStation(Guid groupId, string name, ICollection<SaveConnectorResource> connectors)
         {
             SaveChargeStationResource saveChargeStationResource = new SaveChargeStationResource()
             {
@@ -25,6 +26,31 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
             };
 
             return await Client.PostAsync(ChargeStationUrl(groupId.ToString()), ConvertToJsonData<SaveChargeStationResource>(saveChargeStationResource));
+        }
+
+        public async Task ShouldCreateChargeStationSuccessfully(HttpResponseMessage response)
+        {
+            response.StatusCode.Should().Be(201);
+
+            ChargeStationResource chargeStationResponse = await this.ParseChargeStationFromResponse(response);
+            chargeStationResponse.Id.Should().NotBeEmpty();
+            chargeStationResponse.Name.Should().NotBeEmpty();
+        }
+
+        public void ShouldNotCreateChargeStationSuccessfully(HttpResponseMessage response)
+        {
+            response.StatusCode.Should().Match<int>(c => c == 404 || c == 400 || c == 500);
+        }
+
+        public async Task<ChargeStationResource> ParseChargeStationFromResponse(HttpResponseMessage response)
+        {            
+            var content = await response.Content.ReadAsStringAsync();
+
+            Func<ChargeStationResource> chargeStationConverted = () => ConvertToObject<ChargeStationResource>(content);
+
+            chargeStationConverted.Should().NotThrow();
+
+            return chargeStationConverted();            
         }
     }
 }
