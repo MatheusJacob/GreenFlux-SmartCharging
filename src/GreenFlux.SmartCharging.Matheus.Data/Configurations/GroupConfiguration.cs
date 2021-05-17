@@ -25,7 +25,8 @@ namespace GreenFlux.SmartCharging.Matheus.Data.Configurations
 
             builder.HasMany(g => g.ChargeStations)
                 .WithOne(c => c.Group)
-                .HasForeignKey(c => c.GroupId);
+                .HasForeignKey(c => c.GroupId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

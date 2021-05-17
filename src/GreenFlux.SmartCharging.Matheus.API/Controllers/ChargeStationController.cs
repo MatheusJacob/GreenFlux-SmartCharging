@@ -71,7 +71,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Patch(Guid groupId, Guid id, [FromBody] PatchChargeStationResource value)
+        public async Task<IActionResult> Patch(Guid id, [FromBody] PatchChargeStationResource value)
         {
             ChargeStation chargeStation = await _context.ChargeStation.FirstOrDefaultAsync(c => c.Id == id);
             if (chargeStation == null)
@@ -89,21 +89,14 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteChargeStation(Guid id)
         {
-            var chargeStation = await _context.ChargeStation.FindAsync(id);
+            ChargeStation chargeStation = await _context.ChargeStation.Include(c => c.Connectors).FirstOrDefaultAsync( c=> c.Id == id);
             if (chargeStation == null)
-            {
-                return NotFound();
-            }
+                return StatusCode(404);
 
             _context.ChargeStation.Remove(chargeStation);
             await _context.SaveChangesAsync();
 
             return NoContent();
-        }
-
-        private bool ChargeStationExists(Guid id)
-        {
-            return _context.ChargeStation.Any(e => e.Id == id);
         }
     }
 }
