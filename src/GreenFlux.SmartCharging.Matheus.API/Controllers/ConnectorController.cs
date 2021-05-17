@@ -43,9 +43,22 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
 
         // GET api/<ConnectorController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<ConnectorResource>> GetConnector(Guid groupId, Guid chargeStationId, int id)
         {
-            return "value";
+            Group group = await _context.Group.FirstOrDefaultAsync(g => g.Id == groupId);
+            if (group == null)
+                return NotFound("Group not found");
+
+            ChargeStation chargeStation = await _context.ChargeStation.FirstOrDefaultAsync(c => c.Id == chargeStationId);
+            if (chargeStation == null)
+                return NotFound("Charge Station not found");
+
+            Connector connector = await _context.Connector.FirstOrDefaultAsync(c => c.Id == id && c.ChargeStationId == chargeStationId);
+
+            if(connector == null)
+                return NotFound("Connector not found");
+
+            return _mapper.Map<ConnectorResource>(connector);
         }
 
         // POST api/<ConnectorController>
