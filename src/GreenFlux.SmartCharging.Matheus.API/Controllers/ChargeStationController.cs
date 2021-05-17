@@ -65,6 +65,26 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
             return CreatedAtAction(nameof(GetChargeStation), new { id = chargeStation.Id, groupId = chargeStation.GroupId }, chargeStationResponse);
         }
 
+        // PATCH api/groups/GroupId/ChargeStations/5
+        [HttpPatch("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ChargeStationResource))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Patch(Guid groupId, Guid id, [FromBody] PatchChargeStationResource value)
+        {
+            ChargeStation chargeStation = await _context.ChargeStation.FirstOrDefaultAsync(c => c.Id == id);
+            if (chargeStation == null)
+                return StatusCode(404);
+
+            if (!String.IsNullOrEmpty(value.Name))
+                chargeStation.Name = value.Name;
+
+            await _context.SaveChangesAsync();
+            ChargeStationResource chargeStationUpdated = _mapper.Map<ChargeStationResource>(chargeStation);
+            return Ok(chargeStationUpdated);
+        }
+
         // DELETE: api/groups/GroupId/ChargeStations/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteChargeStation(Guid id)

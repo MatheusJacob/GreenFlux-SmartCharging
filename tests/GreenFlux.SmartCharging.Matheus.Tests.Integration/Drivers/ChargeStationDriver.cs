@@ -12,7 +12,8 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
 {
     public class ChargeStationDriver :BaseDriver
     {
-        private Func<string,string> ChargeStationUrl = groupId => Routes.GroupsRoute + "/" + groupId + Routes.ChargeStationBaseRoute;
+        private Func<string,string> ChargeStationBaseUrl = groupId => Routes.GroupsRoute + "/" + groupId + Routes.ChargeStationBaseRoute;
+        private Func<string, string, string> ChargeStationUrl = (groupId, chargeStationId) => Routes.GroupsRoute + "/" + groupId + Routes.ChargeStationBaseRoute + "/" + chargeStationId;
         ChargeStationDriver() : base()
         {            
         }
@@ -25,9 +26,32 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
                 Connectors = connectors
             };
 
-            return await Client.PostAsync(ChargeStationUrl(groupId.ToString()), ConvertToJsonData<SaveChargeStationResource>(saveChargeStationResource));
+            return await Client.PostAsync(ChargeStationBaseUrl(groupId.ToString()), ConvertToJsonData<SaveChargeStationResource>(saveChargeStationResource));
         }
 
+        public async Task<HttpResponseMessage> UpdateChargeStation(Guid groupId, Guid chargeStationId, string name)
+        {            
+            PatchChargeStationResource patchChargeStationResource = new PatchChargeStationResource()
+            {
+                Name = name
+            };
+
+            return await Client.PatchAsync(ChargeStationUrl(groupId.ToString(), chargeStationId.ToString()), ConvertToJsonData<PatchChargeStationResource>(patchChargeStationResource));
+        }
+
+        public async Task ShouldUpdateChargeStationSuccessfully(HttpResponseMessage response, string expectedName)
+        {
+            response.StatusCode.Should().Be(200);
+
+            ChargeStationResource chargeStationResponse = await this.ParseChargeStationFromResponse(response);
+            if (!string.IsNullOrEmpty(expectedName))
+                chargeStationResponse.Name.Should().Be(expectedName);
+        }
+
+        public void ShouldNotUpdateChargeStationSuccessfully(HttpResponseMessage response)
+        {
+            response.StatusCode.Should().Match<int>(c => c == 404 || c == 400 || c == 500);
+        }
         public async Task ShouldCreateChargeStationSuccessfully(HttpResponseMessage response)
         {
             response.StatusCode.Should().Be(201);

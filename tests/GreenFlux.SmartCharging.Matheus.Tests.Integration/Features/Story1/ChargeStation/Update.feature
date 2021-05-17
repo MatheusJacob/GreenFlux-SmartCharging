@@ -15,15 +15,10 @@ Background:
 
 Scenario: Successfully update a Charge Station
 	Given a charge station name of C2
-	When 
-	Then the group should be updated successfully
+	When the Charge Station is updated
+	Then the Charge Station should be updated successfully
 
-Scenario: Updating only a single property
-	Given a group name Group1
-	When the group is updated
-	Then the group should be updated successfully
-
-Scenario: Trying to update group that doesn't exist
-	Given a capacity of 5
-	When the wrong group is updated
-	Then should not be able to update the group
+Scenario: Trying to update Charge Station that doesn't exist
+	Given a charge station name of C2
+	When the wrong Charge Station is updated
+	Then the Charge Station should not be updated successfully

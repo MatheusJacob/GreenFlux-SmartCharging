@@ -62,12 +62,44 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             _scenarioContext["createdChargeStation"] = await _chargeStationDriver.CreateChargeStation(new Guid(), _createChargeStation.Name, _createChargeStation.Connectors);
         }
 
+        [When("the Charge Station is updated")]
+        public async Task WhenTheChargeStationIsUpdated()
+        {
+            _scenarioContext["createdGroupResponse"].Should().NotBeNull();
+            _scenarioContext["createdChargeStation"].Should().NotBeNull();
+            var groupResponse = await _groupDriver.ParseGroupFromResponse((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+            var chargeStation = await _chargeStationDriver.ParseChargeStationFromResponse((HttpResponseMessage)_scenarioContext["createdChargeStation"]);
+
+            _scenarioContext["updatedChargeStation"] = await _chargeStationDriver.UpdateChargeStation(groupResponse.Id,chargeStation.Id, _createChargeStation.Name);
+        }
+
+        [When("the wrong Charge Station is updated")]
+        public async Task WhenTheWrongChargeStationIsUpdated()
+        {
+            _scenarioContext["createdGroupResponse"].Should().NotBeNull();
+            _scenarioContext["createdChargeStation"].Should().NotBeNull();
+            var groupResponse = await _groupDriver.ParseGroupFromResponse((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+            var chargeStation = await _chargeStationDriver.ParseChargeStationFromResponse((HttpResponseMessage)_scenarioContext["createdChargeStation"]);
+
+            _scenarioContext["updatedChargeStation"] = await _chargeStationDriver.UpdateChargeStation(groupResponse.Id, new Guid(), _createChargeStation.Name);
+        }
         [Then("the Charge Station should be created successfully")]
         public async Task ThenTheChargeStationShouldBeCreatedSuccessfully()
         {
             await _chargeStationDriver.ShouldCreateChargeStationSuccessfully((HttpResponseMessage)_scenarioContext["createdChargeStation"]);
         }
 
+        [Then("the Charge Station should be updated successfully")]
+        public async Task ThenTheChargeStationShouldBeUpdatedSuccessfully()
+        {
+            await _chargeStationDriver.ShouldUpdateChargeStationSuccessfully((HttpResponseMessage)_scenarioContext["updatedChargeStation"], _createChargeStation.Name);
+        }
+
+        [Then("the Charge Station should not be updated successfully")]
+        public void ThenTheChargeStationShouldNotBeUpdatedSuccessfully()
+        {
+            _chargeStationDriver.ShouldNotUpdateChargeStationSuccessfully((HttpResponseMessage)_scenarioContext["updatedChargeStation"]);
+        }
         [Then("the Charge Station should not be created successfully")]
         public void ThenTheChargeStationShouldNotBeCreatedSuccessfully()
         {

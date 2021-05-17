@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace GreenFlux.SmartCharging.Matheus.API.Resources
 {
-    public class PatchChargeStationResource : SaveChargeStationResource
-    {                
+    public class PatchChargeStationResource
+    {
+        public string Name { get; set; }
     }
 }
