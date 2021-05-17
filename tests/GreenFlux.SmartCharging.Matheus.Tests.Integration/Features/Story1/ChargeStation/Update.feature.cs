@@ -86,18 +86,18 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Features.Story1.Char
 #line 6
  testRunner.Given("a charge station name of C1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-            TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+            TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
                         "MaxCurrentAmp"});
-            table3.AddRow(new string[] {
+            table4.AddRow(new string[] {
                         "5"});
-            table3.AddRow(new string[] {
+            table4.AddRow(new string[] {
                         "3"});
-            table3.AddRow(new string[] {
+            table4.AddRow(new string[] {
                         "4"});
-            table3.AddRow(new string[] {
+            table4.AddRow(new string[] {
                         "5"});
 #line 7
- testRunner.And("a specific set of connectors", ((string)(null)), table3, "And ");
+ testRunner.And("a specific set of connectors", ((string)(null)), table4, "And ");
 #line hidden
 #line 13
  testRunner.When("the Charge Station is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");

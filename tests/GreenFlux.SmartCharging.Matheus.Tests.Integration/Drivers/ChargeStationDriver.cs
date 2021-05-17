@@ -18,6 +18,13 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
         {            
         }
 
+        public async Task<HttpResponseMessage> GetChargeStation(Guid groupId, Guid chargeStationId)
+        {
+            var response = await Client.GetAsync(ChargeStationUrl(groupId.ToString(), chargeStationId.ToString()));
+
+            return response;
+        }
+
         public async Task<HttpResponseMessage> CreateChargeStation(Guid groupId, string name, ICollection<SaveConnectorResource> connectors)
         {
             SaveChargeStationResource saveChargeStationResource = new SaveChargeStationResource()
@@ -37,6 +44,20 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
             };
 
             return await Client.PatchAsync(ChargeStationUrl(groupId.ToString(), chargeStationId.ToString()), ConvertToJsonData<PatchChargeStationResource>(patchChargeStationResource));
+        }
+
+        public async Task<HttpResponseMessage> DeleteChargeStation(Guid groupId, Guid chargeStationId)
+        {
+            var response = await Client.DeleteAsync(ChargeStationUrl(groupId.ToString(), chargeStationId.ToString()));
+
+            return response;
+        }
+
+        public async Task ShouldDeleteSuccessfully(HttpResponseMessage response,Guid groupId, Guid deletedChargeStationId)
+        {
+            response.StatusCode.Should().Be(204);
+            var getChargeStationResponse = await this.GetChargeStation(groupId, deletedChargeStationId);
+            getChargeStationResponse.StatusCode.Should().Be(404);
         }
 
         public async Task ShouldUpdateChargeStationSuccessfully(HttpResponseMessage response, string expectedName)

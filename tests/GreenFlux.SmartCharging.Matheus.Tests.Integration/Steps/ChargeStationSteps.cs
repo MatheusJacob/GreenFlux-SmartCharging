@@ -83,6 +83,46 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
 
             _scenarioContext["updatedChargeStation"] = await _chargeStationDriver.UpdateChargeStation(groupResponse.Id, new Guid(), _createChargeStation.Name);
         }
+
+        [When("the charge station is deleted")]
+        public async Task WhenTheChargeStationIsDeleted()
+        {
+            GroupResource groupResource = await _groupDriver.ParseGroupFromResponse((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+            ChargeStationResource chargeStationResource = await _chargeStationDriver.ParseChargeStationFromResponse((HttpResponseMessage)_scenarioContext["createdChargeStation"]);
+
+            chargeStationResource.Id.Should().NotBeEmpty();
+            chargeStationResource.Name.Should().NotBeEmpty();
+
+            _scenarioContext["deletedChargeStationId"] = chargeStationResource.Id;
+            _scenarioContext["deletedChargeStationResponse"] = await _chargeStationDriver.DeleteChargeStation(groupResource.Id, chargeStationResource.Id);
+        }
+
+        [When("the wrong Charge Station is deleted")]
+        public async Task WhenTheWrongChargeStationIsDeleted()
+        {
+            GroupResource groupResource = await _groupDriver.ParseGroupFromResponse((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+
+            Guid wrongChargeStationId = new Guid();
+            _scenarioContext["deletedChargeStationId"] = wrongChargeStationId;
+            _scenarioContext["deletedChargeStationResponse"] = await _chargeStationDriver.DeleteChargeStation(groupResource.Id, wrongChargeStationId);
+        }
+
+        [Then("the Charge Station should not exist anymore")]
+        public async Task ThenTheChargeStationShouldNotExistAnymore()
+        {
+            GroupResource group = await _groupDriver.ParseGroupFromResponse((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+
+            await _chargeStationDriver.ShouldDeleteSuccessfully((HttpResponseMessage)_scenarioContext["deletedChargeStationResponse"],
+                group.Id,
+                (Guid)_scenarioContext["deletedChargeStationId"]);
+        }
+
+        [Then("no Charge Station was deleted")]
+        public void ThenNoChargeStationShouldBeDeleted()
+        {
+            ((HttpResponseMessage)_scenarioContext["deletedChargeStationResponse"]).StatusCode.Should().Be(404);
+        }
+
         [Then("the Charge Station should be created successfully")]
         public async Task ThenTheChargeStationShouldBeCreatedSuccessfully()
         {
