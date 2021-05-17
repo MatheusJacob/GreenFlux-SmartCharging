@@ -10,6 +10,6 @@ namespace GreenFlux.SmartCharging.Matheus.API.Resources
     {                
         public string Name { get; set; }      
         
-        public IEnumerable<SaveConnectorResource> Connectors { get; set; }
+        public ICollection<SaveConnectorResource> Connectors { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GreenFlux.SmartCharging.Matheus.API.Resources
 {
     public class SaveConnectorResource
-    {                                
-        public float? MaxCurrentAmps { get; set; }
+    {                            
+        public float? MaxCurrentAmp { get; set; }
     }
 }

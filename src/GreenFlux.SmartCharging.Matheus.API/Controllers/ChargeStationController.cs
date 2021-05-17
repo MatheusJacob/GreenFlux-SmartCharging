@@ -50,16 +50,19 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
         [HttpPost]
         public async Task<ActionResult<ChargeStationResource>> PostChargeStation(Guid groupId, SaveChargeStationResource saveChargeStation)
         {
-            Group group = await _context.Group.FirstAsync(g => g.Id == groupId);
+            Group group = await _context.Group.Include(g => g.ChargeStations).ThenInclude(c => c.Connectors).FirstOrDefaultAsync(g => g.Id == groupId);
             if (group == null)
                 return NotFound("Group not found");
-
+            
             ChargeStation chargeStation = _mapper.Map<ChargeStation>(saveChargeStation);
+            group.AppendChargeStation(chargeStation);
 
-            _context.ChargeStation.Add(chargeStation);
+            await _context.ChargeStation.AddAsync(chargeStation);
+
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetChargeStation), new { id = chargeStation.Id }, chargeStation);
+            ChargeStationResource chargeStationResponse = _mapper.Map<ChargeStationResource>(chargeStation);
+            return CreatedAtAction(nameof(GetChargeStation), new { id = chargeStation.Id }, chargeStationResponse);
         }
 
         // DELETE: api/groups/GroupId/ChargeStations/5
