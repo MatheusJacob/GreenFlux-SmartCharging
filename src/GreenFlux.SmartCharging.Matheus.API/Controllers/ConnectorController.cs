@@ -118,7 +118,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid chargeStationId, int id)
         {
-            Connector connector = await _context.Connector.FirstOrDefaultAsync(c => c.Id.Value == id && c.ChargeStationId == chargeStationId);
+            Connector connector = await _context.Connector.Include(c => c.ChargeStation).FirstOrDefaultAsync(c => c.Id.Value == id && c.ChargeStationId == chargeStationId);
             if (connector == null)
                 return StatusCode(404);
 

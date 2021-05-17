@@ -14,6 +14,6 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
 
         public const string GroupsRoute = ApiBaseRoute + GroupBaseRoute;
         public const string ChargeStationsRoute = ApiBaseRoute + GroupBaseRoute  + "/{groupId}" + ChargeStationBaseRoute;
-        public const string ConnectorsRoute = ApiBaseRoute + GroupBaseRoute + "/{groupId}" + ChargeStationBaseRoute + "{chargeStationId}" + ConnectorsBaseRoute;
+        public const string ConnectorsRoute = ApiBaseRoute + GroupBaseRoute + "/{groupId}" + ChargeStationBaseRoute + "/{chargeStationId}" + ConnectorsBaseRoute;
     }
 }
