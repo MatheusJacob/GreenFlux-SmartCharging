@@ -315,10 +315,12 @@ this.FeatureBackground();
                             "5"});
                 table6.AddRow(new string[] {
                             "6"});
+                table6.AddRow(new string[] {
+                            "7"});
 #line 35
  testRunner.Given("a specific set of connectors", ((string)(null)), table6, "Given ");
 #line hidden
-#line 42
+#line 43
  testRunner.When("the connectors are created sequencially", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
                 TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
@@ -342,7 +344,7 @@ this.FeatureBackground();
                 table7.AddRow(new string[] {
                             "5",
                             "false"});
-#line 43
+#line 44
  testRunner.Then("the expected results should be", ((string)(null)), table7, "Then ");
 #line hidden
             }
@@ -356,7 +358,7 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Creating/Deleting a chain of connectors should evaluate the right connector id", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 52
+#line 53
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -379,13 +381,13 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-#line 53
+#line 54
  testRunner.Given("a connector max current of <maxCurrentAmp>", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 54
+#line 55
  testRunner.When("the connector is <action>", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 55
+#line 56
  testRunner.Then("the expected result should be <created>", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
                 TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
@@ -444,7 +446,7 @@ this.FeatureBackground();
                             "3",
                             "3",
                             "created"});
-#line 56
+#line 57
  testRunner.Then("the expected connector id should be <expectedConnectorId>", ((string)(null)), table8, "Then ");
 #line hidden
             }
@@ -460,7 +462,7 @@ this.FeatureBackground();
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Creating connectors for different charge stations should not interfere with their" +
                     " connector id", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 72
+#line 73
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -483,16 +485,16 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-#line 73
+#line 74
  testRunner.Given("a connector max current of <maxCurrentAmp>", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 74
+#line 75
  testRunner.Given("an existing charge station <chargeStationId>", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 75
+#line 76
  testRunner.When("the connector is <action>", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 76
+#line 77
  testRunner.Then("the expected result should be <created>", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
                 TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
@@ -565,7 +567,7 @@ this.FeatureBackground();
                             "5",
                             "2",
                             "created"});
-#line 77
+#line 78
  testRunner.Then("the expected connector id should be <expectedConnectorId>", ((string)(null)), table9, "Then ");
 #line hidden
             }

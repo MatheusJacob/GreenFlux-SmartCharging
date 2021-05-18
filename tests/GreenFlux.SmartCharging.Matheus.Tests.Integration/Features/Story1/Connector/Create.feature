@@ -39,6 +39,7 @@ Scenario: Trying to create more than 5 connectors for a charge station
 		|4 |
 		|5 |
 		|6 |
+		|7 |
 	When the connectors are created sequencially
 	Then the expected results should be
 		| expectedConnectorId | created |
