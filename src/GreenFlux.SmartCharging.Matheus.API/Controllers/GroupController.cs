@@ -61,12 +61,18 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Patch(Guid id, [FromBody] PatchGroupResource value)
         {
-            Group group = await _context.Group.FindAsync(id);
+            Group group = await _context.Group.Include(g => g.ChargeStations).ThenInclude(c => c.Connectors).FirstOrDefaultAsync(g => g.Id == id);
             if (group == null)
                 return StatusCode(404);
 
             if (value.Capacity.HasValue)
+            {
+                if (value.Capacity.Value < group.Capacity && group.HasExceededCapacity(group.Capacity - value.Capacity.Value))
+                    throw new Exception("Can't change capacity");
+
                 group.Capacity = value.Capacity.Value;
+            }
+                
 
             if (!string.IsNullOrEmpty(value.Name))
                 group.Name = value.Name;

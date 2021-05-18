@@ -138,3 +138,7 @@ Given a specific set of Charge Stations
 	|6 |
 	When the Charge Station is created
 	Then the Charge Station should not be created successfully
+
+Scenario: You have a group with full capacity, and you try to update the group with a lower capacity
+
+Scenario: You have a group with full capacity, and you try to update the group with a bigger capacity
