@@ -103,6 +103,13 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             _scenarioContext["deletedChargeStationResponse"] = await _chargeStationDriver.DeleteChargeStation(groupResource.Id, wrongChargeStationId);
         }
 
+        [When("listing all charge stations from a group")]
+        public async Task WhenListingAllChargeStationsFromAGroup()
+        {
+            GroupResource groupResource = await _groupDriver.ParseFromResponse<GroupResource>((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+
+            _scenarioContext["allChargeStationsResponse"] = await _chargeStationDriver.GetAll(groupResource.Id);
+        }
         [Then("the created Charge Station should not exist anymore")]
         public async Task ThenTheCreatedChargeStationShouldNotExistAnymore()
         {
@@ -156,6 +163,16 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         public async Task ThenShouldNotFindTheGroup()
         {
             await _groupDriver.ShouldNotFindTheGroup((HttpResponseMessage)_scenarioContext["createdChargeStationResponse"]);
+        }
+
+        [Then("Should have (.*) charge stations")]
+        public async Task ThenShouldHaveNChargeStations(int expectedCount)
+        {
+            _scenarioContext.Should().ContainKey("allChargeStationsResponse");
+
+            List<ChargeStationResource> listChargeStations = await _chargeStationDriver.ParseFromResponse<List<ChargeStationResource>>((HttpResponseMessage)_scenarioContext["allChargeStationsResponse"]);
+            listChargeStations.Count.Should().Be(expectedCount);
+
         }
     }
 }

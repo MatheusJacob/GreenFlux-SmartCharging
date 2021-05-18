@@ -20,8 +20,8 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Features.Story2
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.7.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Removing a group should remove all charge stations also")]
-    public partial class RemovingAGroupShouldRemoveAllChargeStationsAlsoFeature
+    [NUnit.Framework.DescriptionAttribute("Removing a group should also remove all charge stations")]
+    public partial class RemovingAGroupShouldAlsoRemoveAllChargeStationsFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
@@ -35,8 +35,8 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Features.Story2
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/Story2", "Removing a group should remove all charge stations also", "\tWhen someone deletes a group, all the charge station childs should be removed al" +
-                    "so", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/Story2", "Removing a group should also remove all charge stations", "\tWhen someone deletes a group, all the corresponding charge stations should be re" +
+                    "moved also", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -75,14 +75,14 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Features.Story2
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Removing a group that has charge station childs")]
+        [NUnit.Framework.DescriptionAttribute("Removing a group that has charge stations attached to it")]
         [NUnit.Framework.CategoryAttribute("Group")]
-        public virtual void RemovingAGroupThatHasChargeStationChilds()
+        public virtual void RemovingAGroupThatHasChargeStationsAttachedToIt()
         {
             string[] tagsOfScenario = new string[] {
                     "Group"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Removing a group that has charge station childs", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Removing a group that has charge stations attached to it", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 5
 this.ScenarioInitialize(scenarioInfo);
 #line hidden

@@ -25,6 +25,13 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
             return response;
         }
 
+        public async Task<HttpResponseMessage> GetAll(Guid groupId)
+        {
+            var response = await Client.GetAsync(ChargeStationBaseUrl(groupId.ToString()));
+
+            return response;
+        }
+
         public async Task<HttpResponseMessage> CreateChargeStation(Guid groupId, string name, ICollection<SaveConnectorResource> connectors)
         {
             SaveChargeStationResource saveChargeStationResource = new SaveChargeStationResource()
