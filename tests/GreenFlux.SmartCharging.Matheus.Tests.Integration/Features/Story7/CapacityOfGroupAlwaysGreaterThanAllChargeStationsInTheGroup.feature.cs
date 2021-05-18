@@ -375,6 +375,95 @@ this.ScenarioInitialize(scenarioInfo);
 #line 4
 this.FeatureBackground();
 #line hidden
+                TechTalk.SpecFlow.Table table26 = new TechTalk.SpecFlow.Table(new string[] {
+                            "name",
+                            "connectors"});
+                table26.AddRow(new string[] {
+                            "CS1",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS2",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS3",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS4",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS5",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS6",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS7",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS8",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS9",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS10",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS11",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS12",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS13",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS14",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS15",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS16",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS17",
+                            "1"});
+#line 78
+testRunner.Given("a specific set of Charge Stations", ((string)(null)), table26, "Given ");
+#line hidden
+#line 97
+ testRunner.When("create all Charge Stations", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 98
+ testRunner.Then("Should create all charge stations successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 99
+ testRunner.When("listing all charge stations from a group", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 100
+ testRunner.Then("Should have 18 charge stations", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 101
+ testRunner.Then("Should update successfully all connectors to 5 max current for all charge station" +
+                        "s", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 102
+ testRunner.Given("a charge station name of C19", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+                TechTalk.SpecFlow.Table table27 = new TechTalk.SpecFlow.Table(new string[] {
+                            "maxCurrentAmp"});
+                table27.AddRow(new string[] {
+                            "6"});
+#line 103
+ testRunner.And("a specific set of connectors", ((string)(null)), table27, "And ");
+#line hidden
+#line 106
+ testRunner.When("the Charge Station is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 107
+ testRunner.Then("the Charge Station should not be created successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
             }
             this.ScenarioCleanup();
         }
@@ -386,7 +475,7 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Group already with maximum capacity and you try to append a new charge station", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 79
+#line 108
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -422,7 +511,7 @@ this.FeatureBackground();
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Group already with maximum capacity and you try to update a connectors max curren" +
                     "t", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 81
+#line 110
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -458,7 +547,7 @@ this.FeatureBackground();
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Group already with maximum capacity but you decrease a conector max current, and " +
                     "increase another connector max current", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 83
+#line 112
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -494,7 +583,7 @@ this.FeatureBackground();
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("You have a group with maximum capacity, then you add another group and add charge" +
                     " stations to the new group", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 85
+#line 114
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);

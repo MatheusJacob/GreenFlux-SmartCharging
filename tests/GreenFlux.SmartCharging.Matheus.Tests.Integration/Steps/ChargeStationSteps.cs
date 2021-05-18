@@ -256,8 +256,21 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
                     connectorResponse.StatusCode.Should().Be(201);
                 }
             }
+        }
 
-            //ScenarioContext.Current.Pending();
+        [Then(@"Should update successfully all connectors to (.*) max current for all charge stations")]
+        public async Task ThenShouldUpdateSuccessfullyAllConnectorsToMaxCurrentForAllChargeStations(float maxCurrent)
+        {
+            List<HttpResponseMessage> responses = (List<HttpResponseMessage>)_scenarioContext["chargeStationListResponses"];
+            GroupResource groupResponse = await _groupDriver.ParseFromResponse<GroupResource>((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+
+            foreach (var response in responses)
+            {
+                ChargeStationResource chargeStationResource = await _chargeStationDriver.ParseFromResponse<ChargeStationResource>(response);
+
+                var connectorResponse = await _connectorDriver.UpdateConnector(groupResponse.Id, chargeStationResource.Id, 1, maxCurrent);
+                connectorResponse.StatusCode.Should().Be(200);                
+            }
         }
 
     }
