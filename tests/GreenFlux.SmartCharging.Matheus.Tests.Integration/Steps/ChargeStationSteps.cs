@@ -24,6 +24,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         {
             _scenarioContext = scenarioContext;
             _scenarioContext["createChargeStation"] = new SaveChargeStationResource();
+            _scenarioContext["chargeStationListResponses"] = new List<HttpResponseMessage>();
             _groupDriver = groupDriver;
             _chargeStationDriver = chargeStationDriver;         
         }
@@ -40,6 +41,55 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         {
             ICollection<SaveConnectorResource> connectors = (ICollection<SaveConnectorResource>)connectorsTable.CreateSet<SaveConnectorResource>();
             ((SaveChargeStationResource)_scenarioContext["createChargeStation"]).Connectors = connectors;
+        }
+
+        [Given("a specific set of Charge Stations")]
+        public void GivenASpecificSetOfChargeStations(Table table)
+        {
+            List<SaveChargeStationResource> listChargeStations = new List<SaveChargeStationResource>();
+            foreach (var tableRow in table.Rows)
+            {
+                List<string> connectorIds = new List<string>(tableRow["connectors"].Split(','));
+                List<SaveConnectorResource> connectors = new List<SaveConnectorResource>();
+                foreach (var item in connectorIds)
+                {
+                    float maxCurrent;
+                    float.TryParse(item, out maxCurrent).Should().BeTrue();
+
+                    SaveConnectorResource saveConnector = new SaveConnectorResource()
+                    {
+                        MaxCurrentAmp = maxCurrent
+                    };
+                    connectors.Add(saveConnector);
+                }
+
+                SaveChargeStationResource saveChargeStation = new SaveChargeStationResource()
+                {
+                    Name = tableRow["name"],
+                    Connectors = connectors
+                };
+
+                listChargeStations.Add(saveChargeStation);
+            }
+
+            _scenarioContext["chargeStationList"] = listChargeStations;
+        }
+
+        [When("create all Charge Stations")]
+        public async Task WhenCreateAllChargeStations()
+        {
+            _scenarioContext.Should().ContainKey("chargeStationList");
+            _scenarioContext.Should().ContainKey("createdGroupResponse");
+
+            GroupResource groupResponse = await _groupDriver.ParseFromResponse<GroupResource>((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+
+            List<SaveChargeStationResource> chargeStationToCreate =  (List <SaveChargeStationResource>)_scenarioContext["chargeStationList"];
+
+            foreach (var item in chargeStationToCreate)
+            {
+                var response = await _chargeStationDriver.CreateChargeStation(groupResponse.Id, item.Name, item.Connectors);
+                ((List<HttpResponseMessage>)_scenarioContext["chargeStationListResponses"]).Add(response);
+            }
         }
 
         [When("the Charge Station is created")]
@@ -165,7 +215,6 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             await _groupDriver.ShouldNotFindTheGroup((HttpResponseMessage)_scenarioContext["createdChargeStationResponse"]);
         }
 
-
         [Then("Should have (.*) charge stations")]
         public async Task ThenShouldHaveNChargeStations(int expectedCount)
         {
@@ -173,6 +222,18 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
 
             List<ChargeStationResource> listChargeStations = await _chargeStationDriver.ParseFromResponse<List<ChargeStationResource>>((HttpResponseMessage)_scenarioContext["allChargeStationsResponse"]);
             listChargeStations.Count.Should().Be(expectedCount);
+
+        }
+
+        [Then("Should create all charge stations successfully")]
+        public void ThenShouldCreateAllChargeStationsSuccessfully()
+        {
+            List<HttpResponseMessage> responses = (List<HttpResponseMessage>)_scenarioContext["chargeStationListResponses"];
+
+            foreach (var response in responses)
+            {
+                response.StatusCode.Should().Be(201);
+            }
 
         }
     }

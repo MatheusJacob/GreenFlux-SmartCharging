@@ -70,8 +70,8 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
                 throw new Exception("No available slots");
 
             ////improve efficiency with a segmented n-ary tree
-            if (this.Group != null && (this.Group.CalculateGroupSumCurrentAmp() + connector.MaxCurrentAmp) > this.Group.Capacity)
-                throw new Exception("Capacity Overflow");
+            if (this.Group != null && this.Group.HasExceededCapacity(connector.MaxCurrentAmp))
+                throw new Exception("Capacity exceeded");
 
             if (!connector.Id.HasValue)
             {
@@ -80,7 +80,6 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
 
             _availableSlots.Remove(connector.Id.Value);
             this.UpdateTotalMaxCurrentAmp(connector.MaxCurrentAmp);
-            this.TotalMaxCurrentAmp += connector.MaxCurrentAmp;
             this.Connectors.Add(connector);
         }
 

@@ -29,8 +29,8 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
         public void AppendChargeStation(ChargeStation chargeStation)
         {
             //Todo exception handle + return the options to delete
-            if ((CalculateGroupSumCurrentAmp() + chargeStation.TotalMaxCurrentAmp) > this.Capacity)
-                throw new Exception("Capacity overload");
+            if (this.HasExceededCapacity(chargeStation.TotalMaxCurrentAmp))
+                throw new Exception("Capacity overflow");
 
             this.ChargeStations.Add(chargeStation);
         }
@@ -38,6 +38,7 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
         public float CalculateGroupSumCurrentAmp()
         {
             float totalCurrentAmp = 0f;
+            ////naive implementation
             foreach (ChargeStation chargeStation in ChargeStations)
             {
                 foreach (Connector connector in chargeStation.Connectors)
@@ -46,6 +47,11 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
                 }
             }
             return totalCurrentAmp;
+        }
+
+        public bool HasExceededCapacity(float addedMaxCurrentAmp)
+        {
+            return ((this.CalculateGroupSumCurrentAmp() + addedMaxCurrentAmp) > this.Capacity);
         }
     }
 }
