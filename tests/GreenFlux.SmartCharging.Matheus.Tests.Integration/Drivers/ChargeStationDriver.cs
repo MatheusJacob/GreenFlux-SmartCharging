@@ -86,5 +86,11 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
         {
             response.StatusCode.Should().Match<int>(c => c == 404 || c == 400 || c == 500);
         }
+
+        public async Task ShouldNotExistAnymore(Guid groupId, Guid chargeStationId)
+        {
+            HttpResponseMessage chargeStationResponse = await GetChargeStation(groupId, chargeStationId);
+            chargeStationResponse.StatusCode.Should().Be(404);
+        }
     }
 }

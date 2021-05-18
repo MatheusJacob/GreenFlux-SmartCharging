@@ -302,5 +302,15 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
                 connector.Id.Should().Be(expectedConnectorId);
             }
         }
+
+        [Then(@"the connector with id (.*) should not exist anymore")]
+        public async Task ThenTheConnectorShouldNotExistAnymore(int connectorId)
+        {
+            GroupResource group = await _groupDriver.ParseFromResponse<GroupResource>((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+            ChargeStationResource chargeStation = await _chargeStationDriver.ParseFromResponse<ChargeStationResource>((HttpResponseMessage)_scenarioContext["createdChargeStationResponse"]);
+
+            await _connectorDriver.ShouldNotExistAnymore(group.Id, chargeStation.Id, connectorId);
+        }
+
     }
 }

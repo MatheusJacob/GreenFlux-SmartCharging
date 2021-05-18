@@ -103,6 +103,15 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             _scenarioContext["deletedChargeStationResponse"] = await _chargeStationDriver.DeleteChargeStation(groupResource.Id, wrongChargeStationId);
         }
 
+        [Then("the created Charge Station should not exist anymore")]
+        public async Task ThenTheCreatedChargeStationShouldNotExistAnymore()
+        {
+            GroupResource group = await _groupDriver.ParseFromResponse<GroupResource>((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+            ChargeStationResource chargeStation= await _chargeStationDriver.ParseFromResponse<ChargeStationResource>((HttpResponseMessage)_scenarioContext["createdChargeStationResponse"]);
+
+            await _chargeStationDriver.ShouldNotExistAnymore(group.Id, chargeStation.Id);
+        }
+
         [Then("the Charge Station should not exist anymore")]
         public async Task ThenTheChargeStationShouldNotExistAnymore()
         {

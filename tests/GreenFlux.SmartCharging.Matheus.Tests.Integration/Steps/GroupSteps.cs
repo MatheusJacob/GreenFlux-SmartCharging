@@ -87,14 +87,22 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             _scenarioContext["deletedGroupResponse"] = await _groupDriver.DeleteGroup(wrongGroupId);
         }
 
+        [Then("the created group should not exist anymore")]
+        public async Task ThenTheCreatedGroupShouldNotExistAnymore()
+        {
+            GroupResource groupResource = await _groupDriver.ParseFromResponse<GroupResource>((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+            await _groupDriver.ShouldNotExistAnymore(groupResource.Id);
+        }
+
         [Then("the group should not exist anymore")]
         public async Task ThenTheGroupShouldNotExistAnymore()
         {
-            await _groupDriver.ShouldDeleteSuccessfully((HttpResponseMessage)_scenarioContext["deletedGroupResponse"]);
+            GroupResource groupResource = await _groupDriver.ParseFromResponse<GroupResource>((HttpResponseMessage)_scenarioContext["deletedGroupResponse"]);
+            await _groupDriver.ShouldNotExistAnymore(groupResource.Id);
         }
 
         [Then("no group was deleted")]
-        public async Task ThenNoGroupShouldBeDeleted()
+        public void ThenNoGroupShouldBeDeleted()
         {
             ((HttpResponseMessage)_scenarioContext["deletedGroupResponse"]).StatusCode.Should().Be(404);
         }

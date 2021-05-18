@@ -115,5 +115,11 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
 
             return response;
         }
+
+        public async Task ShouldNotExistAnymore(Guid groupId)
+        {
+            HttpResponseMessage groupResponse = await GetGroup(groupId);
+            groupResponse.StatusCode.Should().Be(404);
+        }
     }
 }
