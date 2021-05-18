@@ -19,32 +19,27 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         private readonly ScenarioContext _scenarioContext;
         private readonly GroupDriver _groupDriver;
         private readonly ChargeStationDriver _chargeStationDriver;
-        private readonly GroupResource _group;
-        private readonly ChargeStationResource _chargeStation;
-        private readonly SaveChargeStationResource _createChargeStation;
         public ChargeStationSteps(ScenarioContext scenarioContext, GroupDriver groupDriver,
             ChargeStationDriver chargeStationDriver)
         {
             _scenarioContext = scenarioContext;
+            _scenarioContext["createChargeStation"] = new SaveChargeStationResource();
             _groupDriver = groupDriver;
-            _chargeStationDriver = chargeStationDriver;
-            _group = new GroupResource();
-            _chargeStation = new ChargeStationResource();
-            _createChargeStation = new SaveChargeStationResource();
+            _chargeStationDriver = chargeStationDriver;         
         }
 
 
         [Given("a charge station name of (.*)")]
         public void GivenAnChargeStationName(string name)
         {
-            _createChargeStation.Name = name;
+            ((SaveChargeStationResource)_scenarioContext["createChargeStation"]).Name = name;            
         }
 
         [Given("a specific set of connectors")]
         public void GivenASpecificSetOfConnectors(Table connectorsTable)
         {
             ICollection<SaveConnectorResource> connectors = (ICollection<SaveConnectorResource>)connectorsTable.CreateSet<SaveConnectorResource>();
-            _createChargeStation.Connectors = connectors;
+            ((SaveChargeStationResource)_scenarioContext["createChargeStation"]).Connectors = connectors;
         }
 
         [When("the Charge Station is created")]
@@ -52,13 +47,14 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         {
             _scenarioContext["createdGroupResponse"].Should().NotBeNull();
             GroupResource groupResponse = await _groupDriver.ParseFromResponse<GroupResource>((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
-
+            SaveChargeStationResource _createChargeStation = ((SaveChargeStationResource)_scenarioContext["createChargeStation"]);
             _scenarioContext["createdChargeStation"] = await _chargeStationDriver.CreateChargeStation(groupResponse.Id, _createChargeStation.Name, _createChargeStation.Connectors);
         }
 
         [When("the Charge Station is created for the wrong group")]
         public async Task WhenTheChargeStationIsCreatedForTheWrongGroup()
         {
+            SaveChargeStationResource _createChargeStation = ((SaveChargeStationResource)_scenarioContext["createChargeStation"]);
             _scenarioContext["createdChargeStation"] = await _chargeStationDriver.CreateChargeStation(new Guid(), _createChargeStation.Name, _createChargeStation.Connectors);
         }
 
@@ -69,7 +65,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             _scenarioContext["createdChargeStation"].Should().NotBeNull();
             GroupResource groupResponse = await _groupDriver.ParseFromResponse< GroupResource>((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
             ChargeStationResource chargeStation = await _chargeStationDriver.ParseFromResponse<ChargeStationResource>((HttpResponseMessage)_scenarioContext["createdChargeStation"]);
-
+            SaveChargeStationResource _createChargeStation = ((SaveChargeStationResource)_scenarioContext["createChargeStation"]);
             _scenarioContext["updatedChargeStation"] = await _chargeStationDriver.UpdateChargeStation(groupResponse.Id,chargeStation.Id, _createChargeStation.Name);
         }
 
@@ -80,7 +76,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             _scenarioContext["createdChargeStation"].Should().NotBeNull();
             GroupResource groupResponse = await _groupDriver.ParseFromResponse<GroupResource>((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
             ChargeStationResource chargeStation = await _chargeStationDriver.ParseFromResponse<ChargeStationResource>((HttpResponseMessage)_scenarioContext["createdChargeStation"]);
-
+            SaveChargeStationResource _createChargeStation = ((SaveChargeStationResource)_scenarioContext["createChargeStation"]);
             _scenarioContext["updatedChargeStation"] = await _chargeStationDriver.UpdateChargeStation(groupResponse.Id, new Guid(), _createChargeStation.Name);
         }
 
@@ -132,6 +128,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         [Then("the Charge Station should be updated successfully")]
         public async Task ThenTheChargeStationShouldBeUpdatedSuccessfully()
         {
+            SaveChargeStationResource _createChargeStation = ((SaveChargeStationResource)_scenarioContext["createChargeStation"]);
             await _chargeStationDriver.ShouldUpdateChargeStationSuccessfully((HttpResponseMessage)_scenarioContext["updatedChargeStation"], _createChargeStation.Name);
         }
 
