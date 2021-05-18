@@ -165,6 +165,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             await _groupDriver.ShouldNotFindTheGroup((HttpResponseMessage)_scenarioContext["createdChargeStationResponse"]);
         }
 
+
         [Then("Should have (.*) charge stations")]
         public async Task ThenShouldHaveNChargeStations(int expectedCount)
         {

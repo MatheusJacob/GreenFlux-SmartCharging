@@ -311,6 +311,5 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
 
             await _connectorDriver.ShouldNotExistAnymore(group.Id, chargeStation.Id, connectorId);
         }
-
     }
 }
