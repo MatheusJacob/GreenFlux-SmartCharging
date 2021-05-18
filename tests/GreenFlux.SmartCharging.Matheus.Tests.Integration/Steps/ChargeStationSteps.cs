@@ -19,14 +19,17 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         private readonly ScenarioContext _scenarioContext;
         private readonly GroupDriver _groupDriver;
         private readonly ChargeStationDriver _chargeStationDriver;
+        private readonly ConnectorDriver _connectorDriver;
+
         public ChargeStationSteps(ScenarioContext scenarioContext, GroupDriver groupDriver,
-            ChargeStationDriver chargeStationDriver)
+            ChargeStationDriver chargeStationDriver, ConnectorDriver connectorDriver)
         {
             _scenarioContext = scenarioContext;
             _scenarioContext["createChargeStation"] = new SaveChargeStationResource();
             _scenarioContext["chargeStationListResponses"] = new List<HttpResponseMessage>();
             _groupDriver = groupDriver;
-            _chargeStationDriver = chargeStationDriver;         
+            _chargeStationDriver = chargeStationDriver;
+            _connectorDriver = connectorDriver;
         }
 
 
@@ -236,5 +239,26 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             }
 
         }
+
+        [Then(@"Should create successfully (.*) connectors with (.*) max current for all charge stations")]
+        public async Task ThenShouldCreateSuccessfullyConnectorsForAllChargeStations(int connectorsCount, float maxCurrent)
+        {
+            List<HttpResponseMessage> responses = (List<HttpResponseMessage>)_scenarioContext["chargeStationListResponses"];
+            GroupResource groupResponse = await _groupDriver.ParseFromResponse<GroupResource>((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+
+            foreach (var response in responses)
+            {
+                ChargeStationResource chargeStationResource= await _chargeStationDriver.ParseFromResponse<ChargeStationResource>(response);
+
+                for (int i = 0; i < connectorsCount; i++)
+                {
+                    var connectorResponse = await _connectorDriver.CreateConnector(groupResponse.Id, chargeStationResource.Id, maxCurrent);
+                    connectorResponse.StatusCode.Should().Be(201);
+                }
+            }
+
+            //ScenarioContext.Current.Pending();
+        }
+
     }
 }
