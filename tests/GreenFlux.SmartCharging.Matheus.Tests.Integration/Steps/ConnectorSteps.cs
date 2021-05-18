@@ -125,6 +125,21 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             _scenarioContext["createdConnector"] = await _connectorDriver.CreateConnector(groupResponse.Id, chargeStationResource.Id, createConnector.MaxCurrentAmp.Value);
         }
 
+        [When("a connector with id (.*) is updated")]
+        public async Task WhenAConnectorIsUpdated(int connectorId)
+        {
+            _scenarioContext.Should().ContainKey("createdChargeStationResponse");
+            _scenarioContext.Should().ContainKey("createdGroupResponse");
+            _scenarioContext["createdGroupResponse"].Should().NotBeNull();
+            _scenarioContext["createdChargeStationResponse"].Should().NotBeNull();
+
+
+            GroupResource groupResponse = await _groupDriver.ParseFromResponse<GroupResource>((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+            ChargeStationResource chargeStationResource =  await _connectorDriver.ParseFromResponse<ChargeStationResource>((HttpResponseMessage)_scenarioContext["createdChargeStationResponse"]);
+            
+            _scenarioContext["updatedConnector"] = await _connectorDriver.UpdateConnector(groupResponse.Id, chargeStationResource.Id, connectorId, ((SaveConnectorResource)_scenarioContext["createConnector"]).MaxCurrentAmp.Value);
+        }
+
         [When("the connector is created with required parameters missing")]
         public async Task WhenTheConnectorIsCreatedWithRequiredParametersMissing()
         {
@@ -152,6 +167,18 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             _scenarioContext["deletedConnectorId"] = connectorId;
             _scenarioContext["deletedConnectorResponse"] = await _connectorDriver.DeleteConnector(groupResource.Id, chargeStationResource.Id, connectorId);
         }
+
+        [Then(@"the connector should be updated successfully")]
+        public async Task ThenTheConnectorShouldBeUpdatedSuccessfully()
+        {
+            PatchConnectorResource patchConnectorResource = new PatchConnectorResource()
+            {
+                MaxCurrentAmp = ((SaveConnectorResource)_scenarioContext["createConnector"]).MaxCurrentAmp
+            };
+
+            await _connectorDriver.ShouldUpdateConnectorSuccessfully((HttpResponseMessage)_scenarioContext["updatedConnector"], patchConnectorResource);
+        }
+
 
         [Then("the expected results should be")]
         public async Task TheExpectedResultsShouldBe(Table expectedResults)

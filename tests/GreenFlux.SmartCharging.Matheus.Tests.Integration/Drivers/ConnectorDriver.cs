@@ -40,6 +40,36 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
             return await Client.PostAsync(ConnectorBaseUrl(groupId.ToString(), chargeStationId.ToString()), new StringContent("", Encoding.UTF8, "application/json"));
         }
 
+        public async Task<HttpResponseMessage> UpdateConnector(Guid groupId, Guid chargeStationId,int connectorId, float maxCurrentAmp)
+        {
+            PatchConnectorResource patchConnectorResource = new PatchConnectorResource()
+            {
+                MaxCurrentAmp = maxCurrentAmp
+            };
+
+            return await Client.PatchAsync(ConnectorUrl(groupId.ToString(), chargeStationId.ToString(), connectorId.ToString()), ConvertToJsonData<PatchConnectorResource>(patchConnectorResource));
+        }
+
+        public async Task ShouldUpdateConnectorSuccessfully(HttpResponseMessage response, PatchConnectorResource expectedValue)
+        {
+            response.StatusCode.Should().Be(200);
+
+            ConnectorResource connectorResponse = await this.ParseFromResponse<ConnectorResource>(response);
+
+            if (expectedValue.MaxCurrentAmp.HasValue)
+                connectorResponse.MaxCurrentAmp.Value.Should().Be(expectedValue.MaxCurrentAmp.Value);
+
+            connectorResponse.Id.Should().BeGreaterOrEqualTo(1);
+            connectorResponse.Id.Should().BeLessOrEqualTo(5);
+            connectorResponse.MaxCurrentAmp.Should().BePositive();
+        }
+
+        public void ShouldNotUpdateConnectorSuccessfully(HttpResponseMessage response)
+        {
+            response.StatusCode.Should().Match<int>(c => c == 404 || c == 400 || c == 500);
+        }
+
+
         public async Task<HttpResponseMessage> DeleteConnector(Guid groupId, Guid chargeStationId, int connectorId)
         {
             var response = await Client.DeleteAsync(ConnectorUrl(groupId.ToString(), chargeStationId.ToString(), connectorId.ToString()));

@@ -85,7 +85,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
             return CreatedAtAction(nameof(GetConnector), new { chargeStationId = chargeStation.Id, groupId = chargeStation.GroupId, id = connector.Id.Value }, connectorResponse);
         }
 
-        [HttpPatch("{id}")]
+        [HttpPatch("{connectorId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ConnectorResource))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
