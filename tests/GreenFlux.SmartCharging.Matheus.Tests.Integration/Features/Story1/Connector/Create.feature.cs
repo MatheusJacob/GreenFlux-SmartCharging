@@ -84,20 +84,26 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Features.Story1.Conn
  testRunner.Given("an existing Group with name Group1 and Capacity 100", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 7
+ testRunner.Then("save the last created Group id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 8
  testRunner.Given("a charge station name of C1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
-                        "MaxCurrentAmp"});
+                        "maxCurrentAmp"});
             table5.AddRow(new string[] {
                         "1"});
-#line 8
+#line 9
  testRunner.And("a specific set of connectors", ((string)(null)), table5, "And ");
 #line hidden
-#line 11
+#line 12
  testRunner.When("the Charge Station is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 12
+#line 13
  testRunner.Then("the Charge Station should be created successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 14
+ testRunner.Then("save the last created charge station id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
         }
         
@@ -108,7 +114,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Features.Story1.Conn
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Successfully create a Connector", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 14
+#line 16
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -131,13 +137,13 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-#line 15
+#line 17
  testRunner.Given("a connector with a max current of 3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 16
+#line 18
  testRunner.When("the connector is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 17
+#line 19
  testRunner.Then("the Connector should be created successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -151,7 +157,7 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Creating a connector without max current", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 19
+#line 21
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -174,10 +180,10 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-#line 20
+#line 22
  testRunner.When("the connector is created with required parameters missing", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 21
+#line 23
  testRunner.Then("the Connector should not be created successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -191,7 +197,7 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Creating a connector with empty max current", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 23
+#line 25
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -214,13 +220,13 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-#line 24
+#line 26
  testRunner.Given("a connector with a max current of 0", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 25
+#line 27
  testRunner.When("the connector is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 26
+#line 28
  testRunner.Then("the Connector should not be created successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -234,7 +240,7 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Trying to create a connector with a Charge Station that doesn\'t exist", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 28
+#line 30
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -257,16 +263,16 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-#line 29
+#line 31
  testRunner.Given("a connector with a max current of 5", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 30
+#line 32
  testRunner.And("the wrong charge station is provided", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 31
+#line 33
  testRunner.When("the connector is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 32
+#line 34
  testRunner.Then("should not find the charge station", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -280,7 +286,7 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Trying to create more than 5 connectors for a charge station", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 34
+#line 36
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -304,7 +310,7 @@ this.ScenarioInitialize(scenarioInfo);
 this.FeatureBackground();
 #line hidden
                 TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
-                            "MaxCurrentAmp"});
+                            "maxCurrentAmp"});
                 table6.AddRow(new string[] {
                             "2"});
                 table6.AddRow(new string[] {
@@ -317,34 +323,34 @@ this.FeatureBackground();
                             "6"});
                 table6.AddRow(new string[] {
                             "7"});
-#line 35
+#line 37
  testRunner.Given("a specific set of connectors", ((string)(null)), table6, "Given ");
 #line hidden
-#line 43
+#line 45
  testRunner.When("the connectors are created sequencially", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
                 TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
                             "expectedConnectorId",
-                            "created"});
+                            "action"});
                 table7.AddRow(new string[] {
                             "2",
-                            "true"});
+                            "created"});
                 table7.AddRow(new string[] {
                             "3",
-                            "true"});
+                            "created"});
                 table7.AddRow(new string[] {
                             "4",
-                            "true"});
+                            "created"});
                 table7.AddRow(new string[] {
                             "5",
-                            "true"});
+                            "created"});
                 table7.AddRow(new string[] {
                             "5",
-                            "false"});
+                            "failToCreate"});
                 table7.AddRow(new string[] {
                             "5",
-                            "false"});
-#line 44
+                            "failToCreate"});
+#line 46
  testRunner.Then("the expected results should be", ((string)(null)), table7, "Then ");
 #line hidden
             }
@@ -352,13 +358,13 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Creating/Deleting a chain of connectors should evaluate the right connector id")]
-        public virtual void CreatingDeletingAChainOfConnectorsShouldEvaluateTheRightConnectorId()
+        [NUnit.Framework.DescriptionAttribute("Creating/Deleting a chain of connectors should evaluate the right connectors id")]
+        public virtual void CreatingDeletingAChainOfConnectorsShouldEvaluateTheRightConnectorsId()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Creating/Deleting a chain of connectors should evaluate the right connector id", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 53
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Creating/Deleting a chain of connectors should evaluate the right connectors id", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 55
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -381,73 +387,130 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-#line 54
- testRunner.Given("a connector max current of <maxCurrentAmp>", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 55
- testRunner.When("the connector is <action>", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 56
- testRunner.Then("the expected result should be <created>", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
                 TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
-                            "MaxCurrentAmp",
+                            "maxCurrentAmp",
                             "expectedConnectorId",
                             "action"});
                 table8.AddRow(new string[] {
-                            "1",
-                            "1",
-                            "created"});
-                table8.AddRow(new string[] {
                             "2",
                             "2",
-                            "created"});
+                            "create"});
                 table8.AddRow(new string[] {
                             "3",
                             "3",
-                            "created"});
+                            "create"});
                 table8.AddRow(new string[] {
                             "4",
                             "4",
-                            "created"});
+                            "create"});
                 table8.AddRow(new string[] {
                             "4",
                             "4",
-                            "deleted"});
-                table8.AddRow(new string[] {
-                            "3",
-                            "3",
-                            "deleted"});
+                            "delete"});
                 table8.AddRow(new string[] {
                             "3",
                             "3",
-                            "created"});
+                            "delete"});
+                table8.AddRow(new string[] {
+                            "3",
+                            "3",
+                            "create"});
                 table8.AddRow(new string[] {
                             "4",
                             "4",
-                            "created"});
+                            "create"});
                 table8.AddRow(new string[] {
                             "5",
                             "5",
-                            "created"});
+                            "create"});
                 table8.AddRow(new string[] {
                             "2",
+                            "2",
+                            "delete"});
+                table8.AddRow(new string[] {
+                            "3",
+                            "3",
+                            "delete"});
+                table8.AddRow(new string[] {
+                            "2",
+                            "2",
+                            "create"});
+                table8.AddRow(new string[] {
+                            "3",
+                            "3",
+                            "create"});
+                table8.AddRow(new string[] {
+                            "3",
+                            "5",
+                            "delete"});
+                table8.AddRow(new string[] {
+                            "3",
+                            "5",
+                            "delete"});
+                table8.AddRow(new string[] {
+                            "3",
+                            "5",
+                            "create"});
+                table8.AddRow(new string[] {
+                            "3",
+                            "6",
+                            "create"});
+#line 56
+ testRunner.When("a specific set of actions is executed sequencially", ((string)(null)), table8, "When ");
+#line hidden
+                TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
+                            "expectedConnectorId",
+                            "action"});
+                table9.AddRow(new string[] {
+                            "2",
+                            "created"});
+                table9.AddRow(new string[] {
+                            "3",
+                            "created"});
+                table9.AddRow(new string[] {
+                            "4",
+                            "created"});
+                table9.AddRow(new string[] {
+                            "4",
+                            "deleted"});
+                table9.AddRow(new string[] {
+                            "3",
+                            "deleted"});
+                table9.AddRow(new string[] {
+                            "3",
+                            "created"});
+                table9.AddRow(new string[] {
+                            "4",
+                            "created"});
+                table9.AddRow(new string[] {
+                            "5",
+                            "created"});
+                table9.AddRow(new string[] {
                             "2",
                             "deleted"});
-                table8.AddRow(new string[] {
-                            "3",
+                table9.AddRow(new string[] {
                             "3",
                             "deleted"});
-                table8.AddRow(new string[] {
-                            "2",
+                table9.AddRow(new string[] {
                             "2",
                             "created"});
-                table8.AddRow(new string[] {
-                            "3",
+                table9.AddRow(new string[] {
                             "3",
                             "created"});
-#line 57
- testRunner.Then("the expected connector id should be <expectedConnectorId>", ((string)(null)), table8, "Then ");
+                table9.AddRow(new string[] {
+                            "5",
+                            "deleted"});
+                table9.AddRow(new string[] {
+                            "5",
+                            "failToDelete"});
+                table9.AddRow(new string[] {
+                            "5",
+                            "created"});
+                table9.AddRow(new string[] {
+                            "6",
+                            "failToCreate"});
+#line 74
+ testRunner.Then("the expected results should be", ((string)(null)), table9, "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -462,7 +525,7 @@ this.FeatureBackground();
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Creating connectors for different charge stations should not interfere with their" +
                     " connector id", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 73
+#line 94
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -485,90 +548,185 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-#line 74
- testRunner.Given("a connector max current of <maxCurrentAmp>", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 95
+ testRunner.Given("a charge station name of C2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 75
- testRunner.Given("an existing charge station <chargeStationId>", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+                TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
+                            "MaxCurrentAmp"});
+                table10.AddRow(new string[] {
+                            "10"});
+#line 96
+ testRunner.And("a specific set of connectors", ((string)(null)), table10, "And ");
 #line hidden
-#line 76
- testRunner.When("the connector is <action>", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 99
+ testRunner.When("the Charge Station is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 77
- testRunner.Then("the expected result should be <created>", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 100
+ testRunner.Then("the Charge Station should be created successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-                TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
-                            "MaxCurrentAmp",
+#line 101
+ testRunner.Then("save the last created charge station id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 102
+ testRunner.Given("a group name G2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 103
+ testRunner.And("a capacity of 100", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 104
+ testRunner.When("the group is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 105
+ testRunner.Then("the group should be created successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 106
+ testRunner.Then("save the last created Group id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 107
+ testRunner.Given("a charge station name of C3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+                TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
+                            "MaxCurrentAmp"});
+                table11.AddRow(new string[] {
+                            "1"});
+#line 108
+ testRunner.And("a specific set of connectors", ((string)(null)), table11, "And ");
+#line hidden
+#line 111
+ testRunner.When("the Charge Station is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 112
+ testRunner.Then("the Charge Station should be created successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 113
+ testRunner.Then("save the last created charge station id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 114
+ testRunner.Given("a charge station name of C4", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+                TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
+                            "MaxCurrentAmp"});
+                table12.AddRow(new string[] {
+                            "1"});
+#line 115
+ testRunner.And("a specific set of connectors", ((string)(null)), table12, "And ");
+#line hidden
+#line 118
+ testRunner.When("the Charge Station is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 119
+ testRunner.Then("the Charge Station should be created successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 120
+ testRunner.Then("save the last created charge station id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+                TechTalk.SpecFlow.Table table13 = new TechTalk.SpecFlow.Table(new string[] {
+                            "maxCurrentAmp",
                             "expectedConnectorId",
                             "chargeStationId",
+                            "groupId",
                             "action"});
-                table9.AddRow(new string[] {
+                table13.AddRow(new string[] {
                             "1",
-                            "1",
-                            "1",
-                            "created"});
-                table9.AddRow(new string[] {
                             "2",
+                            "0",
+                            "0",
+                            "create"});
+                table13.AddRow(new string[] {
                             "2",
-                            "1",
-                            "created"});
-                table9.AddRow(new string[] {
                             "3",
+                            "0",
+                            "0",
+                            "create"});
+                table13.AddRow(new string[] {
                             "3",
-                            "1",
-                            "created"});
-                table9.AddRow(new string[] {
                             "4",
+                            "0",
+                            "0",
+                            "create"});
+                table13.AddRow(new string[] {
                             "4",
-                            "1",
-                            "created"});
-                table9.AddRow(new string[] {
-                            "4",
-                            "1",
-                            "2",
-                            "deleted"});
-                table9.AddRow(new string[] {
-                            "3",
-                            "2",
-                            "2",
-                            "deleted"});
-                table9.AddRow(new string[] {
-                            "3",
-                            "3",
-                            "2",
-                            "created"});
-                table9.AddRow(new string[] {
-                            "4",
-                            "4",
-                            "2",
-                            "created"});
-                table9.AddRow(new string[] {
                             "5",
+                            "0",
+                            "0",
+                            "create"});
+                table13.AddRow(new string[] {
                             "4",
                             "2",
-                            "deleted"});
-                table9.AddRow(new string[] {
-                            "2",
-                            "4",
                             "1",
-                            "deleted"});
-                table9.AddRow(new string[] {
+                            "0",
+                            "create"});
+                table13.AddRow(new string[] {
+                            "3",
+                            "3",
+                            "1",
+                            "0",
+                            "create"});
+                table13.AddRow(new string[] {
                             "3",
                             "4",
                             "1",
-                            "created"});
-                table9.AddRow(new string[] {
-                            "2",
+                            "0",
+                            "create"});
+                table13.AddRow(new string[] {
                             "4",
-                            "2",
-                            "created"});
-                table9.AddRow(new string[] {
-                            "2",
+                            "5",
+                            "1",
+                            "0",
+                            "create"});
+                table13.AddRow(new string[] {
                             "5",
                             "2",
-                            "created"});
-#line 78
- testRunner.Then("the expected connector id should be <expectedConnectorId>", ((string)(null)), table9, "Then ");
+                            "2",
+                            "1",
+                            "create"});
+                table13.AddRow(new string[] {
+                            "2",
+                            "3",
+                            "2",
+                            "1",
+                            "create"});
+                table13.AddRow(new string[] {
+                            "3",
+                            "4",
+                            "2",
+                            "1",
+                            "create"});
+                table13.AddRow(new string[] {
+                            "2",
+                            "5",
+                            "2",
+                            "1",
+                            "create"});
+                table13.AddRow(new string[] {
+                            "5",
+                            "2",
+                            "3",
+                            "1",
+                            "create"});
+                table13.AddRow(new string[] {
+                            "2",
+                            "3",
+                            "3",
+                            "1",
+                            "create"});
+                table13.AddRow(new string[] {
+                            "3",
+                            "4",
+                            "3",
+                            "1",
+                            "create"});
+                table13.AddRow(new string[] {
+                            "2",
+                            "5",
+                            "3",
+                            "1",
+                            "create"});
+#line 121
+ testRunner.When("a specific set of actions is executed sequencially", ((string)(null)), table13, "When ");
+#line hidden
+#line 139
+ testRunner.Then("all actions should be executed successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

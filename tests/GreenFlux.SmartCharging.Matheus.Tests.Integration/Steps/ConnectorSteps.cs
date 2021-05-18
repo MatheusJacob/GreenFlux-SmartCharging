@@ -26,7 +26,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             _scenarioContext = scenarioContext;
             _scenarioContext["createConnector"] = new SaveConnectorResource();
 
-            _scenarioContext["grops"] = new List<HttpResponseMessage>();
+            _scenarioContext["groups"] = new List<HttpResponseMessage>();
             _scenarioContext["chargeStations"] = new List<HttpResponseMessage>();
             _scenarioContext["connectors"] = new List<HttpResponseMessage>();
             _groupDriver = groupDriver;
@@ -41,9 +41,52 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         }
 
         [Given("the wrong charge station is provided")]
-        public void WhenTheWrongChargeStationIsProvided()
+        public void GivenTheWrongChargeStationIsProvided()
         {
             _scenarioContext["createdChargeStation"] = new ChargeStationResource() { Id = new Guid() };
+        }
+
+        [When("a specific set of actions is executed sequencially")]
+        public async Task WhenASpecificSetOfActionsIsExecutedSequencially(Table setOfActions)
+        {
+            _scenarioContext["actions"] = setOfActions;
+            _scenarioContext["createdChargeStationResponse"].Should().NotBeNull();
+            ((SaveChargeStationResource)_scenarioContext["createChargeStation"]).Connectors.Should().NotBeEmpty();
+
+            foreach (var action in setOfActions.Rows)
+            {
+                if(action["action"] == "create")
+                {
+                    float maxCurrentAmp;
+                    SaveConnectorResource saveConnector = new SaveConnectorResource();
+                    float.TryParse(action["maxCurrentAmp"], out maxCurrentAmp).Should().BeTrue();
+                    saveConnector.MaxCurrentAmp = maxCurrentAmp;
+                    _scenarioContext["createConnector"] = saveConnector;
+                    if (setOfActions.Header.Contains("chargeStationId"))
+                    {
+                        int chargeStationIndex;
+                        int.TryParse(action["chargeStationId"], out chargeStationIndex).Should().BeTrue();
+
+                        _scenarioContext["createdChargeStation"] = await _connectorDriver.ParseFromResponse<ChargeStationResource>(((List<HttpResponseMessage>)_scenarioContext["chargeStations"])[chargeStationIndex]);
+                    }
+                    if (setOfActions.Header.Contains("groupId"))
+                    {
+                        int groupIndex;
+                        int.TryParse(action["groupId"], out groupIndex).Should().BeTrue();
+
+                        _scenarioContext["createdGroupResponse"] = ((List<HttpResponseMessage>)_scenarioContext["groups"])[groupIndex];
+                    }
+                    await WhenTheConnectorIsCreated();
+                    ((List<HttpResponseMessage>)_scenarioContext["connectors"]).Add((HttpResponseMessage)_scenarioContext["createdConnector"]);
+                }
+                else
+                {
+                    int connectorId;
+                    int.TryParse(action["expectedConnectorId"], out connectorId).Should().BeTrue();
+                    await WhenTheConnectorIsDeleted(connectorId);
+                    ((List<HttpResponseMessage>)_scenarioContext["connectors"]).Add((HttpResponseMessage)_scenarioContext["deletedConnectorResponse"]);
+                }               
+            }
         }
 
         [When("the connectors are created sequencially")]
@@ -126,11 +169,14 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
                 int.TryParse(row["expectedConnectorId"], out expectedConnectorId).Should().BeTrue();
 
                 _scenarioContext["createdConnector"] = connectorsResponse[i];
-                await ThenTheExpectedResultShouldBe(row["created"]);
-                if(row["created"] == "true")
+                _scenarioContext["deletedConnectorResponse"] = connectorsResponse[i];
+                _scenarioContext["deletedConnectorId"] = expectedConnectorId;
+
+                await ThenTheExpectedResultShouldBe(row["action"]);
+                if(row["action"] == "created")
                     await ThenTheExpectedConnectorIdShouldBe(expectedConnectorId);              
             }
-        }
+        }      
 
         [Then("the Connector should be created successfully")]
         public async Task ThenTheConnectorShouldBeCreatedSuccessfully()
@@ -146,14 +192,8 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
 
         [Then("the connector should be deleted successfully")]
         public async Task ThenTheConnectorShouldBeDeletedSuccessfully()
-        {
-            GroupResource group = await _connectorDriver.ParseFromResponse<GroupResource>((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
-            ChargeStationResource chargeStation = await _connectorDriver.ParseFromResponse<ChargeStationResource>((HttpResponseMessage)_scenarioContext["createdChargeStationResponse"]);
-
-            await _connectorDriver.ShouldDeleteSuccessfully((HttpResponseMessage)_scenarioContext["deletedConnectorResponse"],
-                group.Id,
-                chargeStation.Id,
-                (int)_scenarioContext["deletedConnectorId"]);
+        {        
+            await _connectorDriver.ShouldDeleteSuccessfully((HttpResponseMessage)_scenarioContext["deletedConnectorResponse"]);
         }
 
         [Then("the connector should not be deleted successfully")]
@@ -171,10 +211,14 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         [Then(@"the expected result should be (.*)")]
         public async Task ThenTheExpectedResultShouldBe(string expectedResult)
         {
-            if (expectedResult.ToLower() == "true")
+            if (expectedResult.ToLower() == "created")
                 await ThenTheConnectorShouldBeCreatedSuccessfully();
-            else
+            if (expectedResult.ToLower() == "failtocreate")
                 ThenTheConnectorShouldNotBeCreatedSuccessfully();
+            if (expectedResult.ToLower() == "deleted")
+                await ThenTheConnectorShouldBeDeletedSuccessfully();
+            if (expectedResult.ToLower() == "failtodelete")
+                ThenTheConnectorShouldNotBeDeletedSuccessfully();
         }
 
         [Then(@"the expected connector Id should be (.*)")]
@@ -184,6 +228,42 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             createdConnector.Id.Should().Be(connectorId);
         }
 
+        [Then(@"save the last created charge station id")]
+        public void ThenSaveTheLastCreatedChargeStationId()
+        {
+            _scenarioContext.Should().ContainKey("chargeStations");
+            ((List<HttpResponseMessage>)_scenarioContext["chargeStations"]).Add((HttpResponseMessage)_scenarioContext["createdChargeStationResponse"]);
 
+        }
+
+        [Then(@"save the last created Group id")]
+        public void ThenSaveTheLastCreatedGroupId()
+        {
+            _scenarioContext.Should().ContainKey("groups");
+            ((List<HttpResponseMessage>)_scenarioContext["groups"]).Add((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+        }
+
+        [Then(@"all actions should be executed successfully")]
+        public async Task ThenAllActionsShouldBeExecutedSuccessfully()
+        {
+            _scenarioContext.Should().ContainKey("connectors");
+            _scenarioContext.Should().ContainKey("actions");
+
+            Table actions = ((Table)_scenarioContext["actions"]);
+            List<HttpResponseMessage> connectorsCreated = (List<HttpResponseMessage>)_scenarioContext["connectors"];
+
+            actions.Rows.Count.Should().Be(connectorsCreated.Count);
+
+            for (int i = 0; i < actions.Rows.Count; i++)
+            {
+                connectorsCreated[i].StatusCode.Should().Be(201);
+                ConnectorResource connector = await _connectorDriver.ParseFromResponse<ConnectorResource>(connectorsCreated[i]);
+
+                TableRow row = actions.Rows[i];
+                int expectedConnectorId;
+                int.TryParse(row["expectedConnectorId"], out expectedConnectorId).Should().BeTrue();
+                connector.Id.Should().Be(expectedConnectorId);
+            }
+        }
     }
 }
