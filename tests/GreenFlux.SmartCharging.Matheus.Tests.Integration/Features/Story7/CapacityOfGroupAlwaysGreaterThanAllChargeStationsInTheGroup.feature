@@ -74,6 +74,39 @@ Given a specific set of Charge Stations
 	|6 |
 	When the Charge Station is created
 	Then the Charge Station should not be created successfully
+
+Scenario: Add connectors until capacity is over with floating data
+Given a specific set of Charge Stations
+	| name | connectors |
+	| CS1  | 1.3        |
+	| CS2  | 1.7        |
+	| CS3  | 1.9        |
+	| CS4  | 1.1        |
+	| CS5  | 1.555      |
+	| CS6  | 1.455      |
+	| CS7  | 1          |
+	| CS8  | 1          |
+	| CS9  | 1          |
+	| CS10 | 1          |
+	| CS11 | 1          |
+	| CS12 | 1          |
+	| CS13 | 1          |
+	| CS14 | 1          |
+	| CS15 | 1          |
+	| CS16 | 1          |
+	| CS17 | 1          |
+	When create all Charge Stations
+	Then Should create all charge stations successfully
+	When listing all charge stations from a group
+	Then Should have 18 charge stations
+	Then Should create successfully 4 connectors with 1 max current for all charge stations
+	Given a charge station name of C19
+	And a specific set of connectors
+	|maxCurrentAmp|
+	|6 |
+	When the Charge Station is created
+	Then the Charge Station should not be created successfully
+
 Scenario: Patch connectors until capacity is over
 Given a specific set of Charge Stations
 	| name | connectors |
@@ -105,10 +138,3 @@ Given a specific set of Charge Stations
 	|6 |
 	When the Charge Station is created
 	Then the Charge Station should not be created successfully
-Scenario: Group already with maximum capacity and you try to append a new charge station
-
-Scenario: Group already with maximum capacity and you try to update a connectors max current
-
-Scenario: Group already with maximum capacity but you decrease a conector max current, and increase another connector max current
-
-Scenario: You have a group with maximum capacity, then you add another group and add charge stations to the new group
