@@ -90,8 +90,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         [Then("the group should not exist anymore")]
         public async Task ThenTheGroupShouldNotExistAnymore()
         {
-            await _groupDriver.ShouldDeleteSuccessfully((HttpResponseMessage)_scenarioContext["deletedGroupResponse"],
-                (Guid)_scenarioContext["deletedGroupId"]);
+            await _groupDriver.ShouldDeleteSuccessfully((HttpResponseMessage)_scenarioContext["deletedGroupResponse"]);
         }
 
         [Then("no group was deleted")]

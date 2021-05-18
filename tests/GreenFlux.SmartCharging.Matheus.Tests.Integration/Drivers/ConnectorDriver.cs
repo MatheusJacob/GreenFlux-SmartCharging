@@ -67,11 +67,9 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
             response.StatusCode.Should().Be(404);
         }
 
-        public async Task ShouldDeleteSuccessfully(HttpResponseMessage response, Guid groupId, Guid chargeStationId, int deletedConnectorId)
+        public async Task ShouldDeleteSuccessfully(HttpResponseMessage response)
         {
-            response.StatusCode.Should().Be(204);
-            var getConnectorResponse = await this.GetConnector(groupId, chargeStationId, deletedConnectorId);
-            getConnectorResponse.StatusCode.Should().Be(404);
+            response.StatusCode.Should().Be(204);            
         }
 
     }

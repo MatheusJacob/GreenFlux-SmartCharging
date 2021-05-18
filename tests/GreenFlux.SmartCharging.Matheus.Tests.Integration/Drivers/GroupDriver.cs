@@ -17,11 +17,9 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
             GroupApiUrl = ApiUrl + "groups/";
         }
 
-        public async Task ShouldDeleteSuccessfully(HttpResponseMessage response, Guid deletedGroupId)
+        public async Task ShouldDeleteSuccessfully(HttpResponseMessage response)
         {     
-            response.StatusCode.Should().Be(204);
-            var getGroupResponse = await this.GetGroup(deletedGroupId);
-            getGroupResponse.StatusCode.Should().Be(404);
+            response.StatusCode.Should().Be(204);            
         }
 
         public async Task ShouldNotFindTheGroup(HttpResponseMessage response)
