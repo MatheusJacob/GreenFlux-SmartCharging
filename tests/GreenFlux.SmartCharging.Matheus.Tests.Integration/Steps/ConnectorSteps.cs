@@ -179,6 +179,16 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             await _connectorDriver.ShouldUpdateConnectorSuccessfully((HttpResponseMessage)_scenarioContext["updatedConnector"], patchConnectorResource);
         }
 
+        [Then(@"the connector should not be updated successfully")]
+        public void ThenTheConnectorShoulNotdBeUpdatedSuccessfully()
+        {
+            PatchConnectorResource patchConnectorResource = new PatchConnectorResource()
+            {
+                MaxCurrentAmp = ((SaveConnectorResource)_scenarioContext["createConnector"]).MaxCurrentAmp
+            };
+
+            _connectorDriver.ShouldNotUpdateConnectorSuccessfully((HttpResponseMessage)_scenarioContext["updatedConnector"]);
+        }
 
         [Then("the expected results should be")]
         public async Task TheExpectedResultsShouldBe(Table expectedResults)
