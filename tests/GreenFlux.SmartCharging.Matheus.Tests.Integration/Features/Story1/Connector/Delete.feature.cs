@@ -109,18 +109,18 @@ this.ScenarioInitialize(scenarioInfo);
 #line 7
  testRunner.Given("a charge station name of C1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
                             "MaxCurrentAmp"});
-                table8.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "1"});
-                table8.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "2"});
-                table8.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "3"});
-                table8.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "4"});
 #line 8
- testRunner.Given("a specific set of connectors", ((string)(null)), table8, "Given ");
+ testRunner.Given("a specific set of connectors", ((string)(null)), table10, "Given ");
 #line hidden
 #line 14
  testRunner.When("the Charge Station is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -168,18 +168,18 @@ testRunner.Given("an existing Group with name Group1 and Capacity 100", ((string
 #line 20
  testRunner.Given("a charge station name of C1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
                             "MaxCurrentAmp"});
-                table9.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "1"});
-                table9.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "2"});
-                table9.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "3"});
-                table9.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "4"});
 #line 21
- testRunner.Given("a specific set of connectors", ((string)(null)), table9, "Given ");
+ testRunner.Given("a specific set of connectors", ((string)(null)), table11, "Given ");
 #line hidden
 #line 27
  testRunner.When("the Charge Station is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");

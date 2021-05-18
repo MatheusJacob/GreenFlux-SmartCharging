@@ -4,36 +4,50 @@ Feature: Create a Connector
 
 Background: 
 	Given an existing Group with name Group1 and Capacity 100
-	Given an existing Charge station with name C1
-	
+	Given a charge station name of C1
+	And a specific set of connectors
+	|MaxCurrentAmp|
+	|1 |
+	When the Charge Station is created
+	Then the Charge Station should be created successfully
+
 Scenario: Successfully create a Connector
-	Given a connector max current of 1	
+	Given a connector with a max current of 3
 	When the connector is created
-	Then the connector should be created successfully
+	Then the Connector should be created successfully
 
 Scenario: Creating a connector without max current
+	When the connector is created with required parameters missing
+	Then the Connector should not be created successfully
+
+Scenario: Creating a connector with empty max current
+	Given a connector with a max current of 0
 	When the connector is created
-	Then the connector should not be created successfully
+	Then the Connector should not be created successfully
 
 Scenario: Trying to create a connector with a Charge Station that doesn't exist
-	Given a connector max current of 1	
-	When the connector is created for the wrong Charge Station
+	Given a connector with a max current of 5
+	And the wrong charge station is provided
+	When the connector is created
 	Then should not find the charge station
 
-Scenario Outline: Trying to create more than 5 connectors for a charge station
-	Given a connector max current of <maxCurrentAmp>	
-	When the connector is created
-	Then the expected result should be <created>
-	Then the expected connector id should be <expectedConnectorId>
-	| MaxCurrentAmp | expectedConnectorId | created |
-	| 5             | 1                   | true    |
-	| 3             | 2                   | true    |
-	| 4             | 3                   | true    |
-	| 5             | 4                   | true    |
-	| 5             | 5                   | true    |
-	| 5             | 0                   | false   |
-	| 5             | 0                   | false   |
-	| 5             | 0                   | false   |
+Scenario: Trying to create more than 5 connectors for a charge station
+	Given a specific set of connectors
+		|MaxCurrentAmp|
+		|2 |
+		|3 |
+		|4 |
+		|5 |
+		|6 |
+	When the connectors are created sequencially
+	Then the expected results should be
+		| expectedConnectorId | created |
+		| 2                   | true    |
+		| 3                   | true    |
+		| 4                   | true    |
+		| 5                   | true    |
+		| 5                   | false   |
+		| 5                   | false   |
 
 Scenario Outline: Creating/Deleting a chain of connectors should evaluate the right connector id
 	Given a connector max current of <maxCurrentAmp>	
