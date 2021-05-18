@@ -50,7 +50,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         public async Task WhenTheConnectorsAreCreatedSequencially()
         {
             _scenarioContext.Should().ContainKey("createChargeStation");
-            _scenarioContext["createdChargeStation"].Should().NotBeNull();
+            _scenarioContext["createdChargeStationResponse"].Should().NotBeNull();
             ((SaveChargeStationResource)_scenarioContext["createChargeStation"]).Connectors.Should().NotBeEmpty();
             List<SaveConnectorResource> saveConnectors = (List<SaveConnectorResource>)((SaveChargeStationResource)_scenarioContext["createChargeStation"]).Connectors;
 
@@ -69,13 +69,14 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         [When("the connector is created")]
         public async Task WhenTheConnectorIsCreated()
         {
-            _scenarioContext.Should().ContainKey("createdChargeStation");
+            _scenarioContext.Should().ContainKey("createdChargeStationResponse");
             _scenarioContext.Should().ContainKey("createdGroupResponse");
             _scenarioContext["createdGroupResponse"].Should().NotBeNull();
-            _scenarioContext["createdChargeStation"].Should().NotBeNull();
+            _scenarioContext["createdChargeStationResponse"].Should().NotBeNull();
 
             GroupResource groupResponse = await _groupDriver.ParseFromResponse<GroupResource>((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
-            ChargeStationResource chargeStationResource = (ChargeStationResource)_scenarioContext["createdChargeStation"];
+            ChargeStationResource chargeStationResource = _scenarioContext.ContainsKey("createdChargeStation") ? (ChargeStationResource)_scenarioContext["createdChargeStation"] 
+                : await _connectorDriver.ParseFromResponse<ChargeStationResource>((HttpResponseMessage)_scenarioContext["createdChargeStationResponse"]);
 
             SaveConnectorResource createConnector = ((SaveConnectorResource)_scenarioContext["createConnector"]);
             _scenarioContext["createdConnector"] = await _connectorDriver.CreateConnector(groupResponse.Id, chargeStationResource.Id, createConnector.MaxCurrentAmp.Value);
@@ -84,13 +85,13 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         [When("the connector is created with required parameters missing")]
         public async Task WhenTheConnectorIsCreatedWithRequiredParametersMissing()
         {
-            _scenarioContext.Should().ContainKey("createdChargeStation");
+            _scenarioContext.Should().ContainKey("createdChargeStationResponse");
             _scenarioContext.Should().ContainKey("createdGroupResponse");
             _scenarioContext["createdGroupResponse"].Should().NotBeNull();
-            _scenarioContext["createdChargeStation"].Should().NotBeNull();
+            _scenarioContext["createdChargeStationResponse"].Should().NotBeNull();
 
             GroupResource groupResponse = await _groupDriver.ParseFromResponse<GroupResource>((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
-            ChargeStationResource chargeStationResource = await _groupDriver.ParseFromResponse<ChargeStationResource>((HttpResponseMessage)_scenarioContext["createdChargeStation"]);
+            ChargeStationResource chargeStationResource = await _groupDriver.ParseFromResponse<ChargeStationResource>((HttpResponseMessage)_scenarioContext["createdChargeStationResponse"]);
 
             SaveConnectorResource createConnector = ((SaveConnectorResource)_scenarioContext["createConnector"]);
             _scenarioContext["createdConnector"] = await _connectorDriver.CreateConnectorWithEmptyPayload(groupResponse.Id, chargeStationResource.Id);
@@ -100,7 +101,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         public async Task WhenTheConnectorIsDeleted(int connectorId)
         {
             GroupResource groupResource = await _groupDriver.ParseFromResponse<GroupResource>((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
-            ChargeStationResource chargeStationResource = await _chargeStationDriver.ParseFromResponse<ChargeStationResource>((HttpResponseMessage)_scenarioContext["createdChargeStation"]);
+            ChargeStationResource chargeStationResource = await _chargeStationDriver.ParseFromResponse<ChargeStationResource>((HttpResponseMessage)_scenarioContext["createdChargeStationResponse"]);
 
             chargeStationResource.Id.Should().NotBeEmpty();
             chargeStationResource.Name.Should().NotBeEmpty();
@@ -126,7 +127,8 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
 
                 _scenarioContext["createdConnector"] = connectorsResponse[i];
                 await ThenTheExpectedResultShouldBe(row["created"]);
-                await ThenTheExpectedConnectorIdShouldBe(expectedConnectorId);              
+                if(row["created"] == "true")
+                    await ThenTheExpectedConnectorIdShouldBe(expectedConnectorId);              
             }
         }
 
@@ -146,7 +148,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         public async Task ThenTheConnectorShouldBeDeletedSuccessfully()
         {
             GroupResource group = await _connectorDriver.ParseFromResponse<GroupResource>((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
-            ChargeStationResource chargeStation = await _connectorDriver.ParseFromResponse<ChargeStationResource>((HttpResponseMessage)_scenarioContext["createdChargeStation"]);
+            ChargeStationResource chargeStation = await _connectorDriver.ParseFromResponse<ChargeStationResource>((HttpResponseMessage)_scenarioContext["createdChargeStationResponse"]);
 
             await _connectorDriver.ShouldDeleteSuccessfully((HttpResponseMessage)_scenarioContext["deletedConnectorResponse"],
                 group.Id,
