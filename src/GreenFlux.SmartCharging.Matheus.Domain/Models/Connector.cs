@@ -43,7 +43,7 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
             if (needsToRecalculate)
             {
                 if(ChargeStation.Group.CalculateGroupSumCurrentAmp() > ChargeStation.Group.Capacity)
-                    throw new CapacityExceededException(maxCurrentAmp, new List<RemoveSuggestions>());
+                    throw new CapacityExceededException(maxCurrentAmp, new RemoveSuggestions());
             }
 
             ChargeStation.UpdateTotalMaxCurrentAmp(differenceInCurrent);

@@ -13,6 +13,8 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
 
         public float Capacity { get; set; }
 
+        private float GroupSumMaxCurrent { get; set; }
+
         public readonly HashSet<ChargeStation> ChargeStations;
 
         public Group()
@@ -31,7 +33,7 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
         {
             //Todo exception handle + return the options to delete
             if (this.HasExceededCapacity(chargeStation.TotalMaxCurrentAmp))
-                throw new CapacityExceededException(chargeStation.TotalMaxCurrentAmp, new List<RemoveSuggestions>());
+                throw new CapacityExceededException(chargeStation.TotalMaxCurrentAmp, new RemoveSuggestions());
 
             this.ChargeStations.Add(chargeStation);
         }
@@ -52,7 +54,31 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
 
         public bool HasExceededCapacity(float addedMaxCurrentAmp)
         {
-            return ((this.CalculateGroupSumCurrentAmp() + addedMaxCurrentAmp) > this.Capacity);
+            GroupSumMaxCurrent = (this.CalculateGroupSumCurrentAmp() + addedMaxCurrentAmp);
+            return (GroupSumMaxCurrent > this.Capacity);
+        }
+
+        public float GetExceededCapacity()
+        {
+            return Math.Abs(Capacity - GroupSumMaxCurrent);
+        }
+
+        public RemoveSuggestions GenerateRemoveSuggestions()
+        {            
+            Suggestion suggestion = new Suggestion(new Guid(), 1);
+            SuggestionList suggestionList = new SuggestionList();
+            suggestionList.Add(suggestion);
+            suggestionList.Add(suggestion);
+
+            RemoveSuggestions removeSuggestions = new RemoveSuggestions();
+            removeSuggestions.Add(suggestionList);
+            removeSuggestions.Add(suggestionList);
+            removeSuggestions.Add(suggestionList);
+            removeSuggestions.Add(suggestionList);
+
+
+            return removeSuggestions;
+
         }
     }
 }

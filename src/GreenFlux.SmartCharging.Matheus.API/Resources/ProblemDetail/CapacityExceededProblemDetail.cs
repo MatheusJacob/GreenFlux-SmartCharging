@@ -10,9 +10,9 @@ namespace GreenFlux.SmartCharging.Matheus.API.Resources.ProblemDetail
     public class CapacityExceededProblemDetail : ProblemDetails
     {
         public readonly float ExceededCapacity;
-        public readonly List<RemoveSuggestions> RemoveSuggestions;
+        public readonly RemoveSuggestions RemoveSuggestions;
 
-        public CapacityExceededProblemDetail(float exceededCapacity, List<RemoveSuggestions>  removeSuggestions)
+        public CapacityExceededProblemDetail(float exceededCapacity, RemoveSuggestions  removeSuggestions)
         {
             Title = "Capacity exceeded";
             Status = 400;

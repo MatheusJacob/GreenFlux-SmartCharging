@@ -9,6 +9,10 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
     public class RemoveSuggestions : List<SuggestionList>
     {
         public List<SuggestionList> Suggestions { get; set; }
+        public RemoveSuggestions()
+        {
+
+        }
         public RemoveSuggestions(List<SuggestionList> suggestions)
         {
             Suggestions = suggestions;

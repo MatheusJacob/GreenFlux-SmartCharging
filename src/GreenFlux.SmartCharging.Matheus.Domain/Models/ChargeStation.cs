@@ -72,7 +72,7 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
 
             ////improve efficiency with a segmented n-ary tree
             if (this.Group != null && this.Group.HasExceededCapacity(connector.MaxCurrentAmp))
-                throw new CapacityExceededException(connector.MaxCurrentAmp, new List<RemoveSuggestions>());
+                throw new CapacityExceededException(connector.MaxCurrentAmp, new RemoveSuggestions());
 
             if (!connector.Id.HasValue)
             {
