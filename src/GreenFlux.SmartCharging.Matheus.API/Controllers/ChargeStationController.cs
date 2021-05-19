@@ -9,6 +9,7 @@ using GreenFlux.SmartCharging.Matheus.Data;
 using GreenFlux.SmartCharging.Matheus.Domain.Models;
 using AutoMapper;
 using GreenFlux.SmartCharging.Matheus.API.Resources;
+using GreenFlux.SmartCharging.Matheus.Domain.Exceptions;
 
 namespace GreenFlux.SmartCharging.Matheus.API.Controllers
 {
@@ -74,10 +75,19 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
             Group group = await _context.Group.Include(g => g.ChargeStations).ThenInclude(c => c.Connectors).FirstOrDefaultAsync(g => g.Id == groupId);
             if (group == null)
                 return NotFound("Group not found");
-            
+
+            ////improve efficiency with a segmented n-ary tree
+            if (group.HasExceededCapacity(saveChargeStation.Connectors.Sum(c => c.MaxCurrentAmp).Value))
+            {
+                List<Connector> connectors = (List<Connector>)_context.Connector.Where(c => c.ChargeStation.GroupId == groupId).OrderBy(o => o.MaxCurrentAmp);
+                float excdeededCapacity = group.GetExceededCapacity();
+
+                throw new CapacityExceededException(excdeededCapacity, group.GenerateRemoveSuggestions(excdeededCapacity, connectors));
+            }
+
             ChargeStation chargeStation = _mapper.Map<ChargeStation>(saveChargeStation);
             group.AppendChargeStation(chargeStation);
-
+            
             await _context.ChargeStation.AddAsync(chargeStation);
 
             await _context.SaveChangesAsync();

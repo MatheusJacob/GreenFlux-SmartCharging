@@ -30,11 +30,7 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
         }
 
         public void AppendChargeStation(ChargeStation chargeStation)
-        {
-            //Todo exception handle + return the options to delete
-            if (this.HasExceededCapacity(chargeStation.TotalMaxCurrentAmp))
-                throw new CapacityExceededException(chargeStation.TotalMaxCurrentAmp, new RemoveSuggestions());
-
+        {            
             this.ChargeStations.Add(chargeStation);
         }
 
@@ -63,8 +59,13 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
             return Math.Abs(Capacity - GroupSumMaxCurrent);
         }
 
-        public RemoveSuggestions GenerateRemoveSuggestions()
-        {            
+        public RemoveSuggestions GenerateRemoveSuggestions(float exceededCapacity, List<Connector> connectors)
+        {
+            foreach (var connector in connectors)
+            {
+
+            }
+
             Suggestion suggestion = new Suggestion(new Guid(), 1);
             SuggestionList suggestionList = new SuggestionList();
             suggestionList.Add(suggestion);

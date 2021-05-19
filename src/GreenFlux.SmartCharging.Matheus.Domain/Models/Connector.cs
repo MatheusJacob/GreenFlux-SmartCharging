@@ -36,15 +36,8 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
         public void ChangeMaxCurrentAmp(float maxCurrentAmp)
         {
             float differenceInCurrent = maxCurrentAmp - this.MaxCurrentAmp;
-            bool needsToRecalculate = maxCurrentAmp > this.MaxCurrentAmp;
 
             this.MaxCurrentAmp = maxCurrentAmp;
-
-            if (needsToRecalculate)
-            {
-                if(ChargeStation.Group.CalculateGroupSumCurrentAmp() > ChargeStation.Group.Capacity)
-                    throw new CapacityExceededException(maxCurrentAmp, new RemoveSuggestions());
-            }
 
             ChargeStation.UpdateTotalMaxCurrentAmp(differenceInCurrent);
         }        

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GreenFlux.SmartCharging.Matheus.API.Resources;
 using GreenFlux.SmartCharging.Matheus.Data;
+using GreenFlux.SmartCharging.Matheus.Domain.Exceptions;
 using GreenFlux.SmartCharging.Matheus.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -76,6 +77,15 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
             if (!group.ChargeStations.TryGetValue(new ChargeStation(chargeStationId), out chargeStation))
                 return NotFound("Charge station not found");
 
+            if (group.HasExceededCapacity(saveConnector.MaxCurrentAmp.Value))
+            {
+                var test = _context.Connector.Where(c => c.ChargeStation.GroupId == groupId).OrderBy(o => o.MaxCurrentAmp).ToList();
+                List<Connector> connectors = _context.Connector.Where(c => c.ChargeStation.GroupId == groupId).OrderBy(o => o.MaxCurrentAmp).ToList<Connector>();
+                float excdeededCapacity = group.GetExceededCapacity();
+
+                throw new CapacityExceededException(excdeededCapacity, group.GenerateRemoveSuggestions(excdeededCapacity, connectors));
+
+            }
             chargeStation.SyncConnectorIds();
             chargeStation.AppendConnector(connector);
 
@@ -107,8 +117,17 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
                 return NotFound("Connector not found");
 
             if (patchConnectorResource.MaxCurrentAmp.HasValue)
-                connector.ChangeMaxCurrentAmp(patchConnectorResource.MaxCurrentAmp.Value);
+            {
+                if (patchConnectorResource.MaxCurrentAmp.Value > connector.MaxCurrentAmp && group.HasExceededCapacity(patchConnectorResource.MaxCurrentAmp.Value - connector.MaxCurrentAmp))
+                {
+                    List<Connector> connectors = (List<Connector>)_context.Connector.Where(c => c.ChargeStation.GroupId == groupId).OrderBy(o => o.MaxCurrentAmp);
+                    float excdeededCapacity = group.GetExceededCapacity();
 
+                    throw new CapacityExceededException(excdeededCapacity, group.GenerateRemoveSuggestions(excdeededCapacity, connectors));
+                }
+                connector.ChangeMaxCurrentAmp(patchConnectorResource.MaxCurrentAmp.Value);
+            }
+            
             await _context.SaveChangesAsync();
             ConnectorResource connectorUpdated = _mapper.Map<ConnectorResource>(connector);
             return Ok(connectorUpdated);
