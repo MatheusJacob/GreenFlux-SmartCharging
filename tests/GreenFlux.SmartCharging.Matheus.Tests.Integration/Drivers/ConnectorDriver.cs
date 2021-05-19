@@ -103,9 +103,9 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
             response.StatusCode.Should().Be(404);
         }
 
-        public async Task ShouldDeleteSuccessfully(HttpResponseMessage response)
+        public void ShouldDeleteSuccessfully(HttpResponseMessage response)
         {
-            response.StatusCode.Should().Be(204);            
+            response.StatusCode.Should().Be(204);
         }
 
     }

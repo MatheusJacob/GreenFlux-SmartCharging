@@ -17,12 +17,12 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
             GroupApiUrl = ApiUrl + "groups/";
         }
 
-        public async Task ShouldDeleteSuccessfully(HttpResponseMessage response)
-        {     
-            response.StatusCode.Should().Be(204);            
+        public void ShouldDeleteSuccessfully(HttpResponseMessage response)
+        {
+            response.StatusCode.Should().Be(204);
         }
 
-        public async Task ShouldNotFindTheGroup(HttpResponseMessage response)
+        public void ShouldNotFindTheGroup(HttpResponseMessage response)
         {
             response.StatusCode.Should().Be(404);
         }

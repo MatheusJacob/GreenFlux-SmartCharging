@@ -228,9 +228,9 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         }
 
         [Then("the connector should be deleted successfully")]
-        public async Task ThenTheConnectorShouldBeDeletedSuccessfully()
-        {        
-            await _connectorDriver.ShouldDeleteSuccessfully((HttpResponseMessage)_scenarioContext["deletedConnectorResponse"]);
+        public void ThenTheConnectorShouldBeDeletedSuccessfully()
+        {
+            _connectorDriver.ShouldDeleteSuccessfully((HttpResponseMessage)_scenarioContext["deletedConnectorResponse"]);
         }
 
         [Then("the connector should not be deleted successfully")]
@@ -253,7 +253,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             if (expectedResult.ToLower() == "failtocreate")
                 ThenTheConnectorShouldNotBeCreatedSuccessfully();
             if (expectedResult.ToLower() == "deleted")
-                await ThenTheConnectorShouldBeDeletedSuccessfully();
+                ThenTheConnectorShouldBeDeletedSuccessfully();
             if (expectedResult.ToLower() == "failtodelete")
                 ThenTheConnectorShouldNotBeDeletedSuccessfully();
         }
