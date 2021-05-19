@@ -12,7 +12,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Validators
         public SaveGroupValidator()
         {
             RuleFor(g => g.Name).NotEmpty().WithMessage("'Name' field is required");
-            RuleFor(g => g.Capacity).NotNull().WithMessage("'Capacity' field is required");
+            RuleFor(g => g.Capacity).NotEmpty().WithMessage("'Capacity' field is required");
             RuleFor(g => g.Capacity).GreaterThan(0).WithMessage("'Capacity' field must be greater than 0");
             RuleFor(g => g.Capacity).LessThan(float.MaxValue).WithMessage($"'Capacity' field must be less than {float.MaxValue.ToString()}");
         }
