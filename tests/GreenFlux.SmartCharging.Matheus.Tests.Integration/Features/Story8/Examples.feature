@@ -1,34 +1,27 @@
-﻿Feature: Some aditional scenarios
-	Aditional scenarios to cover the suggestions
+﻿Feature: Examples provided on documentation
+	All examples provided on the documentation
 
-Scenario: with lots of small connectors
+Scenario: A
 	Given an existing Group with name G1 and Capacity 100
 	Given a specific set of Charge Stations
-	| name | connectors |
-	| A    | 1,1,1,1,1  |
-	| B    | 2,2,2,2,2  |
-	| C    | 20,10,31  |
+	| name | connectors     |
+	| A    | 10,10,10,10,10 |
+	| B    | 20,20          |
 	When create all Charge Stations
 	Then Should create all charge stations successfully
 	When listing all charge stations from a group
-	Then Should have 3 charge stations
-	Given a connector with a max current of 31	
+	Then Should have 2 charge stations
+	Given a connector with a max current of 15	
 	When the connector is created
 	Then the Connector should not be created successfully
 	Then the create connector response should contain at least a suggestion
 	Then the remove suggestion response should have this specific results
 		| suggestionListPosition | chargeStationId | connectorId |
 		| 1                      | 1               | 1           |
-		| 1                      | 1               | 2           |
-		| 1                      | 1               | 3           |
-		| 1                      | 1               | 4           |
-		| 1                      | 1               | 5           |
-		| 1                      | 2               | 1           |
-		| 1                      | 2               | 2           |
-		| 1                      | 2               | 3           |
-		| 1                      | 2               | 4           |
-		| 1                      | 2               | 5           |
-		| 1                      | 3               | 2           |
+		| 2                      | 1               | 2           |
+		| 3                      | 1               | 3           |
+		| 4                      | 1               | 4           |
+		| 5                      | 1               | 5           |
 
 Scenario: B
 	Given an existing Group with name G1 and Capacity 100

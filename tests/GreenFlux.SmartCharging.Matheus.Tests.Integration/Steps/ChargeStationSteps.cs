@@ -92,6 +92,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             {
                 var response = await _chargeStationDriver.CreateChargeStation(groupResponse.Id, item.Name, item.Connectors);
                 ((List<HttpResponseMessage>)_scenarioContext["chargeStationListResponses"]).Add(response);
+                _scenarioContext["createdChargeStationResponse"] = response;
             }
         }
 
@@ -213,7 +214,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         }
 
         [Then("should not find the group")]
-        public async Task ThenShouldNotFindTheGroup()
+        public void ThenShouldNotFindTheGroup()
         {
             _groupDriver.ShouldNotFindTheGroup((HttpResponseMessage)_scenarioContext["createdChargeStationResponse"]);
         }

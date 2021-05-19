@@ -21,7 +21,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         private readonly ChargeStationDriver _chargeStationDriver;
         
         public ConnectorSteps(ScenarioContext scenarioContext, ConnectorDriver connectorDriver, GroupDriver groupDriver,
-            ChargeStationDriver chargeStationDriver)
+            ChargeStationDriver chargeStationDriver, SuggestionDriver suggestionDriver)
         {
             _scenarioContext = scenarioContext;
             _scenarioContext["createConnector"] = new SaveConnectorResource();
