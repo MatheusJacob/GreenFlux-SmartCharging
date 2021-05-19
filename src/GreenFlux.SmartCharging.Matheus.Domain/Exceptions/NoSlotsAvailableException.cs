@@ -7,15 +7,12 @@ using System.Threading.Tasks;
 
 namespace GreenFlux.SmartCharging.Matheus.Domain.Exceptions
 {
-    public class NoSlotsAvailableException : ProblemDetails
+    public class NoSlotsAvailableException : Exception
     {
-        private Guid ChargeStationId { get; set; }
-        public NoSlotsAvailableException(Guid chargeStationId)
-        {
-            Title = "No slots available for the Charge Station";
-            Status = 400;
-            Type = typeof(NoSlotsAvailableException).ToString();
-            Detail = $"No slots available for the Charge Station : {chargeStationId}";
+        public readonly Guid ChargeStationId;
+        public NoSlotsAvailableException(Guid chargeStationId) : 
+            base($"No slots available for the Charge Station : {chargeStationId}")
+        {           
             ChargeStationId = chargeStationId;
         }
     }

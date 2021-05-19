@@ -1,6 +1,5 @@
 using FluentValidation.AspNetCore;
 using GreenFlux.SmartCharging.Matheus.API.Extensions;
-using GreenFlux.SmartCharging.Matheus.API.Filters;
 using GreenFlux.SmartCharging.Matheus.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

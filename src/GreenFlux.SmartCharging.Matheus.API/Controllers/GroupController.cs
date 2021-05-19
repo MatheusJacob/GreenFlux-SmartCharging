@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GreenFlux.SmartCharging.Matheus.API.Resources;
 using GreenFlux.SmartCharging.Matheus.Data;
+using GreenFlux.SmartCharging.Matheus.Domain.Exceptions;
 using GreenFlux.SmartCharging.Matheus.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -68,12 +69,11 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
             if (value.Capacity.HasValue)
             {
                 if (value.Capacity.Value < group.Capacity && group.HasExceededCapacity(group.Capacity - value.Capacity.Value))
-                    throw new Exception("Can't change capacity");
+                    throw new CapacityExceededException(group.Capacity - value.Capacity.Value,new List<RemoveSuggestions>());
 
                 group.Capacity = value.Capacity.Value;
             }
                 
-
             if (!string.IsNullOrEmpty(value.Name))
                 group.Name = value.Name;
 

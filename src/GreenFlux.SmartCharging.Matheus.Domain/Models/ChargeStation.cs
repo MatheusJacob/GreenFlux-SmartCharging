@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GreenFlux.SmartCharging.Matheus.Domain.Exceptions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -67,11 +68,11 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
         {
             //TODO create specific exception
             if (_availableSlots.Count == 0)
-                throw new Exception("No available slots");
+                throw new NoSlotsAvailableException(Id);
 
             ////improve efficiency with a segmented n-ary tree
             if (this.Group != null && this.Group.HasExceededCapacity(connector.MaxCurrentAmp))
-                throw new Exception("Capacity exceeded");
+                throw new CapacityExceededException(connector.MaxCurrentAmp, new List<RemoveSuggestions>());
 
             if (!connector.Id.HasValue)
             {

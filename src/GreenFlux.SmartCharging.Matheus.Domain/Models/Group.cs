@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GreenFlux.SmartCharging.Matheus.Domain.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -30,7 +31,7 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
         {
             //Todo exception handle + return the options to delete
             if (this.HasExceededCapacity(chargeStation.TotalMaxCurrentAmp))
-                throw new Exception("Capacity overflow");
+                throw new CapacityExceededException(chargeStation.TotalMaxCurrentAmp, new List<RemoveSuggestions>());
 
             this.ChargeStations.Add(chargeStation);
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GreenFlux.SmartCharging.Matheus.Domain.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,7 +43,7 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
             if (needsToRecalculate)
             {
                 if(ChargeStation.Group.CalculateGroupSumCurrentAmp() > ChargeStation.Group.Capacity)
-                    throw new Exception("Capacity overflow");
+                    throw new CapacityExceededException(maxCurrentAmp, new List<RemoveSuggestions>());
             }
 
             ChargeStation.UpdateTotalMaxCurrentAmp(differenceInCurrent);

@@ -1,22 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GreenFlux.SmartCharging.Matheus.Domain.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GreenFlux.SmartCharging.Matheus.Domain.Models
+namespace GreenFlux.SmartCharging.Matheus.Domain.Exceptions
 {
-    public class CapacityExceededException : ProblemDetails
+    public class CapacityExceededException :  Exception
     {
         public readonly float ExceededCapacity;
-        public CapacityExceededException(float exceededCapacity)
+        public readonly List<RemoveSuggestions> RemoveSuggestions;
+
+        public CapacityExceededException(float exceededCapacity, List<RemoveSuggestions> removeSuggestions) : 
+            base($"The group capacity has exceeded by {exceededCapacity}A, remove the suggested connectors to free up space")
         {
-            Title = "Capacity exceeded";
-            Status = 400;
-            Type = typeof(CapacityExceededException).ToString();
-            Detail = $"The group capacity has exceeded by {exceededCapacity}A, remove the suggested connectors to free up space";
             ExceededCapacity = exceededCapacity;
+            RemoveSuggestions = removeSuggestions;
         }
     }
 }
