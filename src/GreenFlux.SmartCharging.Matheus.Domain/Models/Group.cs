@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace GreenFlux.SmartCharging.Matheus.Domain.Models
 {
@@ -61,25 +62,44 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
 
         public RemoveSuggestions GenerateRemoveSuggestions(float exceededCapacity, List<Connector> connectors)
         {
-            foreach (var connector in connectors)
+
+
+            return new RemoveSuggestions();
+        }
+
+        private List<Connector> FindAllConnectorsSuggestions(float exceededCapacity, List<Connector> connectors)
+        {
+            float prefix = 0;
+            SortedSet<float> set = new SortedSet<float>();
+            set.Add(prefix);
+            float leastDiff = float.MaxValue;
+
+            List<Connector> results = new List<Connector>();
+            foreach (Connector connector in connectors)
             {
+                prefix += connector.MaxCurrentAmp; // the cumulative sum up to i
 
+                float rest = prefix - exceededCapacity; // how far away we are from t
+                float theSum = 0;
+
+                if (set.First() <= rest)
+                {
+                    theSum = prefix - set.LastOrDefault(x => x <= rest);
+                }
+                if (set.Last() >= rest && set.Last() > exceededCapacity)
+                {
+                    theSum = prefix - set.FirstOrDefault(x => x >= rest);
+                }
+
+                if (((theSum - exceededCapacity) >= 0 || rest < 0) && Math.Abs(theSum - exceededCapacity) <= leastDiff)
+                {
+                    leastDiff = Math.Abs(theSum - exceededCapacity);
+                    results.Add(connector);
+                }
+
+                set.Add(prefix);
             }
-
-            Suggestion suggestion = new Suggestion(new Guid(), 1);
-            SuggestionList suggestionList = new SuggestionList();
-            suggestionList.Add(suggestion);
-            suggestionList.Add(suggestion);
-
-            RemoveSuggestions removeSuggestions = new RemoveSuggestions();
-            removeSuggestions.Add(suggestionList);
-            removeSuggestions.Add(suggestionList);
-            removeSuggestions.Add(suggestionList);
-            removeSuggestions.Add(suggestionList);
-
-
-            return removeSuggestions;
-
+            return results;
         }
     }
 }
