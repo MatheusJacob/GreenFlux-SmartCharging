@@ -69,6 +69,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ChargeStationResource))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<ChargeStationResource>> PostChargeStation(Guid groupId, SaveChargeStationResource saveChargeStation)
         {
@@ -79,10 +80,14 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
             ////improve efficiency with a segmented n-ary tree
             if (group.HasExceededCapacity(saveChargeStation.Connectors.Sum(c => c.MaxCurrentAmp).Value))
             {
-                List<Connector> connectors = (List<Connector>)_context.Connector.Where(c => c.ChargeStation.GroupId == groupId).OrderBy(o => o.MaxCurrentAmp);
+                List<Connector> connectors = _context.Connector.Where(c => c.ChargeStation.GroupId == groupId).OrderBy(o => o.MaxCurrentAmp).ToList<Connector>();
                 float excdeededCapacity = group.GetExceededCapacity();
 
                 RemoveSuggestions removeSuggestions = new RemoveSuggestions();
+
+                if (connectors.Count == 0)
+                    throw new CapacityExceededException(excdeededCapacity, removeSuggestions);
+
                 removeSuggestions.GenerateAllSuggestions(connectors, excdeededCapacity);
                 throw new CapacityExceededException(excdeededCapacity, removeSuggestions);
             }
