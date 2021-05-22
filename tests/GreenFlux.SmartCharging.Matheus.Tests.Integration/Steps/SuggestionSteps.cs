@@ -108,5 +108,27 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
 
         }
 
+        [When(@"deleting all connectors in the suggestion list of number (.*)")]
+        public async Task WhenDeletingAllConnectorsInTheSuggestionListOfNumber(int suggestionListNumber)
+        {
+            _scenarioContext.ContainsKey("createdConnector");
+            _scenarioContext.ContainsKey("createdGroupResponse");
+
+
+            HttpResponseMessage groupResponse = (HttpResponseMessage)_scenarioContext["createdGroupResponse"];
+            HttpResponseMessage response = (HttpResponseMessage)_scenarioContext["createdConnector"];
+            CapacityExceededProblemDetail capacityExceeded = await _suggestionDriver.ParseFromResponse<CapacityExceededProblemDetail>(response);
+            GroupResource group = await _suggestionDriver.ParseFromResponse<GroupResource>(groupResponse);
+
+            capacityExceeded.RemoveSuggestions.Count.Should().BeGreaterOrEqualTo(suggestionListNumber);
+
+            {
+                foreach (var suggestion in capacityExceeded.RemoveSuggestions[suggestionListNumber])
+                {
+                    var deleteResponse = await _connectorDriver.DeleteConnector(group.Id, suggestion.ChargeStationId, suggestion.ConnectorId);
+                    deleteResponse.StatusCode.Should().Be(204);
+                }
+            }
+        }
     }
 }

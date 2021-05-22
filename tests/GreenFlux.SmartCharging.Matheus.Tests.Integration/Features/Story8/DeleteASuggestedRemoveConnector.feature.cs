@@ -20,25 +20,23 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Features.Story8
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.7.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Don\'t automatically remove connectors when trying to add an exceeded capacity con" +
-        "nector")]
-    public partial class DontAutomaticallyRemoveConnectorsWhenTryingToAddAnExceededCapacityConnectorFeature
+    [NUnit.Framework.DescriptionAttribute("DeleteASuggestedRemoveConnector")]
+    public partial class DeleteASuggestedRemoveConnectorFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
         private string[] _featureTags = ((string[])(null));
         
-#line 1 "DontRemoveConectorsWhenCapacityExceeds.feature"
+#line 1 "DeleteASuggestedRemoveConnector.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/Story8", "Don\'t automatically remove connectors when trying to add an exceeded capacity con" +
-                    "nector", "\t Don\'t automatically remove connectors when trying to add an exceeded capacity c" +
-                    "onnector", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/Story8", "DeleteASuggestedRemoveConnector", "\tWhen deleting all suggestions from a remove suggestion response,then should be a" +
+                    "ble to create the connector", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -77,16 +75,14 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Features.Story8
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Trying to insert a new connector on an exceeded group, should return 400 and shou" +
-            "ld not delete any existing conectors")]
-        [NUnit.Framework.CategoryAttribute("mytag")]
-        public virtual void TryingToInsertANewConnectorOnAnExceededGroupShouldReturn400AndShouldNotDeleteAnyExistingConectors()
+        [NUnit.Framework.DescriptionAttribute("Creating a connector after deleting all connectors from a remove suggestion")]
+        [NUnit.Framework.CategoryAttribute("suggestion")]
+        public virtual void CreatingAConnectorAfterDeletingAllConnectorsFromARemoveSuggestion()
         {
             string[] tagsOfScenario = new string[] {
-                    "mytag"};
+                    "suggestion"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Trying to insert a new connector on an exceeded group, should return 400 and shou" +
-                    "ld not delete any existing conectors", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Creating a connector after deleting all connectors from a remove suggestion", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 5
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -110,17 +106,17 @@ this.ScenarioInitialize(scenarioInfo);
 #line 6
  testRunner.Given("an existing Group with name G1 and Capacity 100", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table32 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table30 = new TechTalk.SpecFlow.Table(new string[] {
                             "name",
                             "connectors"});
-                table32.AddRow(new string[] {
+                table30.AddRow(new string[] {
                             "A",
-                            "25, 25, 25"});
-                table32.AddRow(new string[] {
+                            "27, 27, 27"});
+                table30.AddRow(new string[] {
                             "B",
-                            "15"});
+                            "19"});
 #line 7
- testRunner.Given("a specific set of Charge Stations", ((string)(null)), table32, "Given ");
+ testRunner.Given("a specific set of Charge Stations", ((string)(null)), table30, "Given ");
 #line hidden
 #line 11
  testRunner.When("create all Charge Stations", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -135,7 +131,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Then("Should have 2 charge stations", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 15
- testRunner.Given("a connector with a max current of 20", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("a connector with a max current of 30", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 16
  testRunner.When("the connector is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -146,22 +142,48 @@ this.ScenarioInitialize(scenarioInfo);
 #line 18
  testRunner.Then("the create connector response should contain at least a suggestion", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-                TechTalk.SpecFlow.Table table33 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table31 = new TechTalk.SpecFlow.Table(new string[] {
                             "suggestionListPosition",
                             "chargeStationId",
                             "connectorId"});
-                table33.AddRow(new string[] {
+                table31.AddRow(new string[] {
+                            "1",
+                            "1",
+                            "1"});
+                table31.AddRow(new string[] {
                             "1",
                             "2",
                             "1"});
+                table31.AddRow(new string[] {
+                            "2",
+                            "1",
+                            "2"});
+                table31.AddRow(new string[] {
+                            "2",
+                            "2",
+                            "1"});
+                table31.AddRow(new string[] {
+                            "3",
+                            "1",
+                            "3"});
+                table31.AddRow(new string[] {
+                            "3",
+                            "2",
+                            "1"});
 #line 19
- testRunner.Then("the remove suggestion response should have this specific results", ((string)(null)), table33, "Then ");
+ testRunner.Then("the remove suggestion response should have this specific results", ((string)(null)), table31, "Then ");
 #line hidden
-#line 22
- testRunner.Then("should have returned 1 suggestions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 27
+ testRunner.Then("should have returned 3 suggestions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 23
- testRunner.Then("the connectors from the suggestions should not be automatically deleted", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 28
+ testRunner.When("deleting all connectors in the suggestion list of number 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 29
+ testRunner.When("the connector is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 30
+ testRunner.Then("the Connector should be created successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
