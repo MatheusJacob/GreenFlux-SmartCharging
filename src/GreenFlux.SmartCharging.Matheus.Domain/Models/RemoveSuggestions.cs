@@ -8,35 +8,107 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
 {
     public class RemoveSuggestions : List<SuggestionList>
     {
-        public List<SuggestionList> Suggestions { get; set; }
         public RemoveSuggestions()
         {
 
         }
-        public RemoveSuggestions(List<SuggestionList> suggestions)
+        public void GenerateAllSuggestions(List<Connector> connectors, float exceededCapacity)
         {
-            Suggestions = suggestions;
+            RemoveSuggestions response = new RemoveSuggestions();
+            RemoveSuggestions set1 = new RemoveSuggestions();
+            RemoveSuggestions set2 = new RemoveSuggestions();
+            GetAllsubSequenceSum(0, ((connectors.Count - 1) / 2), connectors, set1, new SuggestionList());
+            GetAllsubSequenceSum((((connectors.Count - 1) / 2) + 1), (connectors.Count - 1), connectors, set2, new SuggestionList());
+            float min = float.MaxValue;
+            set2.Sort();
+            int sum = 0;
 
-            foreach (List<Suggestion> item in suggestions)
+            for (int i = 0; i < set1.Count; i++)
             {
-                foreach (var item2 in item)
+                this.Clear();
+                float firstSetSum = set1[i].TotalSum;
+
+                SuggestionList remainingPart = new SuggestionList(exceededCapacity - firstSetSum);
+                int pos = set2.BinarySearch(remainingPart);
+                if ((pos >= 0))
                 {
-                    
+                    if (min > 0)
+                        response = new RemoveSuggestions();
+
+                    min = 0;
+                    response.Add(new SuggestionList(set1[i], set2[pos]));
+                }
+                else
+                {
+                    int position = (1 * (pos + 1)) * -1;
+                    int low = (position - 1);
+                    if ((low >= 0))
+                    {
+                        if (firstSetSum + (set2[low].TotalSum) > exceededCapacity)
+                        {
+                            float absoluteValue = Math.Abs((firstSetSum + (set2[low].TotalSum - exceededCapacity)));
+                            if (absoluteValue > min)
+                                continue;
+
+                            if (absoluteValue < min)
+                            {
+                                response = new RemoveSuggestions();
+                                min = absoluteValue;
+                            }
+
+                            response.Add(new SuggestionList(set1[i], set2[low]));
+
+                        }
+                    }
+
+                    if ((low != (set2.Count() - 1)))
+                    {
+                        if (firstSetSum + (set2[position].TotalSum) > exceededCapacity)
+                        {
+                            float absoluteValue = Math.Abs((firstSetSum + (set2[position].TotalSum - exceededCapacity)));
+                            if (absoluteValue > min)
+                                continue;
+
+                            if (absoluteValue < min)
+                            {
+                                response = new RemoveSuggestions();
+                                min = absoluteValue;
+                            }
+
+                            response.Add(new SuggestionList(set1[i], set2[position]));
+
+                            ////This is needed because binary search just return the first value found
+                            if (set2[position].TotalSum != 0)
+                                this.GenerateDuplicatedSuggestions(position, set1[i], set2, set2[position].TotalSum, response);
+                        }
+                    }
                 }
             }
+
+            return response;
         }
 
-        public RemoveSuggestions(SuggestionList suggestionList)
+        private void GenerateDuplicatedSuggestions(int initialPosition, SuggestionList set1, RemoveSuggestions set2, float totalSum, RemoveSuggestions response)
         {
-            Suggestions = new List<SuggestionList>() { suggestionList };
-
-            foreach (List<Suggestion> item in Suggestions)
+            for (int i = initialPosition; i < set2.Count; i++)
             {
-                foreach (var item2 in item)
-                {
+                if (set2[i].TotalSum != totalSum)
+                    break;
 
-                }
+                response.Add(new SuggestionList(set1, set2[i]));
             }
+        }
+        public void GetAllsubSequenceSum(int initial, int length, List<Connector> connectors, RemoveSuggestions removeSuggestions, SuggestionList suggestionList)
+        {
+            if ((initial == (length + 1)))
+            {
+                //if(suggestionList.Count > 0)
+                removeSuggestions.Add(suggestionList);
+                return;
+            }
+
+            this.GetAllsubSequenceSum((initial + 1), length, connectors, removeSuggestions, new SuggestionList(suggestionList, connectors[initial]));
+            this.GetAllsubSequenceSum((initial + 1), length, connectors, removeSuggestions, suggestionList);
         }
     }
 }
