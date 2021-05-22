@@ -64,6 +64,10 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
         }
 
         // POST api/<ConnectorController>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ConnectorResource))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost]
         public async Task<ActionResult<ConnectorResource>> Post(Guid groupId, Guid chargeStationId, [FromBody] SaveConnectorResource saveConnector)
         {
@@ -79,7 +83,6 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
 
             if (group.HasExceededCapacity(saveConnector.MaxCurrentAmp.Value))
             {
-                var test = _context.Connector.Where(c => c.ChargeStation.GroupId == groupId).OrderBy(o => o.MaxCurrentAmp).ToList();
                 List<Connector> connectors = _context.Connector.Where(c => c.ChargeStation.GroupId == groupId).OrderBy(o => o.MaxCurrentAmp).ToList<Connector>();
                 float excdeededCapacity = group.GetExceededCapacity();
 

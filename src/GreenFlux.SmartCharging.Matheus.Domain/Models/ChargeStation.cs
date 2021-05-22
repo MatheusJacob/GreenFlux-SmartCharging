@@ -66,7 +66,6 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
 
         public void AppendConnector(Connector connector)
         {
-            //TODO create specific exception
             if (_availableSlots.Count == 0)
                 throw new NoSlotsAvailableException(Id);
 

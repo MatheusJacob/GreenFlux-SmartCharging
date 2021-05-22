@@ -40,9 +40,6 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
         public async Task ShouldNotCreateAGroupSuccessfully(HttpResponseMessage response)
         {
             response.StatusCode.Should().Be(400);
-            var test = ConvertToObject<dynamic>(await response.Content.ReadAsStringAsync());
-
-            ////Todo validate if the error message is the same as the missing argument
         }
 
          public async Task ShouldUpdateAGroupSuccessfully(HttpResponseMessage response, GroupResource expectedGroupValues)
@@ -62,8 +59,6 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
             var test = ConvertToObject<dynamic>(await response.Content.ReadAsStringAsync());
 
             response.StatusCode.Should().Match<int>(m => m == 404 || m == 400);
-
-            ////Todo validate if the error message is the same as the missing argument
         }
         public async Task<HttpResponseMessage> CreateGroup(string name, float? capacity)
         {
