@@ -12,10 +12,13 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
         
         public readonly Guid ChargeStationId;
 
-        public Suggestion(Guid chargeStationId, int connectorId)
+        public readonly float MaxCurrentAmp;
+
+        public Suggestion(Guid chargeStationId, int connectorId, float maxCurrentAmp)
         {
             ConnectorId = connectorId;
             ChargeStationId = chargeStationId;
+            MaxCurrentAmp = maxCurrentAmp;
         }
     }
 }

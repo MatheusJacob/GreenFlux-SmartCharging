@@ -14,18 +14,15 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
         }
         public void GenerateAllSuggestions(List<Connector> connectors, float exceededCapacity)
         {
-            RemoveSuggestions response = new RemoveSuggestions();
             RemoveSuggestions set1 = new RemoveSuggestions();
             RemoveSuggestions set2 = new RemoveSuggestions();
             GetAllsubSequenceSum(0, ((connectors.Count - 1) / 2), connectors, set1, new SuggestionList());
             GetAllsubSequenceSum((((connectors.Count - 1) / 2) + 1), (connectors.Count - 1), connectors, set2, new SuggestionList());
             float min = float.MaxValue;
             set2.Sort();
-            int sum = 0;
 
             for (int i = 0; i < set1.Count; i++)
-            {
-                this.Clear();
+            {                
                 float firstSetSum = set1[i].TotalSum;
 
                 SuggestionList remainingPart = new SuggestionList(exceededCapacity - firstSetSum);
@@ -33,10 +30,10 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
                 if ((pos >= 0))
                 {
                     if (min > 0)
-                        response = new RemoveSuggestions();
+                        this.Clear();
 
                     min = 0;
-                    response.Add(new SuggestionList(set1[i], set2[pos]));
+                    this.Add(new SuggestionList(set1[i], set2[pos]));
                 }
                 else
                 {
@@ -52,11 +49,11 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
 
                             if (absoluteValue < min)
                             {
-                                response = new RemoveSuggestions();
+                                this.Clear();
                                 min = absoluteValue;
                             }
 
-                            response.Add(new SuggestionList(set1[i], set2[low]));
+                            this.Add(new SuggestionList(set1[i], set2[low]));
 
                         }
                     }
@@ -71,38 +68,35 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
 
                             if (absoluteValue < min)
                             {
-                                response = new RemoveSuggestions();
+                                this.Clear();
                                 min = absoluteValue;
                             }
 
-                            response.Add(new SuggestionList(set1[i], set2[position]));
+                            this.Add(new SuggestionList(set1[i], set2[position]));
 
                             ////This is needed because binary search just return the first value found
                             if (set2[position].TotalSum != 0)
-                                this.GenerateDuplicatedSuggestions(position, set1[i], set2, set2[position].TotalSum, response);
+                                this.GenerateDuplicatedSuggestions(position, set1[i], set2, set2[position].TotalSum);
                         }
                     }
                 }
             }
-
-            return response;
         }
 
-        private void GenerateDuplicatedSuggestions(int initialPosition, SuggestionList set1, RemoveSuggestions set2, float totalSum, RemoveSuggestions response)
+        private void GenerateDuplicatedSuggestions(int initialPosition, SuggestionList set1, RemoveSuggestions set2, float totalSum)
         {
             for (int i = initialPosition; i < set2.Count; i++)
             {
                 if (set2[i].TotalSum != totalSum)
                     break;
 
-                response.Add(new SuggestionList(set1, set2[i]));
+                this.Add(new SuggestionList(set1, set2[i]));
             }
         }
         public void GetAllsubSequenceSum(int initial, int length, List<Connector> connectors, RemoveSuggestions removeSuggestions, SuggestionList suggestionList)
         {
             if ((initial == (length + 1)))
             {
-                //if(suggestionList.Count > 0)
                 removeSuggestions.Add(suggestionList);
                 return;
             }

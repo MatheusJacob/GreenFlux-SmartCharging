@@ -82,7 +82,9 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
                 List<Connector> connectors = (List<Connector>)_context.Connector.Where(c => c.ChargeStation.GroupId == groupId).OrderBy(o => o.MaxCurrentAmp);
                 float excdeededCapacity = group.GetExceededCapacity();
 
-                throw new CapacityExceededException(excdeededCapacity, group.GenerateRemoveSuggestions(excdeededCapacity, connectors));
+                RemoveSuggestions removeSuggestions = new RemoveSuggestions();
+                removeSuggestions.GenerateAllSuggestions(connectors, excdeededCapacity);
+                throw new CapacityExceededException(excdeededCapacity, removeSuggestions);
             }
 
             ChargeStation chargeStation = _mapper.Map<ChargeStation>(saveChargeStation);
