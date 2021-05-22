@@ -22,7 +22,7 @@ Scenario: A
 		| 3                      | 1               | 3           |
 		| 4                      | 1               | 4           |
 		| 5                      | 1               | 5           |
-
+	Then should have returned 5 suggestions
 Scenario: B
 	Given an existing Group with name G1 and Capacity 100
 	Given a specific set of Charge Stations
@@ -40,6 +40,7 @@ Scenario: B
 	Then the remove suggestion response should have this specific results
 		| suggestionListPosition | chargeStationId | connectorId |
 		| 1                      | 2               | 1           |	
+	Then should have returned 1 suggestions
 
 Scenario: C
 	Given an existing Group with name G1 and Capacity 100
@@ -63,3 +64,4 @@ Scenario: C
 		| 2                      | 2               | 1           |
 		| 3                      | 1               | 3           |
 		| 3                      | 2               | 1           |
+	Then should have returned 3 suggestions

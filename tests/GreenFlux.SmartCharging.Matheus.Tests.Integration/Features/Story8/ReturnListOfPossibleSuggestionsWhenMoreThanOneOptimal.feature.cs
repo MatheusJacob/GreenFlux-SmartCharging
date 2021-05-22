@@ -103,20 +103,20 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
  testRunner.Given("an existing Group with name G1 and Capacity 100", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table36 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table38 = new TechTalk.SpecFlow.Table(new string[] {
                             "name",
                             "connectors"});
-                table36.AddRow(new string[] {
+                table38.AddRow(new string[] {
                             "A",
                             "1,1,1,1,1"});
-                table36.AddRow(new string[] {
+                table38.AddRow(new string[] {
                             "B",
                             "2,2,2,2,2"});
-                table36.AddRow(new string[] {
+                table38.AddRow(new string[] {
                             "C",
-                            "20,10,31"});
+                            "10,20,20,20"});
 #line 6
- testRunner.Given("a specific set of Charge Stations", ((string)(null)), table36, "Given ");
+ testRunner.Given("a specific set of Charge Stations", ((string)(null)), table38, "Given ");
 #line hidden
 #line 11
  testRunner.When("create all Charge Stations", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -131,7 +131,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Then("Should have 3 charge stations", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 15
- testRunner.Given("a connector with a max current of 31", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("a connector with a max current of 25", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 16
  testRunner.When("the connector is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -142,56 +142,56 @@ this.ScenarioInitialize(scenarioInfo);
 #line 18
  testRunner.Then("the create connector response should contain at least a suggestion", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-                TechTalk.SpecFlow.Table table37 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table39 = new TechTalk.SpecFlow.Table(new string[] {
                             "suggestionListPosition",
                             "chargeStationId",
                             "connectorId"});
-                table37.AddRow(new string[] {
+                table39.AddRow(new string[] {
                             "1",
                             "1",
                             "1"});
-                table37.AddRow(new string[] {
+                table39.AddRow(new string[] {
                             "1",
                             "1",
                             "2"});
-                table37.AddRow(new string[] {
+                table39.AddRow(new string[] {
                             "1",
                             "1",
                             "3"});
-                table37.AddRow(new string[] {
+                table39.AddRow(new string[] {
                             "1",
                             "1",
                             "4"});
-                table37.AddRow(new string[] {
+                table39.AddRow(new string[] {
                             "1",
                             "1",
                             "5"});
-                table37.AddRow(new string[] {
+                table39.AddRow(new string[] {
                             "1",
                             "2",
                             "1"});
-                table37.AddRow(new string[] {
+                table39.AddRow(new string[] {
                             "1",
                             "2",
                             "2"});
-                table37.AddRow(new string[] {
+                table39.AddRow(new string[] {
                             "1",
                             "2",
                             "3"});
-                table37.AddRow(new string[] {
+                table39.AddRow(new string[] {
                             "1",
                             "2",
                             "4"});
-                table37.AddRow(new string[] {
+                table39.AddRow(new string[] {
                             "1",
                             "2",
                             "5"});
-                table37.AddRow(new string[] {
+                table39.AddRow(new string[] {
                             "1",
                             "3",
                             "2"});
 #line 19
- testRunner.Then("the remove suggestion response should have this specific results", ((string)(null)), table37, "Then ");
+ testRunner.Then("the remove suggestion response should have this specific results", ((string)(null)), table39, "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -227,17 +227,17 @@ this.ScenarioInitialize(scenarioInfo);
 #line 34
  testRunner.Given("an existing Group with name G1 and Capacity 100", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table38 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table40 = new TechTalk.SpecFlow.Table(new string[] {
                             "name",
                             "connectors"});
-                table38.AddRow(new string[] {
+                table40.AddRow(new string[] {
                             "A",
                             "25, 25, 25"});
-                table38.AddRow(new string[] {
+                table40.AddRow(new string[] {
                             "B",
                             "15"});
 #line 35
- testRunner.Given("a specific set of Charge Stations", ((string)(null)), table38, "Given ");
+ testRunner.Given("a specific set of Charge Stations", ((string)(null)), table40, "Given ");
 #line hidden
 #line 39
  testRunner.When("create all Charge Stations", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -263,16 +263,16 @@ this.ScenarioInitialize(scenarioInfo);
 #line 46
  testRunner.Then("the create connector response should contain at least a suggestion", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-                TechTalk.SpecFlow.Table table39 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table41 = new TechTalk.SpecFlow.Table(new string[] {
                             "suggestionListPosition",
                             "chargeStationId",
                             "connectorId"});
-                table39.AddRow(new string[] {
+                table41.AddRow(new string[] {
                             "1",
                             "2",
                             "1"});
 #line 47
- testRunner.Then("the remove suggestion response should have this specific results", ((string)(null)), table39, "Then ");
+ testRunner.Then("the remove suggestion response should have this specific results", ((string)(null)), table41, "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -308,17 +308,17 @@ this.ScenarioInitialize(scenarioInfo);
 #line 52
  testRunner.Given("an existing Group with name G1 and Capacity 100", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table40 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table42 = new TechTalk.SpecFlow.Table(new string[] {
                             "name",
                             "connectors"});
-                table40.AddRow(new string[] {
+                table42.AddRow(new string[] {
                             "A",
                             "27, 27, 27"});
-                table40.AddRow(new string[] {
+                table42.AddRow(new string[] {
                             "B",
                             "19"});
 #line 53
- testRunner.Given("a specific set of Charge Stations", ((string)(null)), table40, "Given ");
+ testRunner.Given("a specific set of Charge Stations", ((string)(null)), table42, "Given ");
 #line hidden
 #line 57
  testRunner.When("create all Charge Stations", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -344,36 +344,36 @@ this.ScenarioInitialize(scenarioInfo);
 #line 64
  testRunner.Then("the create connector response should contain at least a suggestion", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-                TechTalk.SpecFlow.Table table41 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table43 = new TechTalk.SpecFlow.Table(new string[] {
                             "suggestionListPosition",
                             "chargeStationId",
                             "connectorId"});
-                table41.AddRow(new string[] {
+                table43.AddRow(new string[] {
                             "1",
                             "1",
                             "1"});
-                table41.AddRow(new string[] {
+                table43.AddRow(new string[] {
                             "1",
                             "2",
                             "1"});
-                table41.AddRow(new string[] {
+                table43.AddRow(new string[] {
                             "2",
                             "1",
                             "2"});
-                table41.AddRow(new string[] {
+                table43.AddRow(new string[] {
                             "2",
                             "2",
                             "1"});
-                table41.AddRow(new string[] {
+                table43.AddRow(new string[] {
                             "3",
                             "1",
                             "3"});
-                table41.AddRow(new string[] {
+                table43.AddRow(new string[] {
                             "3",
                             "2",
                             "1"});
 #line 65
- testRunner.Then("the remove suggestion response should have this specific results", ((string)(null)), table41, "Then ");
+ testRunner.Then("the remove suggestion response should have this specific results", ((string)(null)), table43, "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

@@ -4,15 +4,15 @@
 Scenario: with lots of small connectors
 	Given an existing Group with name G1 and Capacity 100
 	Given a specific set of Charge Stations
-	| name | connectors |
-	| A    | 1,1,1,1,1  |
-	| B    | 2,2,2,2,2  |
-	| C    | 20,10,31  |
+	| name | connectors  |
+	| A    | 1,1,1,1,1   |
+	| B    | 2,2,2,2,2   |
+	| C    | 10,20,20,20 |
 	When create all Charge Stations
 	Then Should create all charge stations successfully
 	When listing all charge stations from a group
 	Then Should have 3 charge stations
-	Given a connector with a max current of 31	
+	Given a connector with a max current of 25	
 	When the connector is created
 	Then the Connector should not be created successfully
 	Then the create connector response should contain at least a suggestion

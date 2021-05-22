@@ -42,6 +42,18 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             capacityExceeded.RemoveSuggestions.Count.Should().BeGreaterThan(0);
         }
 
+        [Then("should have returned (.*) suggestions")]
+        public async Task ThenShouldHaveReturnedANumberOfSuggestions(int count)
+        {
+            _scenarioContext.ContainsKey("createdConnector");
+            HttpResponseMessage response = (HttpResponseMessage)_scenarioContext["createdConnector"];
+            CapacityExceededProblemDetail capacityExceeded = await _suggestionDriver.ParseFromResponse<CapacityExceededProblemDetail>(response);
+            capacityExceeded.Status.Should().Be(400);
+            capacityExceeded.RemoveSuggestions.Should().NotBeNull();
+
+            _suggestionDriver.ShouldHaveExactNumberOfSuggestions(capacityExceeded, count);
+        }
+
         [Then(@"the remove suggestion response should have this specific results")]
         public async Task ThenRemoveSuggestionResponseShouldHaveThisSpecificResults(Table table)
         {
@@ -77,6 +89,24 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             }
         }
 
+
+        [Then(@"the connectors from the suggestions should not be automatically deleted")]
+        public async Task ThenTheConnectorsFromTheSuggestionsShouldNotBeAutomaticallyDeleted()
+        {
+            _scenarioContext.ContainsKey("createdConnector");
+            _scenarioContext.ContainsKey("createdGroupResponse");
+
+            
+            HttpResponseMessage response = (HttpResponseMessage)_scenarioContext["createdConnector"];
+            HttpResponseMessage groupResponse = (HttpResponseMessage)_scenarioContext["createdGroupResponse"];
+
+            GroupResource group = await _suggestionDriver.ParseFromResponse<GroupResource>(groupResponse);
+
+            CapacityExceededProblemDetail capacityExceeded = await _suggestionDriver.ParseFromResponse<CapacityExceededProblemDetail>(response);
+
+            await _suggestionDriver.ValidateIfTheConnectorsStillExists(group.Id, capacityExceeded);
+
+        }
 
     }
 }
