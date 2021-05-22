@@ -85,7 +85,7 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
 
         private void GenerateDuplicatedSuggestions(int initialPosition, SuggestionList set1, RemoveSuggestions set2, float totalSum)
         {
-            for (int i = initialPosition; i < set2.Count; i++)
+            for (int i = initialPosition + 1; i < set2.Count; i++)
             {
                 if (set2[i].TotalSum != totalSum)
                     break;
