@@ -14,6 +14,7 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
         }
         public void GenerateAllSuggestions(List<Connector> connectors, float exceededCapacity)
         {
+            ////TODO add a fallback in case connectors.length > 100, as this would probably cause a memory overflow
             RemoveSuggestions set1 = new RemoveSuggestions();
             RemoveSuggestions set2 = new RemoveSuggestions();
             GetAllsubSequenceSum(0, ((connectors.Count - 1) / 2), connectors, set1, new SuggestionList());
