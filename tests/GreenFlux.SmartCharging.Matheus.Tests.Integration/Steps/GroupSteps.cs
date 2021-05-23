@@ -1,14 +1,10 @@
-﻿using GreenFlux.SmartCharging.Matheus.Domain.Models;
+﻿using FluentAssertions;
+using GreenFlux.SmartCharging.Matheus.API.Resources;
 using GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using TechTalk.SpecFlow;
-using FluentAssertions;
 using System.Threading.Tasks;
-using GreenFlux.SmartCharging.Matheus.API.Resources;
+using TechTalk.SpecFlow;
 
 namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
 {
@@ -28,13 +24,13 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         [Given("a group name (.*)")]
         public void GivenAGroupName(string name)
         {
-            _group.Name = name;           
+            _group.Name = name;
         }
 
         [Given("a capacity of (.*)")]
         public void GivenACapacity(float capacity)
         {
-            _group.Capacity = capacity;       
+            _group.Capacity = capacity;
         }
 
         [When("updating a Group with an unknown property")]
@@ -59,13 +55,13 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         public async Task WhenTheGroupIsUpdated()
         {
             GroupResource groupResource = await _groupDriver.ParseFromResponse<GroupResource>(((HttpResponseMessage)_scenarioContext["createdGroupResponse"]));
-            
+
             _scenarioContext["updatedGroupResponse"] = await _groupDriver.UpdateGroup(groupResource.Id, _group.Name, _group.Capacity);
         }
 
         [When("the wrong group is updated")]
         public async Task WhenTheWrongGroupIsUpdated()
-        {            
+        {
             _scenarioContext["updatedGroupResponse"] = await _groupDriver.UpdateGroup(new Guid(), _group.Name, _group.Capacity);
         }
 
@@ -87,14 +83,22 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             _scenarioContext["deletedGroupResponse"] = await _groupDriver.DeleteGroup(wrongGroupId);
         }
 
+        [Then("the created group should not exist anymore")]
+        public async Task ThenTheCreatedGroupShouldNotExistAnymore()
+        {
+            GroupResource groupResource = await _groupDriver.ParseFromResponse<GroupResource>((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+            await _groupDriver.ShouldNotExistAnymore(groupResource.Id);
+        }
+
         [Then("the group should not exist anymore")]
         public async Task ThenTheGroupShouldNotExistAnymore()
         {
-            await _groupDriver.ShouldDeleteSuccessfully((HttpResponseMessage)_scenarioContext["deletedGroupResponse"]);
+            _scenarioContext.Should().ContainKey("deletedGroupId");
+            await _groupDriver.ShouldNotExistAnymore((Guid)_scenarioContext["deletedGroupId"]);
         }
 
         [Then("no group was deleted")]
-        public async Task ThenNoGroupShouldBeDeleted()
+        public void ThenNoGroupShouldBeDeleted()
         {
             ((HttpResponseMessage)_scenarioContext["deletedGroupResponse"]).StatusCode.Should().Be(404);
         }
@@ -102,7 +106,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         [Then("the group should be created successfully")]
         public async Task ThenTheGroupShouldBeCreatedSuccessfully()
         {
-            await _groupDriver.ShouldCreateAGroupSuccessfully((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);            
+            await _groupDriver.ShouldCreateAGroupSuccessfully((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
         }
 
         [Then("the group should be updated successfully")]

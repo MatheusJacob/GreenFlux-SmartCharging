@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GreenFlux.SmartCharging.Matheus.API.Resources;
 using GreenFlux.SmartCharging.Matheus.Data;
+using GreenFlux.SmartCharging.Matheus.Domain.Exceptions;
 using GreenFlux.SmartCharging.Matheus.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
     [Route(Routes.ConnectorsRoute)]
     [ApiController]
     public class ConnectorController : ControllerBase
-    {        
+    {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
 
@@ -56,26 +57,41 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
 
             Connector connector = await _context.Connector.FirstOrDefaultAsync(c => c.Id == id && c.ChargeStationId == chargeStationId);
 
-            if(connector == null)
+            if (connector == null)
                 return NotFound("Connector not found");
 
             return _mapper.Map<ConnectorResource>(connector);
         }
 
         // POST api/<ConnectorController>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ConnectorResource))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost]
         public async Task<ActionResult<ConnectorResource>> Post(Guid groupId, Guid chargeStationId, [FromBody] SaveConnectorResource saveConnector)
         {
             Group group = await _context.Group.Include(g => g.ChargeStations).ThenInclude(c => c.Connectors).FirstOrDefaultAsync(g => g.Id == groupId);
             if (group == null)
                 return NotFound("Group not found");
-            
+
             Connector connector = _mapper.Map<Connector>(saveConnector);
             ChargeStation chargeStation;
 
             if (!group.ChargeStations.TryGetValue(new ChargeStation(chargeStationId), out chargeStation))
                 return NotFound("Charge station not found");
 
+            if (group.HasExceededCapacity(saveConnector.MaxCurrentAmp.Value))
+            {
+                List<Connector> connectors = _context.Connector.Where(c => c.ChargeStation.GroupId == groupId).OrderBy(o => o.MaxCurrentAmp).ToList<Connector>();
+                float excdeededCapacity = group.GetExceededCapacity();
+
+                RemoveSuggestions removeSuggestions = new RemoveSuggestions();
+                removeSuggestions.GenerateAllSuggestions(connectors, excdeededCapacity);
+
+                throw new CapacityExceededException(excdeededCapacity, removeSuggestions);
+
+            }
             chargeStation.SyncConnectorIds();
             chargeStation.AppendConnector(connector);
 
@@ -85,12 +101,12 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
             return CreatedAtAction(nameof(GetConnector), new { chargeStationId = chargeStation.Id, groupId = chargeStation.GroupId, id = connector.Id.Value }, connectorResponse);
         }
 
-        [HttpPatch("{id}")]
+        [HttpPatch("{connectorId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ConnectorResource))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ConnectorResource>> Patch(Guid groupId, Guid chargeStationId,int connectorId, [FromBody] PatchConnectorResource patchConnectorResource)
+        public async Task<ActionResult<ConnectorResource>> Patch(Guid groupId, Guid chargeStationId, int connectorId, [FromBody] PatchConnectorResource patchConnectorResource)
         {
             Group group = await _context.Group.Include(g => g.ChargeStations).ThenInclude(c => c.Connectors).FirstOrDefaultAsync(g => g.Id == groupId);
             if (group == null)
@@ -103,11 +119,22 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
 
             Connector connector;
 
-            if(!chargeStation.Connectors.TryGetValue(new Connector(connectorId),out connector))
+            if (!chargeStation.Connectors.TryGetValue(new Connector(connectorId), out connector))
                 return NotFound("Connector not found");
 
             if (patchConnectorResource.MaxCurrentAmp.HasValue)
+            {
+                if (patchConnectorResource.MaxCurrentAmp.Value > connector.MaxCurrentAmp && group.HasExceededCapacity(patchConnectorResource.MaxCurrentAmp.Value - connector.MaxCurrentAmp))
+                {
+                    List<Connector> connectors = (List<Connector>)_context.Connector.Where(c => c.ChargeStation.GroupId == groupId).OrderBy(o => o.MaxCurrentAmp);
+                    float excdeededCapacity = group.GetExceededCapacity();
+
+                    RemoveSuggestions removeSuggestions = new RemoveSuggestions();
+                    removeSuggestions.GenerateAllSuggestions(connectors, excdeededCapacity);
+                    throw new CapacityExceededException(excdeededCapacity, removeSuggestions);
+                }
                 connector.ChangeMaxCurrentAmp(patchConnectorResource.MaxCurrentAmp.Value);
+            }
 
             await _context.SaveChangesAsync();
             ConnectorResource connectorUpdated = _mapper.Map<ConnectorResource>(connector);

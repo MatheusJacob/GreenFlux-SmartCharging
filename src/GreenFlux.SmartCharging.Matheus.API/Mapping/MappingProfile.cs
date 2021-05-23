@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
 using GreenFlux.SmartCharging.Matheus.API.Resources;
 using GreenFlux.SmartCharging.Matheus.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GreenFlux.SmartCharging.Matheus.API.Mapping
 {
@@ -21,7 +17,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Mapping
             CreateMap<PatchGroupResource, Group>();
 
 
-            CreateMap<SaveChargeStationResource, ChargeStation>();                
+            CreateMap<SaveChargeStationResource, ChargeStation>();
             CreateMap<ChargeStation, ChargeStationResource>();
 
             CreateMap<SaveConnectorResource, Connector>();

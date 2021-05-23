@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace GreenFlux.SmartCharging.Matheus.Domain.Models
 {
@@ -11,6 +10,8 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
         public string Name { get; set; }
 
         public float Capacity { get; set; }
+
+        private float GroupSumMaxCurrent { get; set; }
 
         public readonly HashSet<ChargeStation> ChargeStations;
 
@@ -28,16 +29,13 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
 
         public void AppendChargeStation(ChargeStation chargeStation)
         {
-            //Todo exception handle + return the options to delete
-            if ((CalculateGroupSumCurrentAmp() + chargeStation.TotalMaxCurrentAmp) > this.Capacity)
-                throw new Exception("Capacity overload");
-
             this.ChargeStations.Add(chargeStation);
         }
 
         public float CalculateGroupSumCurrentAmp()
         {
             float totalCurrentAmp = 0f;
+            ////naive implementation
             foreach (ChargeStation chargeStation in ChargeStations)
             {
                 foreach (Connector connector in chargeStation.Connectors)
@@ -46,6 +44,17 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
                 }
             }
             return totalCurrentAmp;
+        }
+
+        public bool HasExceededCapacity(float addedMaxCurrentAmp)
+        {
+            GroupSumMaxCurrent = (this.CalculateGroupSumCurrentAmp() + addedMaxCurrentAmp);
+            return (GroupSumMaxCurrent > this.Capacity);
+        }
+
+        public float GetExceededCapacity()
+        {
+            return Math.Abs(Capacity - GroupSumMaxCurrent);
         }
     }
 }

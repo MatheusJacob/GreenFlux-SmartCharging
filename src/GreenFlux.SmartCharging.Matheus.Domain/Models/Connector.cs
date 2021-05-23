@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GreenFlux.SmartCharging.Matheus.Domain.Models
 {
@@ -35,20 +32,13 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
         public void ChangeMaxCurrentAmp(float maxCurrentAmp)
         {
             float differenceInCurrent = maxCurrentAmp - this.MaxCurrentAmp;
-            bool needsToRecalculate = maxCurrentAmp > this.MaxCurrentAmp;
 
             this.MaxCurrentAmp = maxCurrentAmp;
 
-            if (needsToRecalculate)
-            {
-                if(ChargeStation.Group.CalculateGroupSumCurrentAmp() > ChargeStation.Group.Capacity)
-                    throw new Exception("Capacity overflow");
-            }
-
             ChargeStation.UpdateTotalMaxCurrentAmp(differenceInCurrent);
-        }        
+        }
     }
- 
+
     public class ConnectorComparer : IEqualityComparer<Connector>
     {
         public bool Equals(Connector a, Connector b)

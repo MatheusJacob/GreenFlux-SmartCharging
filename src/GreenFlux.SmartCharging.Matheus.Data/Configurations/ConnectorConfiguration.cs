@@ -16,7 +16,7 @@ namespace GreenFlux.SmartCharging.Matheus.Data.Configurations
                 .ValueGeneratedNever();
 
             builder.Property(g => g.MaxCurrentAmp)
-                .IsRequired();            
+                .IsRequired();
         }
     }
 }

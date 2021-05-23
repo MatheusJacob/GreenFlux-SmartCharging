@@ -20,8 +20,9 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Features.Story7
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.7.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("CapacityOfGroupAlwaysGreaterThanAllChargeStationsInTheGroup")]
-    public partial class CapacityOfGroupAlwaysGreaterThanAllChargeStationsInTheGroupFeature
+    [NUnit.Framework.DescriptionAttribute("Capacity of group should be always greater than sum of all connectors from all li" +
+        "nked charge stations")]
+    public partial class CapacityOfGroupShouldBeAlwaysGreaterThanSumOfAllConnectorsFromAllLinkedChargeStationsFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
@@ -35,7 +36,8 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Features.Story7
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/Story7", "CapacityOfGroupAlwaysGreaterThanAllChargeStationsInTheGroup", "\tSimple calculator for adding two numbers", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/Story7", "Capacity of group should be always greater than sum of all connectors from all li" +
+                    "nked charge stations", "\tThe capacity of a group should be greater than sum of all connectors", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -73,16 +75,39 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Features.Story7
             testRunner.CollectScenarioErrors();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Add two numbers")]
-        [NUnit.Framework.CategoryAttribute("mytag")]
-        public virtual void AddTwoNumbers()
+        public virtual void FeatureBackground()
         {
-            string[] tagsOfScenario = new string[] {
-                    "mytag"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add two numbers", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 4
+#line hidden
 #line 5
+ testRunner.Given("an existing Group with name Group1 and Capacity 100", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 6
+ testRunner.Given("a charge station name of C1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table21 = new TechTalk.SpecFlow.Table(new string[] {
+                        "maxCurrentAmp"});
+            table21.AddRow(new string[] {
+                        "10"});
+#line 7
+ testRunner.And("a specific set of connectors", ((string)(null)), table21, "And ");
+#line hidden
+#line 10
+ testRunner.When("the Charge Station is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 11
+ testRunner.Then("the Charge Station should be created successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Add multiple charge stations until capacity is over")]
+        public virtual void AddMultipleChargeStationsUntilCapacityIsOver()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add multiple charge stations until capacity is over", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 13
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -102,17 +127,411 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 6
- testRunner.Given("the first number is 50", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 4
+this.FeatureBackground();
 #line hidden
-#line 7
- testRunner.And("the second number is 70", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+                TechTalk.SpecFlow.Table table22 = new TechTalk.SpecFlow.Table(new string[] {
+                            "name",
+                            "connectors"});
+                table22.AddRow(new string[] {
+                            "CS3",
+                            "4,4,4,4,4"});
+                table22.AddRow(new string[] {
+                            "CS7",
+                            "2,2,2,2,2"});
+                table22.AddRow(new string[] {
+                            "CS8",
+                            "2,2,2,2,2"});
+                table22.AddRow(new string[] {
+                            "CS11",
+                            "2,2,2,2,2"});
+                table22.AddRow(new string[] {
+                            "CS12",
+                            "2,2,2,2,2"});
+                table22.AddRow(new string[] {
+                            "CS15",
+                            "4,4,4,4,4"});
+                table22.AddRow(new string[] {
+                            "CS16",
+                            "2,2,2,2,2"});
+#line 14
+ testRunner.Given("a specific set of Charge Stations", ((string)(null)), table22, "Given ");
 #line hidden
-#line 8
- testRunner.When("the two numbers are added", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 25
+ testRunner.When("create all Charge Stations", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 9
- testRunner.Then("the result should be 120", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 26
+ testRunner.Then("Should create all charge stations successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 27
+ testRunner.When("listing all charge stations from a group", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 28
+ testRunner.Then("Should have 8 charge stations", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 29
+ testRunner.Given("a charge station name of C19", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+                TechTalk.SpecFlow.Table table23 = new TechTalk.SpecFlow.Table(new string[] {
+                            "maxCurrentAmp"});
+                table23.AddRow(new string[] {
+                            "1"});
+#line 30
+ testRunner.And("a specific set of connectors", ((string)(null)), table23, "And ");
+#line hidden
+#line 33
+ testRunner.When("the Charge Station is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 34
+ testRunner.Then("the Charge Station should not be created successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Add connectors until capacity is over")]
+        public virtual void AddConnectorsUntilCapacityIsOver()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add connectors until capacity is over", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 37
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 4
+this.FeatureBackground();
+#line hidden
+                TechTalk.SpecFlow.Table table24 = new TechTalk.SpecFlow.Table(new string[] {
+                            "name",
+                            "connectors"});
+                table24.AddRow(new string[] {
+                            "CS1",
+                            "1"});
+                table24.AddRow(new string[] {
+                            "CS2",
+                            "1"});
+                table24.AddRow(new string[] {
+                            "CS3",
+                            "1"});
+                table24.AddRow(new string[] {
+                            "CS4",
+                            "1"});
+                table24.AddRow(new string[] {
+                            "CS5",
+                            "1"});
+                table24.AddRow(new string[] {
+                            "CS6",
+                            "1"});
+                table24.AddRow(new string[] {
+                            "CS7",
+                            "1"});
+                table24.AddRow(new string[] {
+                            "CS8",
+                            "1"});
+                table24.AddRow(new string[] {
+                            "CS9",
+                            "1"});
+                table24.AddRow(new string[] {
+                            "CS10",
+                            "1"});
+#line 38
+testRunner.Given("a specific set of Charge Stations", ((string)(null)), table24, "Given ");
+#line hidden
+#line 51
+ testRunner.When("create all Charge Stations", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 52
+ testRunner.Then("Should create all charge stations successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 53
+ testRunner.When("listing all charge stations from a group", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 54
+ testRunner.Then("Should have 11 charge stations", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 55
+ testRunner.Then("Should create successfully 2 connectors with 4 max current for all charge station" +
+                        "s", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 56
+ testRunner.Given("a charge station name of C19", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+                TechTalk.SpecFlow.Table table25 = new TechTalk.SpecFlow.Table(new string[] {
+                            "maxCurrentAmp"});
+                table25.AddRow(new string[] {
+                            "6"});
+#line 57
+ testRunner.And("a specific set of connectors", ((string)(null)), table25, "And ");
+#line hidden
+#line 60
+ testRunner.When("the Charge Station is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 61
+ testRunner.Then("the Charge Station should not be created successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Add connectors until capacity is over with floating data")]
+        public virtual void AddConnectorsUntilCapacityIsOverWithFloatingData()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add connectors until capacity is over with floating data", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 63
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 4
+this.FeatureBackground();
+#line hidden
+                TechTalk.SpecFlow.Table table26 = new TechTalk.SpecFlow.Table(new string[] {
+                            "name",
+                            "connectors"});
+                table26.AddRow(new string[] {
+                            "CS1",
+                            "1.3"});
+                table26.AddRow(new string[] {
+                            "CS2",
+                            "1.7"});
+                table26.AddRow(new string[] {
+                            "CS3",
+                            "1.9"});
+                table26.AddRow(new string[] {
+                            "CS4",
+                            "1.1"});
+                table26.AddRow(new string[] {
+                            "CS5",
+                            "1.555"});
+                table26.AddRow(new string[] {
+                            "CS6",
+                            "1.455"});
+                table26.AddRow(new string[] {
+                            "CS7",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS8",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS9",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS10",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS11",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS12",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS13",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS14",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS15",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS16",
+                            "1"});
+                table26.AddRow(new string[] {
+                            "CS17",
+                            "1"});
+#line 64
+testRunner.Given("a specific set of Charge Stations", ((string)(null)), table26, "Given ");
+#line hidden
+#line 83
+ testRunner.When("create all Charge Stations", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 84
+ testRunner.Then("Should create all charge stations successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 85
+ testRunner.When("listing all charge stations from a group", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 86
+ testRunner.Then("Should have 18 charge stations", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 87
+ testRunner.Then("Should create successfully 1 connectors with 4 max current for all charge station" +
+                        "s", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 88
+ testRunner.Given("a charge station name of C19", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+                TechTalk.SpecFlow.Table table27 = new TechTalk.SpecFlow.Table(new string[] {
+                            "maxCurrentAmp"});
+                table27.AddRow(new string[] {
+                            "6"});
+#line 89
+ testRunner.And("a specific set of connectors", ((string)(null)), table27, "And ");
+#line hidden
+#line 92
+ testRunner.When("the Charge Station is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 93
+ testRunner.Then("the Charge Station should not be created successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Patch connectors until capacity is over")]
+        public virtual void PatchConnectorsUntilCapacityIsOver()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Patch connectors until capacity is over", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 95
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 4
+this.FeatureBackground();
+#line hidden
+                TechTalk.SpecFlow.Table table28 = new TechTalk.SpecFlow.Table(new string[] {
+                            "name",
+                            "connectors"});
+                table28.AddRow(new string[] {
+                            "CS1",
+                            "1"});
+                table28.AddRow(new string[] {
+                            "CS2",
+                            "1"});
+                table28.AddRow(new string[] {
+                            "CS3",
+                            "1"});
+                table28.AddRow(new string[] {
+                            "CS4",
+                            "1"});
+                table28.AddRow(new string[] {
+                            "CS5",
+                            "1"});
+                table28.AddRow(new string[] {
+                            "CS6",
+                            "1"});
+                table28.AddRow(new string[] {
+                            "CS7",
+                            "1"});
+                table28.AddRow(new string[] {
+                            "CS8",
+                            "1"});
+                table28.AddRow(new string[] {
+                            "CS9",
+                            "1"});
+                table28.AddRow(new string[] {
+                            "CS10",
+                            "1"});
+                table28.AddRow(new string[] {
+                            "CS11",
+                            "1"});
+                table28.AddRow(new string[] {
+                            "CS12",
+                            "1"});
+                table28.AddRow(new string[] {
+                            "CS13",
+                            "1"});
+                table28.AddRow(new string[] {
+                            "CS14",
+                            "1"});
+                table28.AddRow(new string[] {
+                            "CS15",
+                            "1"});
+                table28.AddRow(new string[] {
+                            "CS16",
+                            "1"});
+                table28.AddRow(new string[] {
+                            "CS17",
+                            "1"});
+#line 96
+testRunner.Given("a specific set of Charge Stations", ((string)(null)), table28, "Given ");
+#line hidden
+#line 115
+ testRunner.When("create all Charge Stations", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 116
+ testRunner.Then("Should create all charge stations successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 117
+ testRunner.When("listing all charge stations from a group", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 118
+ testRunner.Then("Should have 18 charge stations", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 119
+ testRunner.Then("Should update successfully all connectors to 5 max current for all charge station" +
+                        "s", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 120
+ testRunner.Given("a charge station name of C19", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+                TechTalk.SpecFlow.Table table29 = new TechTalk.SpecFlow.Table(new string[] {
+                            "maxCurrentAmp"});
+                table29.AddRow(new string[] {
+                            "6"});
+#line 121
+ testRunner.And("a specific set of connectors", ((string)(null)), table29, "And ");
+#line hidden
+#line 124
+ testRunner.When("the Charge Station is created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 125
+ testRunner.Then("the Charge Station should not be created successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GreenFlux.SmartCharging.Matheus.API.Resources;
 using GreenFlux.SmartCharging.Matheus.Data;
+using GreenFlux.SmartCharging.Matheus.Domain.Exceptions;
 using GreenFlux.SmartCharging.Matheus.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -61,12 +62,25 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Patch(Guid id, [FromBody] PatchGroupResource value)
         {
-            Group group = await _context.Group.FindAsync(id);
+            Group group = await _context.Group.Include(g => g.ChargeStations).ThenInclude(c => c.Connectors).FirstOrDefaultAsync(g => g.Id == id);
             if (group == null)
                 return StatusCode(404);
 
             if (value.Capacity.HasValue)
+            {
+                if (value.Capacity.Value < group.Capacity && group.HasExceededCapacity(group.Capacity - value.Capacity.Value))
+                {
+                    List<Connector> connectors = (List<Connector>)_context.Connector.Where(c => c.ChargeStation.GroupId == id).OrderBy(o => o.MaxCurrentAmp);
+                    float excdeededCapacity = group.GetExceededCapacity();
+
+
+                    RemoveSuggestions removeSuggestions = new RemoveSuggestions();
+                    removeSuggestions.GenerateAllSuggestions(connectors, excdeededCapacity);
+                    throw new CapacityExceededException(excdeededCapacity, removeSuggestions);
+                }
+
                 group.Capacity = value.Capacity.Value;
+            }
 
             if (!string.IsNullOrEmpty(value.Name))
                 group.Name = value.Name;
