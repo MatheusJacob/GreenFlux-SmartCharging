@@ -61,7 +61,6 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Unit
         {
             using (var context = new ApplicationDbContext(ContextOptions))
             {
-                ApplicationDbContext applicationContext = new ApplicationDbContext(ContextOptions);
                 Group group = Groups[0];
                 Connector connector = Connectors[0];
 
@@ -109,6 +108,34 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Unit
 
                 Assert.DoesNotThrow(() => context.SaveChanges());
             }
-        }      
+        }
+
+        [Test]
+        public void Should_get_abs_exceeded_capacity()
+        {
+            using (var context = new ApplicationDbContext(ContextOptions))
+            {
+                Group group = Groups[0];
+                Connector connector = Connectors[0];
+
+                Assert.IsFalse(group.HasExceededCapacity(0));
+
+                connector.ChangeMaxCurrentAmp(50);
+                Assert.IsTrue(group.HasExceededCapacity(0));
+
+                Assert.AreEqual(5.5f, group.GetExceededCapacity());
+
+                Assert.DoesNotThrow(() => context.SaveChanges());
+            }
+        }
+
+        [Test]
+        public void Should_init_group()
+        {
+            using (var context = new ApplicationDbContext(ContextOptions))
+            {
+                Assert.DoesNotThrow(() => new Group(Guid.NewGuid(), "new group", 105.5f));
+            }
+        }
     }
 }

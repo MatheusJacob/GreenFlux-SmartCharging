@@ -43,6 +43,16 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
             Connectors = new HashSet<Connector>(new ConnectorComparer());
             this.AppendConnectors(connectors);
         }
+
+        public ChargeStation(Guid id, string name, Connector connector)
+        {
+            Id = id;
+            Name = name;
+            _availableSlots = new HashSet<int>(Enumerable.Range(ChargeStation.MinConnectors, ChargeStation.MaxConnectors));
+            Connectors = new HashSet<Connector>(new ConnectorComparer());
+            this.AppendConnector(connector);
+        }
+
         public ChargeStation(string name, ICollection<Connector> connectors)
         {
             Name = name;
@@ -88,9 +98,25 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
         {
             this.TotalMaxCurrentAmp += maxCurrentAmp;
         }
+
+        public override bool Equals(object obj)
+        {
+            var chargeStation = obj as ChargeStation;
+
+            if (chargeStation == null)
+            {
+                return false;
+            }
+
+            return this.Id.Equals(chargeStation.Id);
+        }
+        public override int GetHashCode()
+        {
+            return this.Id.GetHashCode();
+        }
     }
 
-    public class ChargeStationComparer : IEqualityComparer<ChargeStation>
+public class ChargeStationComparer : IEqualityComparer<ChargeStation>
     {
         public bool Equals(ChargeStation a, ChargeStation b)
         {
