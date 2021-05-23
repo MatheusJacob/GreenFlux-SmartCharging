@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace GreenFlux.SmartCharging.Matheus.API.Resources
 {
     public class SaveChargeStationResource
-    {                
-        public string Name { get; set; }      
-        
+    {
+        public string Name { get; set; }
+
         public ICollection<SaveConnectorResource> Connectors { get; set; }
     }
 }

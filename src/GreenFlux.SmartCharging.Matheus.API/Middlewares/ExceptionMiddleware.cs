@@ -1,14 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using GreenFlux.SmartCharging.Matheus.API.Resources.ProblemDetail;
+using GreenFlux.SmartCharging.Matheus.Domain.Exceptions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using GreenFlux.SmartCharging.Matheus.Domain.Models;
-using Newtonsoft.Json;
-using Microsoft.AspNetCore.Mvc;
-using GreenFlux.SmartCharging.Matheus.Domain.Exceptions;
-using GreenFlux.SmartCharging.Matheus.API.Resources.ProblemDetail;
 
 namespace GreenFlux.SmartCharging.Matheus.API.Middlewares
 {
@@ -27,7 +24,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Middlewares
             {
                 await _next(httpContext);
             }
-            catch(CapacityExceededException ex)
+            catch (CapacityExceededException ex)
             {
                 CapacityExceededProblemDetail capacityExceededResponse = new CapacityExceededProblemDetail(ex.ExceededCapacity, ex.RemoveSuggestions);
                 httpContext.Response.ContentType = "application/json";
@@ -47,7 +44,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Middlewares
             {
                 //TODO log internally the ex message
                 ProblemDetails errorDetail = new ProblemDetails();
-                
+
                 httpContext.Response.ContentType = "application/json";
                 httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 errorDetail.Title = "Internal server Error";

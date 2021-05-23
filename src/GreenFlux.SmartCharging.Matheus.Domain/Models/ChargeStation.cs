@@ -1,12 +1,7 @@
 ﻿using GreenFlux.SmartCharging.Matheus.Domain.Exceptions;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GreenFlux.SmartCharging.Matheus.Domain.Models
 {
@@ -61,7 +56,7 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
             foreach (var connector in connectors)
             {
                 this.AppendConnector(connector);
-            }            
+            }
         }
 
         public void AppendConnector(Connector connector)
@@ -84,7 +79,7 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
         {
             foreach (Connector connector in this.Connectors)
             {
-                if(connector.Id.HasValue)
+                if (connector.Id.HasValue)
                     _availableSlots.Remove(connector.Id.Value);
             }
         }

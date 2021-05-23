@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using GreenFlux.SmartCharging.Matheus.API.Resources;
+using GreenFlux.SmartCharging.Matheus.Data;
+using GreenFlux.SmartCharging.Matheus.Domain.Exceptions;
+using GreenFlux.SmartCharging.Matheus.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using GreenFlux.SmartCharging.Matheus.Data;
-using GreenFlux.SmartCharging.Matheus.Domain.Models;
-using AutoMapper;
-using GreenFlux.SmartCharging.Matheus.API.Resources;
-using GreenFlux.SmartCharging.Matheus.Domain.Exceptions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GreenFlux.SmartCharging.Matheus.API.Controllers
 {
@@ -24,7 +24,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
         {
             _context = context;
             _mapper = mapper;
-        }   
+        }
 
         // GET: api/groups/GroupId/ChargeStations
         [HttpGet]
@@ -62,7 +62,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
                 return NotFound();
             }
 
-            return _mapper.Map<ChargeStationResource>(chargeStation);            
+            return _mapper.Map<ChargeStationResource>(chargeStation);
         }
 
         // POST: api/groups/GroupId/ChargeStations
@@ -94,7 +94,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
 
             ChargeStation chargeStation = _mapper.Map<ChargeStation>(saveChargeStation);
             group.AppendChargeStation(chargeStation);
-            
+
             await _context.ChargeStation.AddAsync(chargeStation);
 
             await _context.SaveChangesAsync();
@@ -127,7 +127,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteChargeStation(Guid id)
         {
-            ChargeStation chargeStation = await _context.ChargeStation.Include(c => c.Connectors).FirstOrDefaultAsync( c=> c.Id == id);
+            ChargeStation chargeStation = await _context.ChargeStation.Include(c => c.Connectors).FirstOrDefaultAsync(c => c.Id == id);
             if (chargeStation == null)
                 return StatusCode(404);
 

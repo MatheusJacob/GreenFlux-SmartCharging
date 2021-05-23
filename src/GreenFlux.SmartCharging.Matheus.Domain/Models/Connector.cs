@@ -1,9 +1,5 @@
-﻿using GreenFlux.SmartCharging.Matheus.Domain.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GreenFlux.SmartCharging.Matheus.Domain.Models
 {
@@ -40,9 +36,9 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
             this.MaxCurrentAmp = maxCurrentAmp;
 
             ChargeStation.UpdateTotalMaxCurrentAmp(differenceInCurrent);
-        }        
+        }
     }
- 
+
     public class ConnectorComparer : IEqualityComparer<Connector>
     {
         public bool Equals(Connector a, Connector b)

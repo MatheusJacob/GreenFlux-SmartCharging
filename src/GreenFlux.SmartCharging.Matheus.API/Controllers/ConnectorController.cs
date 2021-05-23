@@ -16,7 +16,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
     [Route(Routes.ConnectorsRoute)]
     [ApiController]
     public class ConnectorController : ControllerBase
-    {        
+    {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
 
@@ -57,7 +57,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
 
             Connector connector = await _context.Connector.FirstOrDefaultAsync(c => c.Id == id && c.ChargeStationId == chargeStationId);
 
-            if(connector == null)
+            if (connector == null)
                 return NotFound("Connector not found");
 
             return _mapper.Map<ConnectorResource>(connector);
@@ -74,7 +74,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
             Group group = await _context.Group.Include(g => g.ChargeStations).ThenInclude(c => c.Connectors).FirstOrDefaultAsync(g => g.Id == groupId);
             if (group == null)
                 return NotFound("Group not found");
-            
+
             Connector connector = _mapper.Map<Connector>(saveConnector);
             ChargeStation chargeStation;
 
@@ -106,7 +106,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ConnectorResource>> Patch(Guid groupId, Guid chargeStationId,int connectorId, [FromBody] PatchConnectorResource patchConnectorResource)
+        public async Task<ActionResult<ConnectorResource>> Patch(Guid groupId, Guid chargeStationId, int connectorId, [FromBody] PatchConnectorResource patchConnectorResource)
         {
             Group group = await _context.Group.Include(g => g.ChargeStations).ThenInclude(c => c.Connectors).FirstOrDefaultAsync(g => g.Id == groupId);
             if (group == null)
@@ -119,7 +119,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
 
             Connector connector;
 
-            if(!chargeStation.Connectors.TryGetValue(new Connector(connectorId),out connector))
+            if (!chargeStation.Connectors.TryGetValue(new Connector(connectorId), out connector))
                 return NotFound("Connector not found");
 
             if (patchConnectorResource.MaxCurrentAmp.HasValue)
@@ -135,7 +135,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
                 }
                 connector.ChangeMaxCurrentAmp(patchConnectorResource.MaxCurrentAmp.Value);
             }
-            
+
             await _context.SaveChangesAsync();
             ConnectorResource connectorUpdated = _mapper.Map<ConnectorResource>(connector);
             return Ok(connectorUpdated);

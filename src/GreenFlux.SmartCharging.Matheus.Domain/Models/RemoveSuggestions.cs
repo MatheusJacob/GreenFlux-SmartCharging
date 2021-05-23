@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GreenFlux.SmartCharging.Matheus.Domain.Models
 {
@@ -23,7 +21,7 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
             set2.Sort();
 
             for (int i = 0; i < set1.Count; i++)
-            {                
+            {
                 float firstSetSum = set1[i].TotalSum;
 
                 SuggestionList remainingPart = new SuggestionList(exceededCapacity - firstSetSum);

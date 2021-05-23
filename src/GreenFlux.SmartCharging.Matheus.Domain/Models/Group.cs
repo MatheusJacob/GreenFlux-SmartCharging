@@ -1,8 +1,5 @@
-﻿using GreenFlux.SmartCharging.Matheus.Domain.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace GreenFlux.SmartCharging.Matheus.Domain.Models
 {
@@ -31,7 +28,7 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
         }
 
         public void AppendChargeStation(ChargeStation chargeStation)
-        {            
+        {
             this.ChargeStations.Add(chargeStation);
         }
 
@@ -58,6 +55,6 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
         public float GetExceededCapacity()
         {
             return Math.Abs(Capacity - GroupSumMaxCurrent);
-        }     
+        }
     }
 }

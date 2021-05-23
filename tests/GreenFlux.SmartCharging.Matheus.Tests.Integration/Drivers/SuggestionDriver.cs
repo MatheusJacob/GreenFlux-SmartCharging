@@ -1,12 +1,7 @@
 ﻿using FluentAssertions;
 using GreenFlux.SmartCharging.Matheus.API.Controllers;
-using GreenFlux.SmartCharging.Matheus.API.Resources;
 using GreenFlux.SmartCharging.Matheus.API.Resources.ProblemDetail;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 
@@ -41,7 +36,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
                     var response = await _connectorDriver.GetConnector(groupId, suggestion.ChargeStationId, suggestion.ConnectorId);
                     response.StatusCode.Should().Be(200);
                 }
-            }            
+            }
         }
     }
 }

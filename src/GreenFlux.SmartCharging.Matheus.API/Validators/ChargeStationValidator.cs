@@ -1,10 +1,6 @@
 ﻿using FluentValidation;
 using GreenFlux.SmartCharging.Matheus.API.Resources;
 using GreenFlux.SmartCharging.Matheus.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GreenFlux.SmartCharging.Matheus.API.Validators
 {
@@ -22,7 +18,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Validators
     public class PatchChargeStationValidator : AbstractValidator<PatchGroupResource>
     {
         public PatchChargeStationValidator()
-        {            
+        {
             RuleFor(g => g.Capacity).GreaterThan(0).WithMessage("'Capacity' field must be greater than 0").When(g => g.Capacity.HasValue);
             RuleFor(g => g.Capacity).LessThan(float.MaxValue).WithMessage($"'Capacity' field must be less than {float.MaxValue.ToString()}").When(g => g.Capacity.HasValue);
         }

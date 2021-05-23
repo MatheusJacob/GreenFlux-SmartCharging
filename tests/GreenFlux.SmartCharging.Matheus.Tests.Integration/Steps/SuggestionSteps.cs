@@ -1,14 +1,11 @@
-﻿using GreenFlux.SmartCharging.Matheus.API.Resources;
+﻿using FluentAssertions;
+using GreenFlux.SmartCharging.Matheus.API.Resources;
 using GreenFlux.SmartCharging.Matheus.API.Resources.ProblemDetail;
 using GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
-using FluentAssertions;
 namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
 {
     [Binding]
@@ -71,7 +68,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
                 int.TryParse(row["suggestionListPosition"], out sugestionListPosition).Should().BeTrue();
                 int.TryParse(row["chargeStationId"], out chargeStationId).Should().BeTrue();
                 int.TryParse(row["connectorId"], out connectorId).Should().BeTrue();
-              
+
                 capacityExceeded.RemoveSuggestions.Count.Should().BeGreaterOrEqualTo(sugestionListPosition);
 
                 var suggestionList = capacityExceeded.RemoveSuggestions[sugestionListPosition - 1];
@@ -96,7 +93,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
             _scenarioContext.ContainsKey("createdConnector");
             _scenarioContext.ContainsKey("createdGroupResponse");
 
-            
+
             HttpResponseMessage response = (HttpResponseMessage)_scenarioContext["createdConnector"];
             HttpResponseMessage groupResponse = (HttpResponseMessage)_scenarioContext["createdGroupResponse"];
 

@@ -1,11 +1,6 @@
 ﻿using GreenFlux.SmartCharging.Matheus.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GreenFlux.SmartCharging.Matheus.Data.Configurations
 {
@@ -13,7 +8,7 @@ namespace GreenFlux.SmartCharging.Matheus.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Group> builder)
         {
-            builder.ToTable("Group");            
+            builder.ToTable("Group");
 
             builder.HasKey(g => g.Id);
 

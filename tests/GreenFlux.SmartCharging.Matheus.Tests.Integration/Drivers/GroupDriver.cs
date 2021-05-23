@@ -1,17 +1,15 @@
-﻿using GreenFlux.SmartCharging.Matheus.API.Resources;
+﻿using FluentAssertions;
+using GreenFlux.SmartCharging.Matheus.API.Resources;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using FluentAssertions;
 
 namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
 {
     public class GroupDriver : BaseDriver
     {
-        private string GroupApiUrl;     
+        private string GroupApiUrl;
         GroupDriver() : base()
         {
             GroupApiUrl = ApiUrl + "groups/";
@@ -31,7 +29,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
         {
             response.StatusCode.Should().Be(201);
 
-            GroupResource groupResourceResponse = await this.ParseFromResponse<GroupResource>(response);            
+            GroupResource groupResourceResponse = await this.ParseFromResponse<GroupResource>(response);
             groupResourceResponse.Id.Should().NotBeEmpty();
             groupResourceResponse.Name.Should().NotBeEmpty();
             groupResourceResponse.Capacity.Should().BePositive();
@@ -42,12 +40,12 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
             response.StatusCode.Should().Be(400);
         }
 
-         public async Task ShouldUpdateAGroupSuccessfully(HttpResponseMessage response, GroupResource expectedGroupValues)
+        public async Task ShouldUpdateAGroupSuccessfully(HttpResponseMessage response, GroupResource expectedGroupValues)
         {
             response.StatusCode.Should().Be(200);
 
             GroupResource groupResourceResponse = await this.ParseFromResponse<GroupResource>(response);
-            if(!string.IsNullOrEmpty(expectedGroupValues.Name))
+            if (!string.IsNullOrEmpty(expectedGroupValues.Name))
                 groupResourceResponse.Name.Should().Be(expectedGroupValues.Name);
 
             if (expectedGroupValues.Capacity.HasValue)
@@ -80,10 +78,10 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
             };
 
             var serializedGroupPayload = ConvertToJsonData<dynamic>(saveGroupResource);
-            Dictionary<string,string> group = ConvertToObject<Dictionary<string, string>>(await serializedGroupPayload.ReadAsStringAsync());
+            Dictionary<string, string> group = ConvertToObject<Dictionary<string, string>>(await serializedGroupPayload.ReadAsStringAsync());
             group.Add(extraProperty, "wrong value");
             var test = ConvertToJsonData<IDictionary<string, string>>(group);
-            return await Client.PostAsync(GroupApiUrl, ConvertToJsonData<IDictionary<string,string>>(group));
+            return await Client.PostAsync(GroupApiUrl, ConvertToJsonData<IDictionary<string, string>>(group));
         }
 
         public async Task<HttpResponseMessage> UpdateGroup(Guid id, string name, float? capacity)
@@ -105,7 +103,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
         }
 
         public async Task<HttpResponseMessage> DeleteGroup(Guid id)
-        {            
+        {
             var response = await Client.DeleteAsync($"{GroupApiUrl}{id.ToString()}");
 
             return response;

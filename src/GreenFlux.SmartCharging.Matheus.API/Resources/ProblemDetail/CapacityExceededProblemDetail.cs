@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GreenFlux.SmartCharging.Matheus.Domain.Models;
+﻿using GreenFlux.SmartCharging.Matheus.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GreenFlux.SmartCharging.Matheus.API.Resources.ProblemDetail
@@ -12,7 +8,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Resources.ProblemDetail
         public readonly float ExceededCapacity;
         public readonly RemoveSuggestions RemoveSuggestions;
 
-        public CapacityExceededProblemDetail(float exceededCapacity, RemoveSuggestions  removeSuggestions)
+        public CapacityExceededProblemDetail(float exceededCapacity, RemoveSuggestions removeSuggestions)
         {
             Title = "Capacity exceeded";
             Status = 400;

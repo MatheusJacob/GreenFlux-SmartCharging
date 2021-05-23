@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GreenFlux.SmartCharging.Matheus.Domain.Models
 {
@@ -31,9 +28,9 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
 
         }
         public SuggestionList(SuggestionList suggestionList, Connector connectorToAdd)
-        {            
+        {
             this.AddRange(suggestionList);
-            this.Add(new Suggestion(connectorToAdd.ChargeStationId,connectorToAdd.Id.Value,connectorToAdd.MaxCurrentAmp));
+            this.Add(new Suggestion(connectorToAdd.ChargeStationId, connectorToAdd.Id.Value, connectorToAdd.MaxCurrentAmp));
             TotalSum = suggestionList.TotalSum + connectorToAdd.MaxCurrentAmp;
         }
         public SuggestionList(SuggestionList suggestionList, SuggestionList suggestionList2)

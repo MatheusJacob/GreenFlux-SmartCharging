@@ -3,19 +3,17 @@ using GreenFlux.SmartCharging.Matheus.API.Controllers;
 using GreenFlux.SmartCharging.Matheus.API.Resources;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
 {
-    public class ChargeStationDriver :BaseDriver
+    public class ChargeStationDriver : BaseDriver
     {
-        private Func<string,string> ChargeStationBaseUrl = groupId => Routes.GroupsRoute + "/" + groupId + Routes.ChargeStationBaseRoute;
+        private Func<string, string> ChargeStationBaseUrl = groupId => Routes.GroupsRoute + "/" + groupId + Routes.ChargeStationBaseRoute;
         private Func<string, string, string> ChargeStationUrl = (groupId, chargeStationId) => Routes.GroupsRoute + "/" + groupId + Routes.ChargeStationBaseRoute + "/" + chargeStationId;
         ChargeStationDriver() : base()
-        {            
+        {
         }
 
         public async Task<HttpResponseMessage> GetChargeStation(Guid groupId, Guid chargeStationId)
@@ -44,7 +42,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
         }
 
         public async Task<HttpResponseMessage> UpdateChargeStation(Guid groupId, Guid chargeStationId, string name)
-        {            
+        {
             PatchChargeStationResource patchChargeStationResource = new PatchChargeStationResource()
             {
                 Name = name
@@ -60,7 +58,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
             return response;
         }
 
-        public async Task ShouldDeleteSuccessfully(HttpResponseMessage response,Guid groupId, Guid deletedChargeStationId)
+        public async Task ShouldDeleteSuccessfully(HttpResponseMessage response, Guid groupId, Guid deletedChargeStationId)
         {
             response.StatusCode.Should().Be(204);
             var getChargeStationResponse = await this.GetChargeStation(groupId, deletedChargeStationId);

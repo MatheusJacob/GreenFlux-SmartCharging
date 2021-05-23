@@ -81,7 +81,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Controllers
 
                 group.Capacity = value.Capacity.Value;
             }
-                
+
             if (!string.IsNullOrEmpty(value.Name))
                 group.Name = value.Name;
 
