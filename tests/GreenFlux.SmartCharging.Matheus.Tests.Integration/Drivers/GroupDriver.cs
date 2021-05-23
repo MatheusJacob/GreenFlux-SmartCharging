@@ -35,7 +35,7 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Drivers
             groupResourceResponse.Capacity.Should().BePositive();
         }
 
-        public async Task ShouldNotCreateAGroupSuccessfully(HttpResponseMessage response)
+        public void ShouldNotCreateAGroupSuccessfully(HttpResponseMessage response)
         {
             response.StatusCode.Should().Be(400);
         }

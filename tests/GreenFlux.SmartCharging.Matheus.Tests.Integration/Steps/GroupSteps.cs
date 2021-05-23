@@ -122,9 +122,9 @@ namespace GreenFlux.SmartCharging.Matheus.Tests.Integration.Steps
         }
 
         [Then("the group should not be created")]
-        public async Task ThenTheGroupShouldNotBeCreated()
+        public void ThenTheGroupShouldNotBeCreated()
         {
-            await _groupDriver.ShouldNotCreateAGroupSuccessfully((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
+            _groupDriver.ShouldNotCreateAGroupSuccessfully((HttpResponseMessage)_scenarioContext["createdGroupResponse"]);
         }
 
 

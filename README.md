@@ -3,7 +3,15 @@ Assignment made to GreenFlux to create a simple API to control capacity on Smart
 
 ### Install
 ```bash
- $ brew install httpie
+ $ dotnet restore
+ $ dotnet test
+ $ dotnet run --project src\GreenFlux.SmartCharging.Matheus.API\ --urls=http://localhost:5001
+ ```
+ 
+ ### Swagger
+ 
+ ```
+ http://localhost:5001/swagger/
  ```
 ### Time spent
 -  2% creating the visual studio solution with all references and architectural layers;
@@ -18,3 +26,5 @@ Assignment made to GreenFlux to create a simple API to control capacity on Smart
 - Decoupling the DB Context from the controller, adding interfaces to the controller instead of the actual implementation
 - Adding a service layer to be able to reuse methods from the controller, the current state is still manageable because there are only 3 controllers, but if the system starts to add more routes would start to have a lot of duplicated code on the controller.
 
+### Initial Thoughts
+- I kept a log with ideas and thoughts while I was developing the project on the readme.md file history, you can check it here [Readme History](https://github.com/MatheusJacob/GreenFlux-SmartCharging/commits/main/README.md)

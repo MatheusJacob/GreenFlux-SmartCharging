@@ -40,7 +40,7 @@ namespace GreenFlux.SmartCharging.Matheus.API.Middlewares
                 var json = JsonConvert.SerializeObject(noSlotAvailableResponse);
                 await httpContext.Response.WriteAsync(json);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //TODO log internally the ex message
                 ProblemDetails errorDetail = new ProblemDetails();
