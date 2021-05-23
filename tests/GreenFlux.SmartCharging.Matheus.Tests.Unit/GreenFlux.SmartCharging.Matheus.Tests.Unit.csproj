@@ -7,12 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.6" />
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\GreenFlux.SmartCharging.Matheus.Data\GreenFlux.SmartCharging.Matheus.Data.csproj" />
     <ProjectReference Include="..\..\src\GreenFlux.SmartCharging.Matheus.Domain\GreenFlux.SmartCharging.Matheus.Domain.csproj" />
   </ItemGroup>
 
