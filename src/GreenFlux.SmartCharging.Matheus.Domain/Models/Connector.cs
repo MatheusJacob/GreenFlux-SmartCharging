@@ -18,12 +18,12 @@ namespace GreenFlux.SmartCharging.Matheus.Domain.Models
             Id = id;
         }
 
-        private Connector(float maxCurrentAmp)
+        public Connector(float maxCurrentAmp)
         {
             MaxCurrentAmp = maxCurrentAmp;
         }
 
-        private Connector(int id, float maxCurrentAmp)
+        public Connector(int id, float maxCurrentAmp)
         {
             Id = id;
             MaxCurrentAmp = maxCurrentAmp;
