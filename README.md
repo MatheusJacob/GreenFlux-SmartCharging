@@ -1,4 +1,4 @@
-###  GreenFlux-SmartCharging-Matheus [![Build Status](https://travis-ci.com/MatheusJacob/OpusMarket_BE.svg?branch=main)](https://travis-ci.com/MatheusJacob/OpusMarket_BE)
+###  GreenFlux-SmartCharging-Matheus [![Build Status](https://travis-ci.com/MatheusJacob/GreenFlux-SmartCharging.svg?branch=main)](https://travis-ci.com/MatheusJacob/GreenFlux-SmartCharging)
 Assignment made to GreenFlux to create a simple API to control capacity on Smart Charging
 
 ### Install
